@@ -1,0 +1,163 @@
+------------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  /Users/anniebryan/Documents/College/2021-22/14.33/Project/scripts/logs/
+> 2022.02.21-20.48.48.log.txt
+  log type:  text
+ opened on:  21 Feb 2022, 20:48:48
+
+. 
+. * Configure Stata's library environment and record system parameters
+. run "$MyProject/scripts/programs/_config.do"
+-------------------------------------------------------------------------------
+Date and time: 21 Feb 2022 20:48:48
+Stata version: 16.1
+Updated as of: 30 Mar 2021
+Variant:       SE
+Processors:    1
+OS:            MacOSX 12.2.0
+Machine type:  Macintosh (Intel 64-bit)
+-------------------------------------------------------------------------------
+
+. 
+. * Stata version control
+. version 15
+
+. 
+. * Create directories for output files
+. cap mkdir "$MyProject/processed"
+
+. cap mkdir "$MyProject/processed/intermediate"
+
+. cap mkdir "$MyProject/results"
+
+. cap mkdir "$MyProject/results/figures"
+
+. cap mkdir "$MyProject/results/intermediate"
+
+. cap mkdir "$MyProject/results/tables"
+
+. 
+. * Run project analysis
+. do "$MyProject/scripts/1a_process_dispensaries_data.do"
+
+. ************
+. * SCRIPT: 1a_process_dispensaries_data.do
+. * PURPOSE: imports the raw dispensaries data and converts it into a stata-readable
+>  format
+. ************
+. 
+. insheet using "$MyProject/data/dispensaries.csv", comma clear
+(66 vars, 944 obs)
+
+. 
+. compress
+  (0 bytes saved)
+
+. save "$MyProject/processed/intermediate/dispensaries_uncleaned.dta", replace
+file /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/intermediat
+> e/dispensaries_uncleaned.dta saved
+
+. 
+. ** EOF
+. 
+end of do-file
+
+. do "$MyProject/scripts/1b_clean_dispensaries_data.do"
+
+. ************
+. * SCRIPT: 1b_clean_dispensaries_data.do
+. * PURPOSE: processes the dispensaries dataset in preparation for analysis
+. ************
+. 
+. use "$MyProject/processed/intermediate/dispensaries_uncleaned.dta", clear
+
+. 
+. * Select only desired columns
+. local keep business_name license_type establishment_address_1 establishment_city e
+> stablishment_zip_code establishment_county commence_operations_date
+
+. ds
+business_n~e  applicatio~s  business_a~1  latitude      app_create~e  user_id
+dba_name      rmd_priori~n  business_a~2  geocoded_c~n  disability~s  name
+dba_regist~y  name_of_rmd   business_c~y  not_a_dbe     lesbian_ga~e  establishm~o
+massachuse~s  applicatio~e  business_s~e  establishm~s  minority_o~s  dbe
+approved_l~e  lic_fee_am~t  business_z~e  square_foo~t  veteran_ow~s  cultivatio~t
+priority_a~e  establishm~1  mailing_ad~1  abutters_c~t  woman_owne~s  cultivatio~r
+dph_rmd_nu~r  establishm~2  mailing_ad~2  is_abutter~d  cooperativ~n  cnb_dt_of_~e
+license_nu~r  establis~ity  mailing_city  cooperativ~m  establishm~n  commence_o~e
+license_type  establish~te  mailing_st~e  cooperativ~y  county        row_ct
+lic_status    establish~de  mailing_zi~e  all_packet~t  county_lat    activity_d~e
+applicatio~r  establis~nty  longitude     priority_t~e  county_long   version
+
+. local vars `r(varlist)'
+
+. local tokeep : list vars & keep
+
+. keep `tokeep'
+
+. 
+. * Keep only entries that have commenced operations
+. keep if commence_operations_date!=""
+(599 observations deleted)
+
+. 
+. * Create variables for commencement operations month, day, and year
+. split commence_operations_date, parse("/")
+variables created as string: 
+commence_o~1  commence_o~2  commence_o~3
+
+. destring commence_operations_date1, gen(month)
+commence_operations_date1: all characters numeric; month generated as byte
+
+. destring commence_operations_date2, gen(day)
+commence_operations_date2: all characters numeric; day generated as byte
+
+. destring commence_operations_date3, gen(year)
+commence_operations_date3: all characters numeric; year generated as int
+
+. drop commence_operations_date commence_operations_date1 commence_operations_date2 
+> commence_operations_date3
+
+. sort year month day
+
+. 
+. * Keep only entries that have certain license types
+. keep if license_type=="Marijuana Retailer"
+(151 observations deleted)
+
+. drop license_type
+
+. 
+. * Change format of zip code to be 5 digits
+. format establishment_zip_code %05.0f
+
+. 
+. compress
+  variable business_name was str60 now str58
+  variable establishment_address_1 was str54 now str51
+  variable establishment_city was str18 now str16
+  (1,358 bytes saved)
+
+. save "$MyProject/processed/dispensaries.dta", replace
+(note: file /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/disp
+> ensaries.dta not found)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/dispensarie
+> s.dta saved
+
+. 
+. ** EOF
+. 
+end of do-file
+
+. 
+. * End log
+. di "End date and time: $S_DATE $S_TIME"
+End date and time: 21 Feb 2022 20:48:48
+
+. log close
+      name:  <unnamed>
+       log:  /Users/anniebryan/Documents/College/2021-22/14.33/Project/scripts/logs/
+> 2022.02.21-20.48.48.log.txt
+  log type:  text
+ closed on:  21 Feb 2022, 20:48:48
+------------------------------------------------------------------------------------

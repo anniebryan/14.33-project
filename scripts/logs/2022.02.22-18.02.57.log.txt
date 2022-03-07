@@ -1,0 +1,372 @@
+------------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  /Users/anniebryan/Documents/College/2021-22/14.33/Project/scripts/logs/
+> 2022.02.22-18.02.57.log.txt
+  log type:  text
+ opened on:  22 Feb 2022, 18:02:57
+
+. 
+. * Configure Stata's library environment and record system parameters
+. run "$MyProject/scripts/programs/_config.do"
+-------------------------------------------------------------------------------
+Date and time: 22 Feb 2022 18:02:57
+Stata version: 16.1
+Updated as of: 30 Mar 2021
+Variant:       SE
+Processors:    1
+OS:            MacOSX 12.2.0
+Machine type:  Macintosh (Intel 64-bit)
+-------------------------------------------------------------------------------
+
+. 
+. * Stata version control
+. version 15
+
+. 
+. * Create directories for output files
+. cap mkdir "$MyProject/processed"
+
+. cap mkdir "$MyProject/processed/intermediate"
+
+. cap mkdir "$MyProject/results"
+
+. cap mkdir "$MyProject/results/figures"
+
+. cap mkdir "$MyProject/results/intermediate"
+
+. cap mkdir "$MyProject/results/tables"
+
+. 
+. * Run project analysis
+. do "$MyProject/scripts/1a_process_dispensaries_data.do"
+
+. ************
+. * SCRIPT: 1a_process_dispensaries_data.do
+. * PURPOSE: imports the raw dispensaries data and converts it into a stata-readable
+>  format
+. ************
+. 
+. insheet using "$MyProject/data/dispensaries.csv", comma clear
+(66 vars, 944 obs)
+
+. 
+. compress
+  (0 bytes saved)
+
+. save "$MyProject/processed/intermediate/dispensaries_uncleaned.dta", replace
+file /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/intermediat
+> e/dispensaries_uncleaned.dta saved
+
+. 
+. ** EOF
+. 
+end of do-file
+
+. do "$MyProject/scripts/1b_clean_dispensaries_data.do"
+
+. ************
+. * SCRIPT: 1b_clean_dispensaries_data.do
+. * PURPOSE: processes the dispensaries dataset in preparation for analysis
+. ************
+. 
+. use "$MyProject/processed/intermediate/dispensaries_uncleaned.dta", clear
+
+. 
+. * Select only desired columns
+. local keep business_name license_type establishment_address_1 establishment_city e
+> stablishment_zip_code establishment_county commence_operations_date
+
+. ds
+business_n~e  applicatio~s  business_a~1  latitude      app_create~e  user_id
+dba_name      rmd_priori~n  business_a~2  geocoded_c~n  disability~s  name
+dba_regist~y  name_of_rmd   business_c~y  not_a_dbe     lesbian_ga~e  establishm~o
+massachuse~s  applicatio~e  business_s~e  establishm~s  minority_o~s  dbe
+approved_l~e  lic_fee_am~t  business_z~e  square_foo~t  veteran_ow~s  cultivatio~t
+priority_a~e  establishm~1  mailing_ad~1  abutters_c~t  woman_owne~s  cultivatio~r
+dph_rmd_nu~r  establishm~2  mailing_ad~2  is_abutter~d  cooperativ~n  cnb_dt_of_~e
+license_nu~r  establis~ity  mailing_city  cooperativ~m  establishm~n  commence_o~e
+license_type  establish~te  mailing_st~e  cooperativ~y  county        row_ct
+lic_status    establish~de  mailing_zi~e  all_packet~t  county_lat    activity_d~e
+applicatio~r  establis~nty  longitude     priority_t~e  county_long   version
+
+. local vars `r(varlist)'
+
+. local tokeep : list vars & keep
+
+. keep `tokeep'
+
+. 
+. * Keep only entries that have commenced operations
+. keep if commence_operations_date!=""
+(599 observations deleted)
+
+. 
+. * Create variables for commencement operations month, day, and year
+. split commence_operations_date, parse("/")
+variables created as string: 
+commence_o~1  commence_o~2  commence_o~3
+
+. destring commence_operations_date1, gen(month)
+commence_operations_date1: all characters numeric; month generated as byte
+
+. destring commence_operations_date2, gen(day)
+commence_operations_date2: all characters numeric; day generated as byte
+
+. destring commence_operations_date3, gen(year)
+commence_operations_date3: all characters numeric; year generated as int
+
+. drop commence_operations_date commence_operations_date1 commence_operations_date2 
+> commence_operations_date3
+
+. sort year month day
+
+. 
+. * Keep only entries that have certain license types
+. keep if license_type=="Marijuana Retailer"
+(151 observations deleted)
+
+. drop license_type
+
+. 
+. * Change format of zip code to be 5 digits
+. format establishment_zip_code %05.0f
+
+. 
+. compress
+  variable business_name was str60 now str58
+  variable establishment_address_1 was str54 now str51
+  variable establishment_city was str18 now str16
+  (1,358 bytes saved)
+
+. save "$MyProject/processed/dispensaries.dta", replace
+file /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/dispensarie
+> s.dta saved
+
+. 
+. ** EOF
+. 
+end of do-file
+
+. do "$MyProject/scripts/2a_process_crash_data.do"
+
+. ************
+. * SCRIPT: 2a_process_crash_data.do
+. * PURPOSE: imports the raw crash data and converts it into a stata-readable format
+. ************
+. 
+. insheet using "$MyProject/data/boston_crashes.csv", comma clear
+(25 vars, 108,919 obs)
+
+. 
+. compress
+  variable v23 was str170 now str169
+  (108,919 bytes saved)
+
+. save "$MyProject/processed/intermediate/boston_crashes_uncleaned.dta", replace
+file /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/intermediat
+> e/boston_crashes_uncleaned.dta saved
+
+. 
+. ** EOF
+. 
+end of do-file
+
+. do "$MyProject/scripts/2b_clean_crash_data.do"
+
+. ************
+. * SCRIPT: 2b_clean_crash_data.do
+. * PURPOSE: processes the crash dataset in preparation for analysis
+. ************
+. 
+. use "$MyProject/processed/intermediate/boston_crashes_uncleaned.dta", clear
+
+. 
+. * Delete first 2 rows
+. drop if _n==1 | _n==2
+(2 observations deleted)
+
+. compress
+  variable v1 was str1658 now str12
+  (179,277,382 bytes saved)
+
+. 
+. * Rename variable names to be values from the first row
+. foreach var of varlist * {
+  2.         local x = strtoname(`var'[1])
+  3.         rename `var' `x'
+  4. }
+
+. drop in 1
+(1 observation deleted)
+
+. 
+. * Select only desired columns
+. local keep Crash_Number Crash_Date Crash_Time Number_of_Vehicles Total_Nonfatal_In
+> juries Total_Fatal_Injuries Road_Surface_Condition Ambient_Light Weather_Condition
+>  Distance_From_Nearest_Roadway_In
+
+. ds
+Crash_Number  Maximum_In~d  Vehicle_Ac~h  Ambient_Li~t  Distance_F~t
+City_Town_~e  Number_of_~s  Vehicle_Tr~s  Weather_Co~n  Distance_F~k
+Crash_Date    Total_Nonf~s  Most_Harmf~s  At_Roadway~n  Non_Motori~e
+Crash_Time    Total_Fata~s  Vehicle_Co~n  Distance_F~n  X_Cooordin~e
+Crash_Seve~y  Manner_of_~n  Road_Surfa~n  Distance_F~r  Y_Cooordin~e
+
+. local vars `r(varlist)'
+
+. local tokeep : list vars & keep
+
+. keep `tokeep'
+
+. 
+. compress
+  variable Crash_Number was str12 now str7
+  variable Crash_Time was str10 now str8
+  variable Number_of_Vehicles was str18 now str2
+  variable Total_Nonfatal_Injuries was str23 now str2
+  variable Total_Fatal_Injuries was str20 now str1
+  (6,861,708 bytes saved)
+
+. save "$MyProject/processed/boston_crashes.dta", replace
+file /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/boston_cras
+> hes.dta saved
+
+. 
+. ** EOF
+. 
+end of do-file
+
+. do "$MyProject/scripts/3a_process_shootings_data.do"
+
+. ************
+. * SCRIPT: 3a_process_shootings_data.do
+. * PURPOSE: imports the raw shootings data and converts it into a stata-readable fo
+> rmat
+. ************
+. 
+. insheet using "$MyProject/data/boston_shootings.csv", comma clear
+(8 vars, 1,608 obs)
+
+. 
+. compress
+  (0 bytes saved)
+
+. save "$MyProject/processed/intermediate/boston_shootings_uncleaned.dta", replace
+file /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/intermediat
+> e/boston_shootings_uncleaned.dta saved
+
+. 
+. ** EOF
+. 
+end of do-file
+
+. do "$MyProject/scripts/3b_clean_shootings_data.do"
+
+. ************
+. * SCRIPT: 3b_clean_shootings_data.do
+. * PURPOSE: processes the shootings dataset in preparation for analysis
+. ************
+. 
+. use "$MyProject/processed/intermediate/boston_shootings_uncleaned.dta", clear
+
+. 
+. * Rename variable names to be values from the first row
+. foreach var of varlist * {
+  2.         local x = strtoname(`var'[1])
+  3.         rename `var' `x'
+  4. }
+
+. drop in 1
+(1 observation deleted)
+
+. 
+. * Select only desired columns
+. local keep Incident_Num Shooting_Date District Shooting_Type_V2 Multi_Victim
+
+. ds
+Incident_Num  District      Victim_Gen~r  Victim_Eth~S
+Shooting_D~e  Shooting_T~2  Victim_Race   Multi_Victim
+
+. local vars `r(varlist)'
+
+. local tokeep : list vars & keep
+
+. keep `tokeep'
+
+. 
+. * Parse date/time into separate variables for date and time
+. split Shooting_Date, parse(" ")
+variables created as string: 
+Shooting_D~1  Shooting_D~2
+
+. split Shooting_Date1, parse("-")
+variables created as string: 
+Shooting_~11  Shooting_~12  Shooting_~13
+
+. split Shooting_Date2, parse(":")
+variables created as string: 
+Shooting_~21  Shooting_~22  Shooting_~23
+
+. destring Shooting_Date11, gen(year)
+Shooting_Date11: all characters numeric; year generated as int
+
+. destring Shooting_Date12, gen(month)
+Shooting_Date12: all characters numeric; month generated as byte
+
+. destring Shooting_Date13, gen(day)
+Shooting_Date13: all characters numeric; day generated as byte
+
+. destring Shooting_Date21, gen(hour)
+Shooting_Date21: all characters numeric; hour generated as byte
+
+. destring Shooting_Date22, gen(minute)
+Shooting_Date22: all characters numeric; minute generated as byte
+
+. destring Shooting_Date23, gen(second)
+Shooting_Date23: all characters numeric; second generated as byte
+
+. drop Shooting_Date Shooting_Date1 Shooting_Date2 Shooting_Date11 Shooting_Date12 S
+> hooting_Date13 Shooting_Date21 Shooting_Date22 Shooting_Date23
+
+. sort year month day hour minute second
+
+. 
+. * Convert fatal variable into boolean
+. gen fatal = (Shooting_Type_V2=="Fatal")
+
+. drop Shooting_Type_V2
+
+. 
+. * Convert multi victim variable into boolean
+. gen multi_victim = (Multi_Victim=="t")
+
+. drop Multi_Victim
+
+. 
+. compress
+  variable fatal was float now byte
+  variable multi_victim was float now byte
+  variable District was str8 now str3
+  (17,677 bytes saved)
+
+. save "$MyProject/processed/boston_shootings.dta", replace
+file /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/boston_shoo
+> tings.dta saved
+
+. 
+. ** EOF
+. 
+end of do-file
+
+. 
+. * End log
+. di "End date and time: $S_DATE $S_TIME"
+End date and time: 22 Feb 2022 18:02:59
+
+. log close
+      name:  <unnamed>
+       log:  /Users/anniebryan/Documents/College/2021-22/14.33/Project/scripts/logs/
+> 2022.02.22-18.02.57.log.txt
+  log type:  text
+ closed on:  22 Feb 2022, 18:02:59
+------------------------------------------------------------------------------------
