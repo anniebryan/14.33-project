@@ -5,8 +5,6 @@
 
 use "$MyProject/processed/intermediate/dispensaries_uncleaned.dta", clear
 
-count
-
 * Select only desired columns
 local keep business_name license_type establishment_address_1 establishment_city establishment_zip_code establishment_county commence_operations_date
 ds
@@ -14,18 +12,12 @@ local vars `r(varlist)'
 local tokeep : list vars & keep
 keep `tokeep'
 
-count
-
 * Keep only entries that have certain license types
 keep if license_type=="Marijuana Retailer"
 drop license_type
 
-count
-
 * Keep only entries that have commenced operations
 keep if commence_operations_date!=""
-
-count
 
 * Create variables for commencement operations month, day, and year
 split commence_operations_date, parse("/")

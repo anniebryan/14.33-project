@@ -1,6 +1,6 @@
 ************
-* SCRIPT: 2a_process_crash_data.do
-* PURPOSE: imports the raw crash data and converts it into a stata-readable format
+* SCRIPT: 6a_process_boston_crash_data.do
+* PURPOSE: imports the raw boston crash data and converts it into a stata-readable format
 ************
 
 insheet using "$MyProject/data/boston_crashes.csv", comma clear

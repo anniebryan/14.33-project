@@ -46,10 +46,8 @@ foreach var of varlist * {
 	}
 }
 
-// xpose, clear
-
 * Delete columns with no observations
-// drop if 
+// TODO
 
 
 // compress

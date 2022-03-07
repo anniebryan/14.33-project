@@ -1,6 +1,6 @@
 ************
-* SCRIPT: 6b_clean_ma_crash_data.do
-* PURPOSE: processes the massachusetts crash dataset in preparation for analysis
+* SCRIPT: 6b_clean_boston_crash_data.do
+* PURPOSE: processes the boston crash dataset in preparation for analysis
 ************
 
 use "$MyProject/processed/intermediate/boston_crashes_uncleaned.dta", clear
