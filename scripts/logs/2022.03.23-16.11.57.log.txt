@@ -1,0 +1,1092 @@
+---------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  /Users/anniebryan/Documents/College/2021-22/14.33/Project/scripts/lo
+> gs/2022.03.23-16.11.57.log.txt
+  log type:  text
+ opened on:  23 Mar 2022, 16:11:57
+
+. 
+. ssc install estout, replace
+checking estout consistency and verifying not already installed...
+all files already exist and are up to date.
+
+. ssc install outreg2
+checking outreg2 consistency and verifying not already installed...
+all files already exist and are up to date.
+
+. 
+. * Configure Stata's library environment and record system parameters
+. run "$MyProject/scripts/programs/_config.do"
+-------------------------------------------------------------------------------
+Date and time: 23 Mar 2022 16:11:58
+Stata version: 17
+Updated as of: 15 Feb 2022
+Variant:       SE
+Processors:    1
+OS:            MacOSX 12.2.0
+Machine type:  Macintosh (Intel 64-bit)
+-------------------------------------------------------------------------------
+
+. 
+. * Stata version control
+. version 17
+
+. 
+. * Create directories for output files
+. cap mkdir "$MyProject/processed"
+
+. cap mkdir "$MyProject/processed/intermediate"
+
+. cap mkdir "$MyProject/results"
+
+. cap mkdir "$MyProject/results/figures"
+
+. cap mkdir "$MyProject/results/intermediate"
+
+. cap mkdir "$MyProject/results/tables"
+
+. 
+. * Run project analysis
+. do "$MyProject/scripts/1_process_data.do"
+
+. ************
+. * SCRIPT: 1_process_data.do
+. * PURPOSE: imports the raw datasets and converts them into a stata-readable for
+> mat
+. ************
+. 
+. // MA zoning data
+. insheet using "$MyProject/data/ma-zoning-laws/ma-zoning-laws.csv", comma clear
+(3 vars, 352 obs)
+
+. compress
+  (0 bytes saved)
+
+. save "$MyProject/processed/intermediate/ma_zoning_laws_uncleaned.dta", replace
+(file
+    /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/interme
+    > diate/ma_zoning_laws_uncleaned.dta not found)
+file
+    /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/interme
+    > diate/ma_zoning_laws_uncleaned.dta saved
+
+. 
+. // US states legality data
+. insheet using "$MyProject/data/us-states-legality.csv", comma clear
+(6 vars, 51 obs)
+
+. compress
+  (0 bytes saved)
+
+. save "$MyProject/processed/us_states_legality.dta", replace
+(file
+    /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/us_stat
+    > es_legality.dta not found)
+file
+    /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/us_stat
+    > es_legality.dta saved
+
+. 
+. // MA dispensaries data
+. insheet using "$MyProject/data/dispensaries.csv", comma clear
+(66 vars, 944 obs)
+
+. compress
+  (0 bytes saved)
+
+. save "$MyProject/processed/intermediate/dispensaries_uncleaned.dta", replace
+(file
+    /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/interme
+    > diate/dispensaries_uncleaned.dta not found)
+file
+    /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/interme
+    > diate/dispensaries_uncleaned.dta saved
+
+. 
+. // MA property assessments data
+. forvalues y = 2014/2021 {
+  2.         insheet using "$MyProject/data/property_assessment/property-assessme
+> nt-fy`y'.csv", comma clear
+  3.         compress
+  4.         save "$MyProject/processed/intermediate/property_assessments_ma_`y'_
+> uncleaned.dta", replace
+  5. }
+(56 vars, 164,091 obs)
+  variable st_name was str25 now str24
+  variable u_heat_typ was str2 now str1
+  (328,182 bytes saved)
+(file
+    /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/interme
+    > diate/property_assessments_ma_2014_uncleaned.dta not found)
+file
+    /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/interme
+    > diate/property_assessments_ma_2014_uncleaned.dta saved
+(56 vars, 168,115 obs)
+  variable st_name was str25 now str24
+  variable st_name_suf was str4 now str3
+  variable full_address was str55 now str48
+  variable u_heat_typ was str2 now str1
+  (1,681,150 bytes saved)
+(file
+    /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/interme
+    > diate/property_assessments_ma_2015_uncleaned.dta not found)
+file
+    /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/interme
+    > diate/property_assessments_ma_2015_uncleaned.dta saved
+(77 vars, 169,199 obs)
+  variable st_name was str25 now str24
+  variable st_name_suf was str4 now str3
+  (338,398 bytes saved)
+(file
+    /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/interme
+    > diate/property_assessments_ma_2016_uncleaned.dta not found)
+file
+    /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/interme
+    > diate/property_assessments_ma_2016_uncleaned.dta saved
+(75 vars, 170,910 obs)
+  variable st_name was str25 now str24
+  variable st_name_suf was str4 now str3
+  (341,820 bytes saved)
+(file
+    /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/interme
+    > diate/property_assessments_ma_2017_uncleaned.dta not found)
+file
+    /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/interme
+    > diate/property_assessments_ma_2017_uncleaned.dta saved
+(75 vars, 172,841 obs)
+  (0 bytes saved)
+(file
+    /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/interme
+    > diate/property_assessments_ma_2018_uncleaned.dta not found)
+file
+    /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/interme
+    > diate/property_assessments_ma_2018_uncleaned.dta saved
+(75 vars, 174,668 obs)
+  variable st_name was str25 now str24
+  variable st_name_suf was str4 now str3
+  (349,336 bytes saved)
+(file
+    /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/interme
+    > diate/property_assessments_ma_2019_uncleaned.dta not found)
+file
+    /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/interme
+    > diate/property_assessments_ma_2019_uncleaned.dta saved
+(75 vars, 175,052 obs)
+  variable st_name_suf was str5 now str4
+  (175,052 bytes saved)
+(file
+    /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/interme
+    > diate/property_assessments_ma_2020_uncleaned.dta not found)
+file
+    /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/interme
+    > diate/property_assessments_ma_2020_uncleaned.dta saved
+(63 vars, 177,091 obs)
+  (0 bytes saved)
+(file
+    /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/interme
+    > diate/property_assessments_ma_2021_uncleaned.dta not found)
+file
+    /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/interme
+    > diate/property_assessments_ma_2021_uncleaned.dta saved
+
+. 
+. // Zillow home value data
+. insheet using "$MyProject/data/zhvi_sa_35_65.csv", comma clear
+(274 vars, 30,468 obs)
+
+. compress
+  (0 bytes saved)
+
+. save "$MyProject/processed/intermediate/zillow_home_values_uncleaned.dta", repl
+> ace
+(file
+    /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/interme
+    > diate/zillow_home_values_uncleaned.dta not found)
+file
+    /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/interme
+    > diate/zillow_home_values_uncleaned.dta saved
+
+. 
+. // Boston crash data
+. insheet using "$MyProject/data/boston_crashes.csv", comma clear
+(25 vars, 108,919 obs)
+
+. compress
+  variable v23 was str170 now str169
+  (108,919 bytes saved)
+
+. save "$MyProject/processed/intermediate/crashes_boston_uncleaned.dta", replace
+(file
+    /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/interme
+    > diate/crashes_boston_uncleaned.dta not found)
+file
+    /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/interme
+    > diate/crashes_boston_uncleaned.dta saved
+
+. 
+. // US crash data
+. insheet using "$MyProject/data/fars_nhtsa_fatality_rates_by_state.csv", comma c
+> lear
+(56 vars, 53 obs)
+
+. compress
+  (0 bytes saved)
+
+. save "$MyProject/processed/intermediate/crashes_us_uncleaned.dta", replace
+(file
+    /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/interme
+    > diate/crashes_us_uncleaned.dta not found)
+file
+    /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/interme
+    > diate/crashes_us_uncleaned.dta saved
+
+. 
+. // Boston crime data
+. forvalues y = 2015/2021 {
+  2.         insheet using "$MyProject/data/crime-incident-reports/crime-incident
+> -reports-`y'.csv", comma clear
+  3.         compress
+  4.         save "$MyProject/processed/intermediate/crime_boston_`y'_uncleaned.d
+> ta", replace
+  5. }
+(27 vars, 68,528 obs)
+  variable v10 was str2045 now str1638
+  variable v11 was str1860 now str860
+  variable v14 was str1557 now str528
+  variable v20 was str70 now str66
+  variable v21 was str12 now str2
+  variable v22 was str579 now str11
+  variable v23 was str253 now str3
+  variable v24 was str88 now str65
+  variable v27 was str158 now str1
+  (236,284,544 bytes saved)
+(file
+    /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/interme
+    > diate/crime_boston_2015_uncleaned.dta not found)
+file
+    /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/interme
+    > diate/crime_boston_2015_uncleaned.dta saved
+(14 vars, 78,877 obs)
+  variable v12 was str1040 now str603
+  (34,469,249 bytes saved)
+(file
+    /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/interme
+    > diate/crime_boston_2016_uncleaned.dta not found)
+file
+    /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/interme
+    > diate/crime_boston_2016_uncleaned.dta saved
+(13 vars, 65,746 obs)
+  variable v8 was str2045 now str1192
+  (56,081,338 bytes saved)
+(file
+    /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/interme
+    > diate/crime_boston_2017_uncleaned.dta not found)
+file
+    /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/interme
+    > diate/crime_boston_2017_uncleaned.dta saved
+(18 vars, 67,639 obs)
+  variable v17 was str65 now str1
+  variable v18 was str47 now str7
+  (7,034,456 bytes saved)
+(file
+    /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/interme
+    > diate/crime_boston_2018_uncleaned.dta not found)
+file
+    /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/interme
+    > diate/crime_boston_2018_uncleaned.dta saved
+(13 vars, 58,357 obs)
+  (0 bytes saved)
+(file
+    /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/interme
+    > diate/crime_boston_2019_uncleaned.dta not found)
+file
+    /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/interme
+    > diate/crime_boston_2019_uncleaned.dta saved
+(18 vars, 49,833 obs)
+  (0 bytes saved)
+(file
+    /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/interme
+    > diate/crime_boston_2020_uncleaned.dta not found)
+file
+    /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/interme
+    > diate/crime_boston_2020_uncleaned.dta saved
+(20 vars, 51,644 obs)
+  variable v6 was str2045 now str1975
+  (3,615,080 bytes saved)
+(file
+    /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/interme
+    > diate/crime_boston_2021_uncleaned.dta not found)
+file
+    /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/interme
+    > diate/crime_boston_2021_uncleaned.dta saved
+
+. 
+. // US crime data
+. forvalues y = 2008/2019 {
+  2.         import excel "$MyProject/data/fbi_offenses_known_to_law_enforcement/
+> fbi_offenses_known_to_law_enforcement_`y'.xls", clear
+  3.         compress
+  4.         save "$MyProject/processed/intermediate/crime_us_`y'_uncleaned.dta",
+>  replace
+  5. }
+(17 vars, 8,784 obs)
+  (0 bytes saved)
+(file
+    /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/interme
+    > diate/crime_us_2008_uncleaned.dta not found)
+file
+    /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/interme
+    > diate/crime_us_2008_uncleaned.dta saved
+(13 vars, 9,159 obs)
+  (0 bytes saved)
+(file
+    /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/interme
+    > diate/crime_us_2009_uncleaned.dta not found)
+file
+    /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/interme
+    > diate/crime_us_2009_uncleaned.dta saved
+(13 vars, 9,321 obs)
+  (0 bytes saved)
+(file
+    /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/interme
+    > diate/crime_us_2010_uncleaned.dta not found)
+file
+    /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/interme
+    > diate/crime_us_2010_uncleaned.dta saved
+(18 vars, 9,325 obs)
+  (0 bytes saved)
+(file
+    /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/interme
+    > diate/crime_us_2011_uncleaned.dta not found)
+file
+    /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/interme
+    > diate/crime_us_2011_uncleaned.dta saved
+(15 vars, 9,502 obs)
+  (0 bytes saved)
+(file
+    /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/interme
+    > diate/crime_us_2012_uncleaned.dta not found)
+file
+    /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/interme
+    > diate/crime_us_2012_uncleaned.dta saved
+(17 vars, 9,306 obs)
+  (0 bytes saved)
+(file
+    /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/interme
+    > diate/crime_us_2013_uncleaned.dta not found)
+file
+    /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/interme
+    > diate/crime_us_2013_uncleaned.dta saved
+(14 vars, 9,368 obs)
+  (0 bytes saved)
+(file
+    /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/interme
+    > diate/crime_us_2014_uncleaned.dta not found)
+file
+    /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/interme
+    > diate/crime_us_2014_uncleaned.dta saved
+(14 vars, 9,409 obs)
+  (0 bytes saved)
+(file
+    /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/interme
+    > diate/crime_us_2015_uncleaned.dta not found)
+file
+    /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/interme
+    > diate/crime_us_2015_uncleaned.dta saved
+(13 vars, 2,626 obs)
+  (0 bytes saved)
+(file
+    /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/interme
+    > diate/crime_us_2016_uncleaned.dta not found)
+file
+    /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/interme
+    > diate/crime_us_2016_uncleaned.dta saved
+(19 vars, 9,593 obs)
+  (0 bytes saved)
+(file
+    /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/interme
+    > diate/crime_us_2017_uncleaned.dta not found)
+file
+    /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/interme
+    > diate/crime_us_2017_uncleaned.dta saved
+(13 vars, 9,266 obs)
+  (0 bytes saved)
+(file
+    /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/interme
+    > diate/crime_us_2018_uncleaned.dta not found)
+file
+    /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/interme
+    > diate/crime_us_2018_uncleaned.dta saved
+(13 vars, 8,117 obs)
+  (0 bytes saved)
+(file
+    /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/interme
+    > diate/crime_us_2019_uncleaned.dta not found)
+file
+    /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/interme
+    > diate/crime_us_2019_uncleaned.dta saved
+
+. 
+. ** EOF
+. 
+end of do-file
+
+. 
+. do "$MyProject/scripts/2a_clean_ma_zoning_data.do"
+
+. ************
+. * SCRIPT: 2a_clean_ma_zoning_data.do
+. * PURPOSE: processes the massachusetts zoning dataset in preparation for analys
+> is
+. ************
+. 
+. use "$MyProject/processed/intermediate/ma_zoning_laws_uncleaned.dta", clear
+
+. 
+. * Rename variable names to be values from the first row
+. foreach var of varlist * {
+  2.         local x = strtoname(`var'[1])
+  3.         rename `var' `x'
+  4. }
+
+. drop in 1
+(1 observation deleted)
+
+. 
+. * Drop cities with no response
+. drop if Adult_Use_Status == "No response" & Delivery_Status == "No response"
+(22 observations deleted)
+
+. 
+. * Create dummy variables for legality of retail, adult use, and delivery
+. gen retail_legal = Adult_Use_Status == "Zoning in place" | Adult_Use_Status == 
+> "No zoning in place" | Adult_Use_Status == "Zoning in place, retail license cap
+> " | Adult_Use_Status == "Zoning in place; license cap" | Adult_Use_Status == "Z
+> oning in place; license cap; delivery ban" | Adult_Use_Status == "Zoning in pla
+> ce; retail cap" | Adult_Use_Status == "Zoning in place; retail license cap"
+
+. gen adult_use_legal = retail_legal | Adult_Use_Status == "Retail ban" | Adult_U
+> se_Status == "Zoning in place; retail ban"
+
+. gen delivery_legal = Adult_Use_Status != "Ban in place" & (Delivery_Status == "
+> Delivery permitted" | Delivery_Status == "Delivery permitted; Host Community Ag
+> reement signed with business maintaining/pursuing delivery license" | Delivery_
+> Status == "No zoning in place" | Adult_Use_Status == "No zoning in place")
+
+. drop Adult_Use_Status
+
+. drop Delivery_Status
+
+. 
+. * Rename address variable
+. rename City_Town city
+
+. 
+. compress
+  variable retail_legal was float now byte
+  variable adult_use_legal was float now byte
+  variable delivery_legal was float now byte
+  (2,961 bytes saved)
+
+. save "$MyProject/processed/ma_zoning_laws.dta", replace
+(file
+    /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/ma_zoni
+    > ng_laws.dta not found)
+file
+    /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/ma_zoni
+    > ng_laws.dta saved
+
+. 
+. ** EOF
+. 
+end of do-file
+
+. do "$MyProject/scripts/2b_clean_dispensaries_data.do"
+
+. ************
+. * SCRIPT: 2b_clean_dispensaries_data.do
+. * PURPOSE: processes the dispensaries dataset in preparation for analysis
+. ************
+. 
+. use "$MyProject/processed/intermediate/dispensaries_uncleaned.dta", clear
+
+. 
+. * Select only desired columns
+. local keep business_name license_type establishment_address_1 establishment_cit
+> y establishment_zip_code establishment_county commence_operations_date
+
+. ds
+business_n~e  applicatio~e  mailing_ad~2  all_packet~t  name
+dba_name      lic_fee_am~t  mailing_city  priority_t~e  establishm~o
+dba_regist~y  establishm~1  mailing_st~e  app_create~e  dbe
+massachuse~s  establishm~2  mailing_zi~e  disability~s  cultivatio~t
+approved_l~e  establis~ity  longitude     lesbian_ga~e  cultivatio~r
+priority_a~e  establish~te  latitude      minority_o~s  cnb_dt_of_~e
+dph_rmd_nu~r  establish~de  geocoded_c~n  veteran_ow~s  commence_o~e
+license_nu~r  establis~nty  not_a_dbe     woman_owne~s  row_ct
+license_type  business_a~1  establishm~s  cooperativ~n  activity_d~e
+lic_status    business_a~2  square_foo~t  establishm~n  version
+applicatio~r  business_c~y  abutters_c~t  county
+applicatio~s  business_s~e  is_abutter~d  county_lat
+rmd_priori~n  business_z~e  cooperativ~m  county_long
+name_of_rmd   mailing_ad~1  cooperativ~y  user_id
+
+. local vars `r(varlist)'
+
+. local tokeep : list vars & keep
+
+. keep `tokeep'
+
+. 
+. * Keep only entries that have certain license types
+. keep if license_type=="Marijuana Retailer"
+(564 observations deleted)
+
+. drop license_type
+
+. 
+. * Keep only entries that have commenced operations
+. keep if commence_operations_date!=""
+(186 observations deleted)
+
+. 
+. * Create variables for commencement operations month, day, and year
+. split commence_operations_date, parse("/")
+variables created as string: 
+commence_o~1  commence_o~2  commence_o~3
+
+. destring commence_operations_date1, gen(commence_month)
+commence_operations_date1: all characters numeric; commence_month generated as by
+> te
+
+. destring commence_operations_date2, gen(commence_day)
+commence_operations_date2: all characters numeric; commence_day generated as byte
+
+. destring commence_operations_date3, gen(commence_year)
+commence_operations_date3: all characters numeric; commence_year generated as int
+
+. drop commence_operations_date commence_operations_date1 commence_operations_dat
+> e2 commence_operations_date3
+
+. 
+. * Change format of zip code to be 5 digits
+. format establishment_zip_code %05.0f
+
+. 
+. * Rename address variable
+. rename establishment_address_1 establishment_address
+
+. 
+. compress
+  variable business_name was str60 now str58
+  variable establishment_address was str54 now str51
+  variable establishment_city was str18 now str16
+  (1,358 bytes saved)
+
+. save "$MyProject/processed/dispensaries.dta", replace
+(file
+    /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/dispens
+    > aries.dta not found)
+file
+    /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/dispens
+    > aries.dta saved
+
+. 
+. ** EOF
+. 
+end of do-file
+
+. do "$MyProject/scripts/2c_clean_prop_assessments_data.do"
+
+. ************
+. * SCRIPT: 2c_clean_prop_assessments_data.do
+. * PURPOSE: processes the massachusetts property assessments datasets in prepara
+> tion for analysis
+. ************
+. 
+. forvalues y = 2014/2021 {
+  2.         use "$MyProject/processed/intermediate/property_assessments_ma_`y'_u
+> ncleaned.dta", clear
+  3.         
+.         if `y' == 2014 {
+  4.                 rename parcel_id pid
+  5.         }
+  6.         else if `y' == 2021 {
+  7.                 rename bldg_value av_bldg
+  8.                 rename yr_remodel yr_remod
+  9.                 rename res_floor num_floors
+ 10.                 rename bed_rms r_bdrms
+ 11.                 rename full_bth r_full_bth
+ 12.                 rename hlf_bth r_half_bth
+ 13.                 rename kitchen r_kitch
+ 14.                 rename heat_type r_heat_typ
+ 15.         }
+ 16.         
+.         * Select only desired columns
+.         local keep pid zipcode av_bldg land_sf yr_built yr_remod living_area nu
+> m_floors r_bdrms r_full_bth r_half_bth r_kitch r_heat_typ
+ 17.         qui ds
+ 18.         local vars `r(varlist)'
+ 19.         local tokeep : list vars & keep
+ 20.         keep `tokeep'
+ 21.         
+.         gen year_assessed = `y'
+ 22.         
+.         if `y' == 2018 | `y' == 2019 | `y' == 2020 | `y' == 2021 {
+ 23.                 tostring pid, replace
+ 24.                 replace pid = pid + "_`y'"
+ 25.                 
+.                 tostring zipcode, replace
+ 26.                 replace zipcode = "0" + zipcode
+ 27.         }
+ 28.         else {
+ 29.                 replace pid = pid + "`y'"
+ 30.                 
+.                 replace zipcode = substr(zipcode, 1, 5)
+ 31.         }
+ 32.         
+.         * Convert dollar amount av_bldg to int (2021 only)
+.         if `y' == 2021 {
+ 33.                 split av_bldg, parse(".00") gen(dollars)
+ 34.                 destring dollars1, replace ignore("$,")
+ 35.                 drop av_bldg
+ 36.                 rename dollars1 av_bldg
+ 37.         }
+ 38. 
+.         * Drop entries with missing or 0-valued data
+.         drop if av_bldg==0
+ 39.         drop if missing(av_bldg)
+ 40.         
+.         drop if land_sf==0
+ 41.         drop if missing(land_sf)
+ 42.         
+.         drop if yr_built==0
+ 43.         drop if missing(yr_built)
+ 44.         
+.         drop if living_area==0
+ 45.         drop if missing(living_area)
+ 46.         
+.         drop if num_floors==0
+ 47.         drop if missing(num_floors)
+ 48.         
+.         drop if r_bdrms==0
+ 49.         drop if missing(r_bdrms)
+ 50.         
+.         * Create variable for years since built
+.         gen yrs_since_built = `y' - yr_built
+ 51.         
+.         * Create variable for years since remodel
+.         replace yr_remod = 0 if missing(yr_remod)
+ 52.         replace yr_remod = yr_built if yr_remod==0
+ 53.         gen yrs_since_remodel = `y' - yr_remod
+ 54.         drop yr_built yr_remod
+ 55.         
+.         * Replace missing values with 0
+.         replace r_full_bth = 0 if missing(r_full_bth)
+ 56.         replace r_half_bth = 0 if missing(r_half_bth)
+ 57.         
+.         * Replace string kitchen values with ints
+.         if `y' == 2020 {
+ 58.                 replace r_kitch = "0" if missing(r_kitch)
+ 59.                 replace r_kitch = substr(r_kitch, 1, 1)
+ 60.                 replace r_kitch = "0" if real(r_kitch)==. & r_kitch=="N"
+ 61.                 replace r_kitch = "1" if real(r_kitch)==. & r_kitch!="N"
+ 62.                 destring r_kitch, replace
+ 63.         }
+ 64.         else {
+ 65.                 replace r_kitch = 0 if missing(r_kitch)
+ 66.         }
+ 67.         
+.         * Create dummy variables for heat type
+.         gen heat_electric = r_heat_typ==`"E"' | r_heat_typ==`"E - Electric"'
+ 68.         gen heat_forced_hot_air = r_heat_typ==`"F"' | r_heat_typ==`"F - Forc
+> ed Hot Air"'
+ 69.         gen heat_pump = r_heat_typ==`"P"' | r_heat_typ==`"P - Heat Pump"'
+ 70.         gen heat_space = r_heat_typ==`"S"' | r_heat_typ==`"S - Space Heat"'
+ 71.         gen heat_steam = r_heat_typ==`"W"' | r_heat_typ==`"W - Ht Water/Stea
+> m"'
+ 72.         gen heat_other = r_heat_typ==`"O"' | r_heat_typ==`"O - Other"'
+ 73.         drop r_heat_typ
+ 74.         
+.         compress
+ 75.         save "$MyProject/processed/intermediate/property_assessments_ma_`y'.
+> dta", replace
+ 76. }
+variable pid was str11 now str15
+(164,091 real changes made)
+(164,091 real changes made)
+(21,893 observations deleted)
+(0 observations deleted)
+(63 observations deleted)
+(1,641 observations deleted)
+(4,942 observations deleted)
+(0 observations deleted)
+(42 observations deleted)
+(17 observations deleted)
+(253 observations deleted)
+(0 observations deleted)
+(72,636 observations deleted)
+(2 observations deleted)
+(0 real changes made)
+(43,120 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+  variable living_area was long now int
+  variable year_assessed was float now int
+  variable yrs_since_built was float now int
+  variable yrs_since_remodel was float now int
+  variable heat_electric was float now byte
+  variable heat_forced_hot_air was float now byte
+  variable heat_pump was float now byte
+  variable heat_space was float now byte
+  variable heat_steam was float now byte
+  variable heat_other was float now byte
+  variable zipcode was str6 now str5
+  (1,690,254 bytes saved)
+(file
+    /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/interme
+    > diate/property_assessments_ma_2014.dta not found)
+file
+    /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/interme
+    > diate/property_assessments_ma_2014.dta saved
+variable pid was str11 now str15
+(168,115 real changes made)
+(168,104 real changes made)
+(22,311 observations deleted)
+(0 observations deleted)
+(71 observations deleted)
+(2,891 observations deleted)
+(4,408 observations deleted)
+(532 observations deleted)
+(48 observations deleted)
+(20 observations deleted)
+(15 observations deleted)
+(280 observations deleted)
+(3 observations deleted)
+(74,778 observations deleted)
+(2,864 real changes made)
+(42,368 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+  variable living_area was long now int
+  variable year_assessed was float now int
+  variable yrs_since_built was float now int
+  variable yrs_since_remodel was float now int
+  variable heat_electric was float now byte
+  variable heat_forced_hot_air was float now byte
+  variable heat_pump was float now byte
+  variable heat_space was float now byte
+  variable heat_steam was float now byte
+  variable heat_other was float now byte
+  variable zipcode was str6 now str5
+  (1,694,466 bytes saved)
+(file
+    /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/interme
+    > diate/property_assessments_ma_2015.dta not found)
+file
+    /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/interme
+    > diate/property_assessments_ma_2015.dta saved
+variable pid was str11 now str15
+(169,199 real changes made)
+(169,193 real changes made)
+(22,306 observations deleted)
+(0 observations deleted)
+(70 observations deleted)
+(3,369 observations deleted)
+(4,474 observations deleted)
+(536 observations deleted)
+(53 observations deleted)
+(21 observations deleted)
+(20 observations deleted)
+(281 observations deleted)
+(3 observations deleted)
+(75,516 observations deleted)
+(2,932 real changes made)
+(41,574 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+  variable living_area was long now int
+  variable year_assessed was float now int
+  variable yrs_since_built was float now int
+  variable yrs_since_remodel was float now int
+  variable heat_electric was float now byte
+  variable heat_forced_hot_air was float now byte
+  variable heat_pump was float now byte
+  variable heat_space was float now byte
+  variable heat_steam was float now byte
+  variable heat_other was float now byte
+  variable zipcode was str6 now str5
+  (1,688,850 bytes saved)
+(file
+    /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/interme
+    > diate/property_assessments_ma_2016.dta not found)
+file
+    /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/interme
+    > diate/property_assessments_ma_2016.dta saved
+variable pid was str11 now str15
+(170,910 real changes made)
+(170,903 real changes made)
+(22,308 observations deleted)
+(0 observations deleted)
+(71 observations deleted)
+(4,140 observations deleted)
+(4,536 observations deleted)
+(541 observations deleted)
+(54 observations deleted)
+(23 observations deleted)
+(20 observations deleted)
+(315 observations deleted)
+(4 observations deleted)
+(76,451 observations deleted)
+(3,028 real changes made)
+(40,558 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+  variable living_area was long now int
+  variable year_assessed was float now int
+  variable yrs_since_built was float now int
+  variable yrs_since_remodel was float now int
+  variable heat_electric was float now byte
+  variable heat_forced_hot_air was float now byte
+  variable heat_pump was float now byte
+  variable heat_space was float now byte
+  variable heat_steam was float now byte
+  variable heat_other was float now byte
+  variable zipcode was str6 now str5
+  (1,686,069 bytes saved)
+(file
+    /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/interme
+    > diate/property_assessments_ma_2017.dta not found)
+file
+    /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/interme
+    > diate/property_assessments_ma_2017.dta saved
+pid was double now str10
+variable pid was str10 now str15
+(172,841 real changes made)
+zipcode was int now str4
+variable zipcode was str4 now str5
+(172,841 real changes made)
+(22,307 observations deleted)
+(0 observations deleted)
+(70 observations deleted)
+(4,880 observations deleted)
+(4,503 observations deleted)
+(515 observations deleted)
+(62 observations deleted)
+(24 observations deleted)
+(20 observations deleted)
+(301 observations deleted)
+(6 observations deleted)
+(77,822 observations deleted)
+(3,082 real changes made)
+(39,484 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+  variable living_area was long now int
+  variable year_assessed was float now int
+  variable yrs_since_built was float now int
+  variable yrs_since_remodel was float now int
+  variable heat_electric was float now byte
+  variable heat_forced_hot_air was float now byte
+  variable heat_pump was float now byte
+  variable heat_space was float now byte
+  variable heat_steam was float now byte
+  variable heat_other was float now byte
+  (1,620,606 bytes saved)
+(file
+    /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/interme
+    > diate/property_assessments_ma_2018.dta not found)
+file
+    /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/interme
+    > diate/property_assessments_ma_2018.dta saved
+pid was double now str10
+variable pid was str10 now str15
+(174,668 real changes made)
+zipcode was int now str4
+variable zipcode was str4 now str5
+(174,668 real changes made)
+(22,445 observations deleted)
+(0 observations deleted)
+(63 observations deleted)
+(5,420 observations deleted)
+(4,529 observations deleted)
+(519 observations deleted)
+(65 observations deleted)
+(26 observations deleted)
+(17 observations deleted)
+(267 observations deleted)
+(6 observations deleted)
+(79,124 observations deleted)
+(3,187 real changes made)
+(38,511 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+  variable living_area was long now int
+  variable year_assessed was float now int
+  variable yrs_since_built was float now int
+  variable yrs_since_remodel was float now int
+  variable heat_electric was float now byte
+  variable heat_forced_hot_air was float now byte
+  variable heat_pump was float now byte
+  variable heat_space was float now byte
+  variable heat_steam was float now byte
+  variable heat_other was float now byte
+  (1,616,862 bytes saved)
+(file
+    /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/interme
+    > diate/property_assessments_ma_2019.dta not found)
+file
+    /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/interme
+    > diate/property_assessments_ma_2019.dta saved
+pid was double now str10
+variable pid was str10 now str15
+(175,052 real changes made)
+zipcode was int now str4
+variable zipcode was str4 now str5
+(175,052 real changes made)
+(17,692 observations deleted)
+(0 observations deleted)
+(76,938 observations deleted)
+(0 observations deleted)
+(0 observations deleted)
+(6,336 observations deleted)
+(5 observations deleted)
+(68 observations deleted)
+(33 observations deleted)
+(191 observations deleted)
+(3 observations deleted)
+(13,493 observations deleted)
+(36,313 real changes made)
+(36,314 real changes made)
+(0 real changes made)
+(1 real change made)
+(8 real changes made)
+(60,285 real changes made)
+(3 real changes made)
+(3 real changes made)
+r_kitch: all characters numeric; replaced as byte
+  variable living_area was long now int
+  variable year_assessed was float now int
+  variable yrs_since_built was float now int
+  variable yrs_since_remodel was float now int
+  variable heat_electric was float now byte
+  variable heat_forced_hot_air was float now byte
+  variable heat_pump was float now byte
+  variable heat_space was float now byte
+  variable heat_steam was float now byte
+  variable heat_other was float now byte
+  (1,567,618 bytes saved)
+(file
+    /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/interme
+    > diate/property_assessments_ma_2020.dta not found)
+file
+    /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/interme
+    > diate/property_assessments_ma_2020.dta saved
+pid was double now str10
+variable pid was str10 now str15
+(177,091 real changes made)
+zipcode was int now str4
+variable zipcode was str4 now str5
+(177,091 real changes made)
+variable created as string: 
+dollars1
+dollars1: characters $ , removed; replaced as long
+(18079 missing values generated)
+(0 observations deleted)
+(18,079 observations deleted)
+(31 observations deleted)
+(74,125 observations deleted)
+(0 observations deleted)
+(9,214 observations deleted)
+(0 observations deleted)
+(89 observations deleted)
+(0 observations deleted)
+(255 observations deleted)
+(0 observations deleted)
+(13,357 observations deleted)
+(36,896 real changes made)
+(36,896 real changes made)
+(6 real changes made)
+(40,802 real changes made)
+(7 real changes made)
+  variable living_area was long now int
+  variable year_assessed was float now int
+  variable yrs_since_built was float now int
+  variable yrs_since_remodel was float now int
+  variable heat_electric was float now byte
+  variable heat_forced_hot_air was float now byte
+  variable heat_pump was float now byte
+  variable heat_space was float now byte
+  variable heat_steam was float now byte
+  variable heat_other was float now byte
+  (1,610,466 bytes saved)
+(file
+    /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/interme
+    > diate/property_assessments_ma_2021.dta not found)
+file
+    /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/interme
+    > diate/property_assessments_ma_2021.dta saved
+
+. 
+. * Merge datasets into one
+. use "$MyProject/processed/intermediate/property_assessments_ma_2014.dta", clear
+
+. 
+. forvalues y = 2015/2021 {
+  2.         append using "$MyProject/processed/intermediate/property_assessments
+> _ma_`y'.dta"
+  3. }
+
+. compress
+  (0 bytes saved)
+
+. save "$MyProject/processed/property_assessments_ma.dta", replace
+(file
+    /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/propert
+    > y_assessments_ma.dta not found)
+file
+    /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/propert
+    > y_assessments_ma.dta saved
+
+. 
+. 
+. ** EOF
+. 
+end of do-file
+
+. // do "$MyProject/scripts/2e_clean_home_values_data.do"
+. // do "$MyProject/scripts/2f_clean_boston_crash_data.do"
+. // do "$MyProject/scripts/2g_clean_us_crash_data.do"
+. // do "$MyProject/scripts/2h_clean_boston_crime_data.do"
+. // do "$MyProject/scripts/2i_clean_us_crime_data.do"
+. 
+. // do "$MyProject/scripts/3a_summarize_ma_zoning_data.do"
+. // do "$MyProject/scripts/3b_summarize_states_legality_data.do"
+. // do "$MyProject/scripts/3c_summarize_dispensaries_data.do"
+. // do "$MyProject/scripts/3d_summarize_prop_assessments_data.do"
+. // do "$MyProject/scripts/3e_summarize_home_values_data.do"
+. // do "$MyProject/scripts/3f_summarize_boston_crash_data.do"
+. // do "$MyProject/scripts/3g_summarize_us_crash_data.do"
+. // do "$MyProject/scripts/3h_summarize_boston_crime_data.do"
+. // do "$MyProject/scripts/3i_summarize_us_crime_data.do"
+. 
+. // do "$MyProject/scripts/4a_regression_dispensaries_on_property_assessments.do
+> "
+. 
+. * End log
+. di "End date and time: $S_DATE $S_TIME"
+End date and time: 23 Mar 2022 16:12:41
+
+. log close
+      name:  <unnamed>
+       log:  /Users/anniebryan/Documents/College/2021-22/14.33/Project/scripts/lo
+> gs/2022.03.23-16.11.57.log.txt
+  log type:  text
+ closed on:  23 Mar 2022, 16:12:41
+---------------------------------------------------------------------------------

@@ -1,0 +1,563 @@
+-------------------------------------------------------------------
+      name:  <unnamed>
+       log:  /Users/anniebryan/Documents/College/2021-22/14.33/Proj
+> ect/scripts/logs/2022.03.30-13.44.41.log.txt
+  log type:  text
+ opened on:  30 Mar 2022, 13:44:41
+
+. 
+. ssc install estout, replace
+checking estout consistency and verifying not already installed...
+all files already exist and are up to date.
+
+. ssc install outreg2
+checking outreg2 consistency and verifying not already installed...
+all files already exist and are up to date.
+
+. 
+. * Stata version control
+. version 17
+
+. 
+. * Create directories for output files
+. cap mkdir "$MyProject/processed"
+
+. cap mkdir "$MyProject/processed/intermediate"
+
+. cap mkdir "$MyProject/results"
+
+. cap mkdir "$MyProject/results/figures"
+
+. cap mkdir "$MyProject/results/intermediate"
+
+. cap mkdir "$MyProject/results/tables"
+
+. 
+. * Run project analysis
+. do "$MyProject/scripts/1_process_data.do"
+
+. ************
+. * SCRIPT: 1_process_data.do
+. * PURPOSE: imports the raw datasets and converts them into a stat
+> a-readable format
+. ************
+. 
+. // MA zoning data
+. insheet using "$MyProject/data/ma-zoning-laws/ma-zoning-laws.csv"
+> , comma clear
+(3 vars, 352 obs)
+
+. compress
+  (0 bytes saved)
+
+. save "$MyProject/processed/intermediate/ma_zoning_laws_uncleaned.
+> dta", replace
+file
+    /Users/anniebryan/Documents/College/2021-22/14.33/Project/pro
+    > cessed/intermediate/ma_zoning_laws_uncleaned.dta saved
+
+. 
+. // US states legality data
+. insheet using "$MyProject/data/us-states-legality.csv", comma cle
+> ar
+(6 vars, 51 obs)
+
+. compress
+  (0 bytes saved)
+
+. save "$MyProject/processed/us_states_legality.dta", replace
+file
+    /Users/anniebryan/Documents/College/2021-22/14.33/Project/pro
+    > cessed/us_states_legality.dta saved
+
+. 
+. // MA dispensaries data
+. insheet using "$MyProject/data/dispensaries.csv", comma clear
+(66 vars, 944 obs)
+
+. compress
+  (0 bytes saved)
+
+. save "$MyProject/processed/intermediate/dispensaries_uncleaned.dt
+> a", replace
+file
+    /Users/anniebryan/Documents/College/2021-22/14.33/Project/pro
+    > cessed/intermediate/dispensaries_uncleaned.dta saved
+
+. 
+. // MA property assessments data
+. forvalues y = 2014/2021 {
+  2.         insheet using "$MyProject/data/property_assessment/pro
+> perty-assessment-fy`y'.csv", comma clear
+  3.         compress
+  4.         save "$MyProject/processed/intermediate/property_asses
+> sments_ma_`y'_uncleaned.dta", replace
+  5. }
+(56 vars, 164,091 obs)
+  variable st_name was str25 now str24
+  variable u_heat_typ was str2 now str1
+  (328,182 bytes saved)
+file
+    /Users/anniebryan/Documents/College/2021-22/14.33/Project/pro
+    > cessed/intermediate/property_assessments_ma_2014_uncleaned.
+    > dta saved
+(56 vars, 168,115 obs)
+  variable st_name was str25 now str24
+  variable st_name_suf was str4 now str3
+  variable full_address was str55 now str48
+  variable u_heat_typ was str2 now str1
+  (1,681,150 bytes saved)
+file
+    /Users/anniebryan/Documents/College/2021-22/14.33/Project/pro
+    > cessed/intermediate/property_assessments_ma_2015_uncleaned.
+    > dta saved
+(77 vars, 169,199 obs)
+  variable st_name was str25 now str24
+  variable st_name_suf was str4 now str3
+  (338,398 bytes saved)
+file
+    /Users/anniebryan/Documents/College/2021-22/14.33/Project/pro
+    > cessed/intermediate/property_assessments_ma_2016_uncleaned.
+    > dta saved
+(75 vars, 170,910 obs)
+  variable st_name was str25 now str24
+  variable st_name_suf was str4 now str3
+  (341,820 bytes saved)
+file
+    /Users/anniebryan/Documents/College/2021-22/14.33/Project/pro
+    > cessed/intermediate/property_assessments_ma_2017_uncleaned.
+    > dta saved
+(75 vars, 172,841 obs)
+  (0 bytes saved)
+file
+    /Users/anniebryan/Documents/College/2021-22/14.33/Project/pro
+    > cessed/intermediate/property_assessments_ma_2018_uncleaned.
+    > dta saved
+(75 vars, 174,668 obs)
+  variable st_name was str25 now str24
+  variable st_name_suf was str4 now str3
+  (349,336 bytes saved)
+file
+    /Users/anniebryan/Documents/College/2021-22/14.33/Project/pro
+    > cessed/intermediate/property_assessments_ma_2019_uncleaned.
+    > dta saved
+(75 vars, 175,052 obs)
+  variable st_name_suf was str5 now str4
+  (175,052 bytes saved)
+file
+    /Users/anniebryan/Documents/College/2021-22/14.33/Project/pro
+    > cessed/intermediate/property_assessments_ma_2020_uncleaned.
+    > dta saved
+(63 vars, 177,091 obs)
+  (0 bytes saved)
+file
+    /Users/anniebryan/Documents/College/2021-22/14.33/Project/pro
+    > cessed/intermediate/property_assessments_ma_2021_uncleaned.
+    > dta saved
+
+. 
+. // Zillow home value data
+. insheet using "$MyProject/data/zhvi_sa_35_65.csv", comma clear
+(274 vars, 30,468 obs)
+
+. compress
+  (0 bytes saved)
+
+. save "$MyProject/processed/intermediate/zillow_home_values_unclea
+> ned.dta", replace
+file
+    /Users/anniebryan/Documents/College/2021-22/14.33/Project/pro
+    > cessed/intermediate/zillow_home_values_uncleaned.dta saved
+
+. 
+. // Boston crash data
+. insheet using "$MyProject/data/boston_crashes.csv", comma clear
+(25 vars, 108,919 obs)
+
+. compress
+  variable v23 was str170 now str169
+  (108,919 bytes saved)
+
+. save "$MyProject/processed/intermediate/crashes_boston_uncleaned.
+> dta", replace
+file
+    /Users/anniebryan/Documents/College/2021-22/14.33/Project/pro
+    > cessed/intermediate/crashes_boston_uncleaned.dta saved
+
+. 
+. // US crash data
+. insheet using "$MyProject/data/fars_nhtsa_fatality_rates_by_state
+> .csv", comma clear
+(56 vars, 53 obs)
+
+. compress
+  (0 bytes saved)
+
+. save "$MyProject/processed/intermediate/crashes_us_uncleaned.dta"
+> , replace
+file
+    /Users/anniebryan/Documents/College/2021-22/14.33/Project/pro
+    > cessed/intermediate/crashes_us_uncleaned.dta saved
+
+. 
+. // Boston crime data
+. forvalues y = 2015/2022 {
+  2.         insheet using "$MyProject/data/crime-incident-reports/
+> crime-incident-reports-`y'.csv", comma clear
+  3.         compress
+  4.         save "$MyProject/processed/intermediate/crime_boston_`
+> y'_uncleaned.dta", replace
+  5. }
+(17 vars, 53,597 obs)
+  (0 bytes saved)
+file
+    /Users/anniebryan/Documents/College/2021-22/14.33/Project/pro
+    > cessed/intermediate/crime_boston_2015_uncleaned.dta saved
+(17 vars, 99,430 obs)
+  (0 bytes saved)
+file
+    /Users/anniebryan/Documents/College/2021-22/14.33/Project/pro
+    > cessed/intermediate/crime_boston_2016_uncleaned.dta saved
+(17 vars, 101,338 obs)
+  (0 bytes saved)
+file
+    /Users/anniebryan/Documents/College/2021-22/14.33/Project/pro
+    > cessed/intermediate/crime_boston_2017_uncleaned.dta saved
+(17 vars, 98,888 obs)
+  (0 bytes saved)
+file
+    /Users/anniebryan/Documents/College/2021-22/14.33/Project/pro
+    > cessed/intermediate/crime_boston_2018_uncleaned.dta saved
+(17 vars, 87,184 obs)
+  (0 bytes saved)
+file
+    /Users/anniebryan/Documents/College/2021-22/14.33/Project/pro
+    > cessed/intermediate/crime_boston_2019_uncleaned.dta saved
+(17 vars, 70,894 obs)
+  (0 bytes saved)
+file
+    /Users/anniebryan/Documents/College/2021-22/14.33/Project/pro
+    > cessed/intermediate/crime_boston_2020_uncleaned.dta saved
+(17 vars, 71,721 obs)
+  (0 bytes saved)
+file
+    /Users/anniebryan/Documents/College/2021-22/14.33/Project/pro
+    > cessed/intermediate/crime_boston_2021_uncleaned.dta saved
+(17 vars, 14,650 obs)
+  (0 bytes saved)
+file
+    /Users/anniebryan/Documents/College/2021-22/14.33/Project/pro
+    > cessed/intermediate/crime_boston_2022_uncleaned.dta saved
+
+. 
+. // Offense codes for Boston crime data
+. import excel "$MyProject/data/rmsoffensecodes.xlsx", clear
+(2 vars, 577 obs)
+
+. compress
+  (0 bytes saved)
+
+. save "$MyProject/processed/intermediate/offense_codes.dta", repla
+> ce
+file
+    /Users/anniebryan/Documents/College/2021-22/14.33/Project/pro
+    > cessed/intermediate/offense_codes.dta saved
+
+. 
+. // US crime data
+. forvalues y = 2008/2019 {
+  2.         import excel "$MyProject/data/fbi_offenses_known_to_la
+> w_enforcement/fbi_offenses_known_to_law_enforcement_`y'.xls", cle
+> ar
+  3.         compress
+  4.         save "$MyProject/processed/intermediate/crime_us_`y'_u
+> ncleaned.dta", replace
+  5. }
+(17 vars, 8,784 obs)
+  (0 bytes saved)
+file
+    /Users/anniebryan/Documents/College/2021-22/14.33/Project/pro
+    > cessed/intermediate/crime_us_2008_uncleaned.dta saved
+(13 vars, 9,159 obs)
+  (0 bytes saved)
+file
+    /Users/anniebryan/Documents/College/2021-22/14.33/Project/pro
+    > cessed/intermediate/crime_us_2009_uncleaned.dta saved
+(13 vars, 9,321 obs)
+  (0 bytes saved)
+file
+    /Users/anniebryan/Documents/College/2021-22/14.33/Project/pro
+    > cessed/intermediate/crime_us_2010_uncleaned.dta saved
+(18 vars, 9,325 obs)
+  (0 bytes saved)
+file
+    /Users/anniebryan/Documents/College/2021-22/14.33/Project/pro
+    > cessed/intermediate/crime_us_2011_uncleaned.dta saved
+(15 vars, 9,502 obs)
+  (0 bytes saved)
+file
+    /Users/anniebryan/Documents/College/2021-22/14.33/Project/pro
+    > cessed/intermediate/crime_us_2012_uncleaned.dta saved
+(17 vars, 9,306 obs)
+  (0 bytes saved)
+file
+    /Users/anniebryan/Documents/College/2021-22/14.33/Project/pro
+    > cessed/intermediate/crime_us_2013_uncleaned.dta saved
+(14 vars, 9,368 obs)
+  (0 bytes saved)
+file
+    /Users/anniebryan/Documents/College/2021-22/14.33/Project/pro
+    > cessed/intermediate/crime_us_2014_uncleaned.dta saved
+(14 vars, 9,409 obs)
+  (0 bytes saved)
+file
+    /Users/anniebryan/Documents/College/2021-22/14.33/Project/pro
+    > cessed/intermediate/crime_us_2015_uncleaned.dta saved
+(13 vars, 2,626 obs)
+  (0 bytes saved)
+file
+    /Users/anniebryan/Documents/College/2021-22/14.33/Project/pro
+    > cessed/intermediate/crime_us_2016_uncleaned.dta saved
+(19 vars, 9,593 obs)
+  (0 bytes saved)
+file
+    /Users/anniebryan/Documents/College/2021-22/14.33/Project/pro
+    > cessed/intermediate/crime_us_2017_uncleaned.dta saved
+(13 vars, 9,266 obs)
+  (0 bytes saved)
+file
+    /Users/anniebryan/Documents/College/2021-22/14.33/Project/pro
+    > cessed/intermediate/crime_us_2018_uncleaned.dta saved
+(13 vars, 8,117 obs)
+  (0 bytes saved)
+file
+    /Users/anniebryan/Documents/College/2021-22/14.33/Project/pro
+    > cessed/intermediate/crime_us_2019_uncleaned.dta saved
+
+. 
+. ** EOF
+. 
+end of do-file
+
+. 
+. // do "$MyProject/scripts/2a_clean_ma_zoning_data.do"
+. // do "$MyProject/scripts/2b_clean_dispensaries_data.do"
+. // do "$MyProject/scripts/2c_clean_prop_assessments_data.do"
+. // do "$MyProject/scripts/2d_clean_home_values_data.do"
+. do "$MyProject/scripts/2e_clean_boston_crash_data.do"
+
+. ************
+. * SCRIPT: 2e_clean_boston_crash_data.do
+. * PURPOSE: processes the boston crash dataset in preparation for 
+> analysis
+. ************
+. 
+. use "$MyProject/processed/intermediate/crashes_boston_uncleaned.d
+> ta", clear
+
+. 
+. * Delete first 2 rows
+. drop if _n==1 | _n==2
+(2 observations deleted)
+
+. compress
+  variable v1 was str1658 now str12
+  (179,277,382 bytes saved)
+
+. 
+. * Rename variable names to be values from the first row
+. foreach var of varlist * {
+  2.         local x = strtoname(`var'[1])
+  3.         rename `var' `x'
+  4. }
+
+. drop in 1
+(1 observation deleted)
+
+. 
+. * Select only desired columns
+. keep Crash_Number Crash_Date Crash_Time Number_of_Vehicles Total_
+> Nonfatal_Injuries Total_Fatal_Injuries Road_Surface_Condition Amb
+> ient_Light Weather_Condition Distance_From_Nearest_Roadway_In
+
+. 
+. * Create variables for crash month, day, and year
+. split Crash_Date, parse("-")
+variables created as string: 
+Crash_Date1  Crash_Date2  Crash_Date3
+
+. destring Crash_Date1, gen(crash_date)
+Crash_Date1: all characters numeric; crash_date generated as byte
+
+. gen crash_month = month(date(Crash_Date2,"M"))
+
+. destring Crash_Date3, gen(crash_year)
+Crash_Date3: all characters numeric; crash_year generated as int
+
+. drop Crash_Date Crash_Date1 Crash_Date2 Crash_Date3
+
+. 
+. * Create variable for crash hour (0-23)
+. split Crash_Time, parse(" ")
+variables created as string: 
+Crash_Time1  Crash_Time2
+
+. split Crash_Time1, parse(":")
+variables created as string: 
+Crash_Time11  Crash_Time12
+
+. destring Crash_Time11, gen(crash_hour)
+Crash_Time11: all characters numeric; crash_hour generated as byte
+
+. gen crash_hour_24 = mod(crash_hour + 12 * (Crash_Time2 == "PM" & 
+> crash_hour != 12) - 12 * (Crash_Time2 == "AM" & crash_hour == 12)
+> , 24)
+
+. drop Crash_Time Crash_Time1 Crash_Time2 Crash_Time11 Crash_Time12
+
+. 
+. * Create variable for day of the week (0 = Sunday, 1 = Monday, ..
+> ., 6 = Saturday)
+. gen crash_dow = dow(mdy(crash_month, crash_date, crash_year))
+
+. 
+. * Convert numerical string variables to ints
+. destring Number_of_Vehicles, gen(num_vehicles)
+Number_of_Vehicles: all characters numeric; num_vehicles generated 
+> as byte
+
+. destring Total_Nonfatal_Injuries, gen(num_nonfatal_injuries)
+Total_Nonfatal_Injuries: all characters numeric; num_nonfatal_injur
+> ies generated as byte
+
+. destring Total_Fatal_Injuries, gen(num_fatal_injuries)
+Total_Fatal_Injuries: all characters numeric; num_fatal_injuries ge
+> nerated as byte
+
+. drop Number_of_Vehicles Total_Nonfatal_Injuries Total_Fatal_Injur
+> ies
+
+. 
+. * Generate dummy variables for road conditions
+. gen road_condition_ice = Road_Surface_Condition==`"Ice"'
+
+. gen road_condition_wet = Road_Surface_Condition==`"Wet"' | Road_S
+> urface_Condition==`"Water (standing, moving)"'
+
+. gen road_condition_snow = Road_Surface_Condition==`"Snow"' | Road
+> _Surface_Condition==`"Slush"'
+
+. gen road_condition_unknown = Road_Surface_Condition==`"Unknown"' 
+> | Road_Surface_Condition==`"Other"' | Road_Surface_Condition==`"N
+> ot reported"'
+
+. drop Road_Surface_Condition
+
+. 
+. * Generate dummy variables for light conditions
+. gen light_condition_dark = Ambient_Light==`"Dark - roadway not li
+> ghted"' | Ambient_Light==`"Dark - unknown roadway lighting"'
+
+. gen light_condition_dark_lighted = Ambient_Light==`"Dark - lighte
+> d roadway"'
+
+. gen light_condition_dawn = Ambient_Light==`"Dawn"'
+
+. gen light_condition_dusk = Ambient_Light==`"Dusk"'
+
+. gen light_condition_unknown = Ambient_Light==`"Unknown"' | Ambien
+> t_Light==`"Other"' | Ambient_Light==`"Not reported"'
+
+. drop Ambient_Light
+
+. 
+. * Generate dummy variables for weather conditions
+. split Weather_Condition, parse("/")
+variables created as string: 
+Weather_Co~1  Weather_Co~2
+
+. gen weather_condition_rain = Weather_Condition1==`"Rain"' | Weath
+> er_Condition2==`"Rain"'
+
+. gen weather_condition_snow = Weather_Condition1==`"Blowing sand, 
+> snow"' | Weather_Condition2==`"Blowing sand, snow"' | Weather_Con
+> dition1==`"Snow"' | Weather_Condition2==`"Snow"'
+
+. gen weather_condition_sleet = Weather_Condition1==`"Sleet, hail (
+> freezing rain or drizzle)"' | Weather_Condition2==`"Sleet, hail (
+> freezing rain or drizzle)"'
+
+. gen weather_condition_fog = Weather_Condition1==`"Fog, smog, smok
+> e"' | Weather_Condition2==`"Fog, smog, smoke"'
+
+. gen weather_condition_wind = Weather_Condition1==`"Severe crosswi
+> nds"' | Weather_Condition2==`"Severe crosswinds"'
+
+. gen weather_condition_unknown = (Weather_Condition1==`"Unknown"' 
+> & (Weather_Condition2==`"Unknown"' | Weather_Condition2==`"Other"
+> ')) | Weather_Condition1==`"Not reported"'
+
+. drop Weather_Condition Weather_Condition1 Weather_Condition2
+
+. 
+. * Save dataset
+. compress
+  variable crash_month was float now byte
+  variable crash_hour_24 was float now byte
+  variable crash_dow was float now byte
+  variable road_condition_ice was float now byte
+  variable road_condition_wet was float now byte
+  variable road_condition_snow was float now byte
+  variable road_condition_unknown was float now byte
+  variable light_condition_dark was float now byte
+  variable light_condition_dark_lighted was float now byte
+  variable light_condition_dawn was float now byte
+  variable light_condition_dusk was float now byte
+  variable light_condition_unknown was float now byte
+  variable weather_condition_rain was float now byte
+  variable weather_condition_snow was float now byte
+  variable weather_condition_sleet was float now byte
+  variable weather_condition_fog was float now byte
+  variable weather_condition_wind was float now byte
+  variable weather_condition_unknown was float now byte
+  variable Crash_Number was str12 now str7
+  (6,426,044 bytes saved)
+
+. save "$MyProject/processed/crashes_boston.dta", replace
+file
+    /Users/anniebryan/Documents/College/2021-22/14.33/Project/pro
+    > cessed/crashes_boston.dta saved
+
+. 
+. ** EOF
+. 
+end of do-file
+
+. // do "$MyProject/scripts/2f_clean_us_crash_data.do"
+. // do "$MyProject/scripts/2g_clean_boston_crime_data.do"
+. // do "$MyProject/scripts/2h_clean_us_crime_data.do"
+. 
+. // do "$MyProject/scripts/3a_summarize_ma_zoning_data.do"
+. // do "$MyProject/scripts/3b_summarize_states_legality_data.do"
+. // do "$MyProject/scripts/3c_summarize_dispensaries_data.do"
+. // do "$MyProject/scripts/3d_summarize_prop_assessments_data.do"
+. // do "$MyProject/scripts/3e_summarize_home_values_data.do"
+. // do "$MyProject/scripts/3f_summarize_boston_crash_data.do"
+. // do "$MyProject/scripts/3g_summarize_us_crash_data.do"
+. // do "$MyProject/scripts/3h_summarize_boston_crime_data.do"
+. // do "$MyProject/scripts/3i_summarize_us_crime_data.do"
+. 
+. // do "$MyProject/scripts/4a_regression_dispensaries_on_property_
+> assessments.do"
+. 
+. * End log
+. di "End date and time: $S_DATE $S_TIME"
+End date and time: 30 Mar 2022 13:45:18
+
+. log close
+      name:  <unnamed>
+       log:  /Users/anniebryan/Documents/College/2021-22/14.33/Proj
+> ect/scripts/logs/2022.03.30-13.44.41.log.txt
+  log type:  text
+ closed on:  30 Mar 2022, 13:45:18
+-------------------------------------------------------------------

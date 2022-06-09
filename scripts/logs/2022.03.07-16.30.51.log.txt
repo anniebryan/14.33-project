@@ -1,0 +1,147 @@
+-------------------------------------------------------------
+      name:  <unnamed>
+       log:  /Users/anniebryan/Documents/College/2021-22/14.3
+> 3/Project/scripts/logs/2022.03.07-16.30.51.log.txt
+  log type:  text
+ opened on:   7 Mar 2022, 16:30:51
+
+. 
+. * Configure Stata's library environment and record system p
+> arameters
+. run "$MyProject/scripts/programs/_config.do"
+-------------------------------------------------------------
+Date and time:  7 Mar 2022 16:30:51
+Stata version: 16.1
+Updated as of: 30 Mar 2021
+Variant:       SE
+Processors:    1
+OS:            MacOSX 12.2.0
+Machine type:  Macintosh (Intel 64-bit)
+-------------------------------------------------------------
+
+. 
+. * Stata version control
+. version 15
+
+. 
+. * Create directories for output files
+. cap mkdir "$MyProject/processed"
+
+. cap mkdir "$MyProject/processed/intermediate"
+
+. cap mkdir "$MyProject/results"
+
+. cap mkdir "$MyProject/results/figures"
+
+. cap mkdir "$MyProject/results/intermediate"
+
+. cap mkdir "$MyProject/results/tables"
+
+. 
+. * Run project analysis
+. do "$MyProject/scripts/1_process_data.do"
+
+. ************
+. * SCRIPT: 1_process_data.do
+. * PURPOSE: imports the raw datasets and converts them into 
+> a stata-readable format
+. ************
+. 
+. // MA zoning data
+. // insheet using "$MyProject/data/ma-zoning-laws/ma-zoning-
+> laws.csv", comma clear
+. // compress
+. // save "$MyProject/processed/intermediate/ma_zoning_laws_u
+> ncleaned.dta", replace
+. 
+. // // US states legality data
+. // // insheet using "$MyProject/data/TODO", comma clear
+. // // compress
+. // // save "$MyProject/processed/intermediate/TODO_uncleane
+> d.dta", replace
+. 
+. // // MA dispensaries data
+. // insheet using "$MyProject/data/dispensaries.csv", comma 
+> clear
+. // compress
+. // save "$MyProject/processed/intermediate/dispensaries_unc
+> leaned.dta", replace
+. 
+. // // MA property assessments data
+. // forvalues y = 2014/2021 {
+. //      insheet using "$MyProject/data/property_assessment/
+> property-assessment-fy`y'.csv", comma clear
+. //      compress
+. //      save "$MyProject/processed/intermediate/property_as
+> sessment_`y'_uncleaned.dta", replace
+. // }
+. 
+. // // Zillow home value data
+. // insheet using "$MyProject/data/zhvi_sa_35_65.csv", comma
+>  clear
+. // compress
+. // save "$MyProject/processed/intermediate/zillow_home_valu
+> es_uncleaned.dta", replace
+. 
+. // // Boston crash data
+. // insheet using "$MyProject/data/boston_crashes.csv", comm
+> a clear
+. // compress
+. // save "$MyProject/processed/intermediate/boston_crashes_u
+> ncleaned.dta", replace
+. 
+. // US crash data
+. insheet using "$MyProject/data/fars_nhtsa_fatality_rates_by
+> _state.csv", comma clear
+(56 vars, 53 obs)
+
+. compress
+  (0 bytes saved)
+
+. save "$MyProject/processed/intermediate/us_crashes_uncleane
+> d.dta", replace
+file /Users/anniebryan/Documents/College/2021-22/14.33/Projec
+> t/processed/intermediate/us_crashes_uncleaned.dta saved
+
+. 
+. // // Boston crime data
+. // forvalues y = 2015/2022 {
+. //      insheet using "$MyProject/data/crime-incident-repor
+> ts/crime-incident-reports-`y'.csv", comma clear
+. //      compress
+. //      save "$MyProject/processed/intermediate/boston_crim
+> e_`y'_uncleaned.dta", replace
+. // }
+. 
+. // // FBI table 8 data
+. // forvalues y = 2008/2019 {
+. //      import excel "$MyProject/data/fbi_offenses_known_to
+> _law_enforcement/fbi_offenses_known_to_law_enforcement_`y'.
+> xls", comma clear
+. //      compress
+. //      save "$MyProject/processed/intermediate/fbi_table_8
+> _`y'_uncleaned.dta", replace
+. // }
+. 
+. ** EOF
+. 
+end of do-file
+
+. // do "$MyProject/scripts/1b_clean_dispensaries_data.do"
+. // do "$MyProject/scripts/1c_dispensaries_summary.do"
+. // do "$MyProject/scripts/2a_process_crash_data.do"
+. // do "$MyProject/scripts/2b_clean_crash_data.do"
+. // do "$MyProject/scripts/3a_process_shootings_data.do"
+. // do "$MyProject/scripts/3b_clean_shootings_data.do"
+. 
+. * End log
+. di "End date and time: $S_DATE $S_TIME"
+End date and time:  7 Mar 2022 16:30:51
+
+. log close
+      name:  <unnamed>
+       log:  /Users/anniebryan/Documents/College/2021-22/14.3
+> 3/Project/scripts/logs/2022.03.07-16.30.51.log.txt
+  log type:  text
+ closed on:   7 Mar 2022, 16:30:51
+-------------------------------------------------------------

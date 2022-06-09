@@ -1,0 +1,178 @@
+------------------------------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  /Users/anniebryan/Documents/College/2021-22/14.33/Project/scripts/logs/2022.03.07-17.51.1
+> 8.log.txt
+  log type:  text
+ opened on:   7 Mar 2022, 17:51:18
+
+. 
+. ssc install estout, replace
+checking estout consistency and verifying not already installed...
+all files already exist and are up to date.
+
+. 
+. * Configure Stata's library environment and record system parameters
+. run "$MyProject/scripts/programs/_config.do"
+-------------------------------------------------------------------------------
+Date and time:  7 Mar 2022 17:51:18
+Stata version: 16.1
+Updated as of: 30 Mar 2021
+Variant:       SE
+Processors:    1
+OS:            MacOSX 12.2.0
+Machine type:  Macintosh (Intel 64-bit)
+-------------------------------------------------------------------------------
+
+. 
+. * Stata version control
+. version 15
+
+. 
+. * Create directories for output files
+. cap mkdir "$MyProject/processed"
+
+. cap mkdir "$MyProject/processed/intermediate"
+
+. cap mkdir "$MyProject/results"
+
+. cap mkdir "$MyProject/results/figures"
+
+. cap mkdir "$MyProject/results/intermediate"
+
+. cap mkdir "$MyProject/results/tables"
+
+. 
+. * Run project analysis
+. // do "$MyProject/scripts/1_process_data.do"
+. 
+. // do "$MyProject/scripts/2a_clean_ma_zoning_data.do"
+. // do "$MyProject/scripts/2b_clean_states_legality_data.do"
+. // do "$MyProject/scripts/2c_clean_dispensaries_data.do"
+. // do "$MyProject/scripts/2d_clean_prop_assessments_data.do"
+. // do "$MyProject/scripts/2e_clean_home_values_data.do"
+. // do "$MyProject/scripts/2f_clean_boston_crash_data.do"
+. // do "$MyProject/scripts/2g_clean_us_crash_data.do"
+. // do "$MyProject/scripts/2h_clean_boston_crime_data.do"
+. // do "$MyProject/scripts/2i_clean_us_crime_data.do"
+. 
+. do "$MyProject/scripts/3a_summarize_ma_zoning_data.do"
+
+. ************
+. * SCRIPT: 3a_summarize_ma_zoning_data.do
+. * PURPOSE: summarizes the massachusetts zoning dataset
+. ************
+. 
+. use "$MyProject/processed/ma_zoning_laws.dta", clear
+
+. 
+. tabstat delivery_legal retail_legal adult_use_legal, c(stat) stat(sum mean sd min max n)
+
+    variable |       sum      mean        sd       min       max         N
+-------------+------------------------------------------------------------
+delivery_l~l |       192  .5835866  .4937147         0         1       329
+retail_legal |       198  .6018237  .4902678         0         1       329
+adult_use_~l |       209  .6352584  .4820909         0         1       329
+--------------------------------------------------------------------------
+
+. estpost tabstat delivery_legal retail_legal adult_use_legal, c(stat) stat(sum mean sd min max n)
+command estpost is unrecognized
+r(199);
+
+end of do-file
+r(199);
+
+end of do-file
+
+r(199);
+
+. . net from "/Users/anniebryan/Downloads/"
+file /Users/anniebryan/Downloads/stata.toc not found
+/Users/anniebryan/Downloads/ either
+  1)  does not exist or
+  2)  is not a Stata download directory (has no stata.toc file).
+
+current site is still http://fmwww.bc.edu/repec/bocode/e/
+r(601);
+
+. net from "/Users/anniebryan/Downloads"
+file /Users/anniebryan/Downloads/stata.toc not found
+/Users/anniebryan/Downloads/ either
+  1)  does not exist or
+  2)  is not a Stata download directory (has no stata.toc file).
+
+current site is still http://fmwww.bc.edu/repec/bocode/e/
+r(601);
+
+. ls /Users
+
+total 0
+drwxrwx---   4 root        admin   128 Feb 18 18:40 Deleted Users/
+drwxrwxrwt  12 root        wheel   384 Feb 20 13:48 Shared/
+drwxr-xr-x+ 72 anniebryan  staff  2304 Mar  7 00:57 anniebryan/
+
+. ls /Users/anniebryan
+
+total 8
+drwx------@   6 anniebryan  staff   192 Oct 21 12:28 Applications/
+drwx------@   3 anniebryan  staff    96 Feb 18 18:22 Creative Cloud Files/
+drwx------@   8 anniebryan  staff   256 Feb 18 19:54 Desktop/
+drwxr-xr-x    5 anniebryan  staff   160 Sep 27 16:40 Dev/
+drwx------@  13 anniebryan  staff   416 Mar  7 16:37 Documents/
+drwx------@  22 anniebryan  staff   704 Mar  7 17:52 Downloads/
+drwx------@  13 anniebryan  staff   416 Sep 18  2020 Dropbox (MIT)/
+drwx------@ 104 anniebryan  staff  3328 Feb 18 19:39 Library/
+drwx------+   6 anniebryan  staff   192 Feb 15  2020 Movies/
+drwx------+   6 anniebryan  staff   192 Jun  4  2021 Music/
+drwx------+   6 anniebryan  staff   192 Mar 18  2021 Pictures/
+drwxr-xr-x+   4 anniebryan  staff   128 Dec 20  2019 Public/
+drwxr-xr-x+   3 anniebryan  staff    96 Feb 18 19:12 Sites/
+drwxr-xr-x    4 anniebryan  staff   128 Feb  1 12:09 Virtual Machines.localized/
+drwxr-xr-x    3 anniebryan  staff    96 Sep 19  2020 VirtualBox VMs/
+drwxr-xr-x    8 anniebryan  staff   256 Nov  3 13:45 annieb22@oreo.csail.mit.edu/
+drwxr-xr-x   41 anniebryan  staff  1312 May  4  2020 eclipse-workspace/
+drwxr-xr-x    3 anniebryan  staff    96 Jan 30 18:31 nltk_data/
+-rwxr-xr-x    1 anniebryan  staff    40 Oct 31 22:43 urop.sh*
+
+. net from "~/Users/anniebryan/Downloads"
+file /Users/anniebryan/Users/anniebryan/Downloads/stata.toc not found
+/Users/anniebryan/Users/anniebryan/Downloads/ either
+  1)  does not exist or
+  2)  is not a Stata download directory (has no stata.toc file).
+
+current site is still http://fmwww.bc.edu/repec/bocode/e/
+r(601);
+
+. save "/Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/ma_zoning_laws.dta", repla
+> ce
+file /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/ma_zoning_laws.dta saved
+
+. net from "~/Downloads"
+file /Users/anniebryan/Downloads/stata.toc not found
+/Users/anniebryan/Downloads/ either
+  1)  does not exist or
+  2)  is not a Stata download directory (has no stata.toc file).
+
+current site is still http://fmwww.bc.edu/repec/bocode/e/
+r(601);
+
+. net from "~/Downloads/estout"
+------------------------------------------------------------------------------------------------------
+/Users/anniebryan/Downloads/estout/
+(no title)
+------------------------------------------------------------------------------------------------------
+
+PACKAGES you could -net describe-:
+    estout            module to make regression tables
+------------------------------------------------------------------------------------------------------
+
+. net install estout, replace
+checking estout consistency and verifying not already installed...
+all files already exist and are up to date.
+
+. help estpost
+
+. help esttab
+
+. help estout
+
+. exit

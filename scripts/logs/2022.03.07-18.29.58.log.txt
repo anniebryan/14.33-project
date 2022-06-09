@@ -1,0 +1,462 @@
+--------------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  /Users/anniebryan/Documents/College/2021-22/14.33/Project/scripts/logs/20
+> 22.03.07-18.29.58.log.txt
+  log type:  text
+ opened on:   7 Mar 2022, 18:29:58
+
+. 
+. ssc install estout, replace
+checking estout consistency and verifying not already installed...
+all files already exist and are up to date.
+
+. 
+. * Configure Stata's library environment and record system parameters
+. run "$MyProject/scripts/programs/_config.do"
+-------------------------------------------------------------------------------
+Date and time:  7 Mar 2022 18:29:59
+Stata version: 16.1
+Updated as of: 30 Mar 2021
+Variant:       SE
+Processors:    1
+OS:            MacOSX 12.2.0
+Machine type:  Macintosh (Intel 64-bit)
+-------------------------------------------------------------------------------
+
+. 
+. * Stata version control
+. version 15
+
+. 
+. * Create directories for output files
+. cap mkdir "$MyProject/processed"
+
+. cap mkdir "$MyProject/processed/intermediate"
+
+. cap mkdir "$MyProject/results"
+
+. cap mkdir "$MyProject/results/figures"
+
+. cap mkdir "$MyProject/results/intermediate"
+
+. cap mkdir "$MyProject/results/tables"
+
+. 
+. * Run project analysis
+. do "$MyProject/scripts/1_process_data.do"
+
+. ************
+. * SCRIPT: 1_process_data.do
+. * PURPOSE: imports the raw datasets and converts them into a stata-readable format
+. ************
+. 
+. // MA zoning data
+. insheet using "$MyProject/data/ma-zoning-laws/ma-zoning-laws.csv", comma clear
+(3 vars, 352 obs)
+
+. compress
+  (0 bytes saved)
+
+. save "$MyProject/processed/intermediate/ma_zoning_laws_uncleaned.dta", replace
+file /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/intermediate/
+> ma_zoning_laws_uncleaned.dta saved
+
+. 
+. // US states legality data
+. // insheet using "$MyProject/data/TODO", comma clear
+. // compress
+. // save "$MyProject/processed/intermediate/TODO_uncleaned.dta", replace
+. 
+. // MA dispensaries data
+. insheet using "$MyProject/data/dispensaries.csv", comma clear
+(66 vars, 944 obs)
+
+. compress
+  (0 bytes saved)
+
+. save "$MyProject/processed/intermediate/dispensaries_uncleaned.dta", replace
+file /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/intermediate/
+> dispensaries_uncleaned.dta saved
+
+. 
+. // MA property assessments data
+. forvalues y = 2014/2021 {
+  2.         insheet using "$MyProject/data/property_assessment/property-assessment-fy
+> `y'.csv", comma clear
+  3.         compress
+  4.         save "$MyProject/processed/intermediate/property_assessments_ma_`y'_uncle
+> aned.dta", replace
+  5. }
+(56 vars, 164,091 obs)
+  variable st_name was str25 now str24
+  variable u_heat_typ was str2 now str1
+  (328,182 bytes saved)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/intermediate/
+> property_assessments_ma_2014_uncleaned.dta saved
+(56 vars, 168,115 obs)
+  variable st_name was str25 now str24
+  variable st_name_suf was str4 now str3
+  variable full_address was str55 now str48
+  variable u_heat_typ was str2 now str1
+  (1,681,150 bytes saved)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/intermediate/
+> property_assessments_ma_2015_uncleaned.dta saved
+(77 vars, 169,199 obs)
+  variable st_name was str25 now str24
+  variable st_name_suf was str4 now str3
+  (338,398 bytes saved)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/intermediate/
+> property_assessments_ma_2016_uncleaned.dta saved
+(75 vars, 170,910 obs)
+  variable st_name was str25 now str24
+  variable st_name_suf was str4 now str3
+  (341,820 bytes saved)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/intermediate/
+> property_assessments_ma_2017_uncleaned.dta saved
+(75 vars, 172,841 obs)
+  (0 bytes saved)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/intermediate/
+> property_assessments_ma_2018_uncleaned.dta saved
+(75 vars, 174,668 obs)
+  variable st_name was str25 now str24
+  variable st_name_suf was str4 now str3
+  (349,336 bytes saved)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/intermediate/
+> property_assessments_ma_2019_uncleaned.dta saved
+(75 vars, 175,052 obs)
+  variable st_name_suf was str5 now str4
+  (175,052 bytes saved)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/intermediate/
+> property_assessments_ma_2020_uncleaned.dta saved
+(63 vars, 177,091 obs)
+  (0 bytes saved)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/intermediate/
+> property_assessments_ma_2021_uncleaned.dta saved
+
+. 
+. // Zillow home value data
+. insheet using "$MyProject/data/zhvi_sa_35_65.csv", comma clear
+(274 vars, 30,468 obs)
+
+. compress
+  (0 bytes saved)
+
+. save "$MyProject/processed/intermediate/zillow_home_values_uncleaned.dta", replace
+file /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/intermediate/
+> zillow_home_values_uncleaned.dta saved
+
+. 
+. // Boston crash data
+. insheet using "$MyProject/data/boston_crashes.csv", comma clear
+(25 vars, 108,919 obs)
+
+. compress
+  variable v23 was str170 now str169
+  (108,919 bytes saved)
+
+. save "$MyProject/processed/intermediate/crashes_boston_uncleaned.dta", replace
+file /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/intermediate/
+> crashes_boston_uncleaned.dta saved
+
+. 
+. // US crash data
+. insheet using "$MyProject/data/fars_nhtsa_fatality_rates_by_state.csv", comma clear
+(56 vars, 53 obs)
+
+. compress
+  (0 bytes saved)
+
+. save "$MyProject/processed/intermediate/crashes_us_uncleaned.dta", replace
+file /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/intermediate/
+> crashes_us_uncleaned.dta saved
+
+. 
+. // Boston crime data
+. forvalues y = 2015/2021 {
+  2.         insheet using "$MyProject/data/crime-incident-reports/crime-incident-repo
+> rts-`y'.csv", comma clear
+  3.         compress
+  4.         save "$MyProject/processed/intermediate/crime_boston_`y'_uncleaned.dta", 
+> replace
+  5. }
+(27 vars, 68,528 obs)
+  variable v10 was str2045 now str1638
+  variable v11 was str1860 now str860
+  variable v14 was str1557 now str528
+  variable v20 was str70 now str66
+  variable v21 was str12 now str2
+  variable v22 was str579 now str11
+  variable v23 was str253 now str3
+  variable v24 was str88 now str65
+  variable v27 was str158 now str1
+  (236,284,544 bytes saved)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/intermediate/
+> crime_boston_2015_uncleaned.dta saved
+(14 vars, 78,877 obs)
+  variable v12 was str1040 now str603
+  (34,469,249 bytes saved)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/intermediate/
+> crime_boston_2016_uncleaned.dta saved
+(13 vars, 65,746 obs)
+  variable v8 was str2045 now str1192
+  (56,081,338 bytes saved)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/intermediate/
+> crime_boston_2017_uncleaned.dta saved
+(18 vars, 67,639 obs)
+  variable v17 was str65 now str1
+  variable v18 was str47 now str7
+  (7,034,456 bytes saved)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/intermediate/
+> crime_boston_2018_uncleaned.dta saved
+(13 vars, 58,357 obs)
+  (0 bytes saved)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/intermediate/
+> crime_boston_2019_uncleaned.dta saved
+(18 vars, 49,833 obs)
+  (0 bytes saved)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/intermediate/
+> crime_boston_2020_uncleaned.dta saved
+(20 vars, 51,644 obs)
+  variable v6 was str2045 now str1975
+  (3,615,080 bytes saved)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/intermediate/
+> crime_boston_2021_uncleaned.dta saved
+
+. 
+. // US crime data
+. forvalues y = 2008/2019 {
+  2.         import excel "$MyProject/data/fbi_offenses_known_to_law_enforcement/fbi_o
+> ffenses_known_to_law_enforcement_`y'.xls", clear
+  3.         compress
+  4.         save "$MyProject/processed/intermediate/crime_us_`y'_uncleaned.dta", repl
+> ace
+  5. }
+(17 vars, 8,784 obs)
+  (0 bytes saved)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/intermediate/
+> crime_us_2008_uncleaned.dta saved
+(13 vars, 9,159 obs)
+  (0 bytes saved)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/intermediate/
+> crime_us_2009_uncleaned.dta saved
+(13 vars, 9,321 obs)
+  (0 bytes saved)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/intermediate/
+> crime_us_2010_uncleaned.dta saved
+(18 vars, 9,325 obs)
+  (0 bytes saved)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/intermediate/
+> crime_us_2011_uncleaned.dta saved
+(15 vars, 9,502 obs)
+  (0 bytes saved)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/intermediate/
+> crime_us_2012_uncleaned.dta saved
+(17 vars, 9,306 obs)
+  (0 bytes saved)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/intermediate/
+> crime_us_2013_uncleaned.dta saved
+(14 vars, 9,368 obs)
+  (0 bytes saved)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/intermediate/
+> crime_us_2014_uncleaned.dta saved
+(14 vars, 9,409 obs)
+  (0 bytes saved)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/intermediate/
+> crime_us_2015_uncleaned.dta saved
+(13 vars, 2,626 obs)
+  (0 bytes saved)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/intermediate/
+> crime_us_2016_uncleaned.dta saved
+(19 vars, 9,593 obs)
+  (0 bytes saved)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/intermediate/
+> crime_us_2017_uncleaned.dta saved
+(13 vars, 9,266 obs)
+  (0 bytes saved)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/intermediate/
+> crime_us_2018_uncleaned.dta saved
+(13 vars, 8,117 obs)
+  (0 bytes saved)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/intermediate/
+> crime_us_2019_uncleaned.dta saved
+
+. 
+. ** EOF
+. 
+end of do-file
+
+. 
+. // do "$MyProject/scripts/2a_clean_ma_zoning_data.do"
+. // do "$MyProject/scripts/2b_clean_states_legality_data.do"
+. do "$MyProject/scripts/2c_clean_dispensaries_data.do"
+
+. ************
+. * SCRIPT: 2c_clean_dispensaries_data.do
+. * PURPOSE: processes the dispensaries dataset in preparation for analysis
+. ************
+. 
+. use "$MyProject/processed/intermediate/dispensaries_uncleaned.dta", clear
+
+. 
+. * Select only desired columns
+. local keep business_name license_type establishment_address_1 establishment_city est
+> ablishment_zip_code establishment_county commence_operations_date
+
+. ds
+business_n~e  applicatio~s  business_a~1  latitude      app_create~e  user_id
+dba_name      rmd_priori~n  business_a~2  geocoded_c~n  disability~s  name
+dba_regist~y  name_of_rmd   business_c~y  not_a_dbe     lesbian_ga~e  establishm~o
+massachuse~s  applicatio~e  business_s~e  establishm~s  minority_o~s  dbe
+approved_l~e  lic_fee_am~t  business_z~e  square_foo~t  veteran_ow~s  cultivatio~t
+priority_a~e  establishm~1  mailing_ad~1  abutters_c~t  woman_owne~s  cultivatio~r
+dph_rmd_nu~r  establishm~2  mailing_ad~2  is_abutter~d  cooperativ~n  cnb_dt_of_~e
+license_nu~r  establis~ity  mailing_city  cooperativ~m  establishm~n  commence_o~e
+license_type  establish~te  mailing_st~e  cooperativ~y  county        row_ct
+lic_status    establish~de  mailing_zi~e  all_packet~t  county_lat    activity_d~e
+applicatio~r  establis~nty  longitude     priority_t~e  county_long   version
+
+. local vars `r(varlist)'
+
+. local tokeep : list vars & keep
+
+. keep `tokeep'
+
+. 
+. * Keep only entries that have certain license types
+. keep if license_type=="Marijuana Retailer"
+(564 observations deleted)
+
+. drop license_type
+
+. 
+. * Keep only entries that have commenced operations
+. keep if commence_operations_date!=""
+(186 observations deleted)
+
+. 
+. * Create variables for commencement operations month, day, and year
+. split commence_operations_date, parse("/")
+variables created as string: 
+commence_o~1  commence_o~2  commence_o~3
+
+. destring commence_operations_date1, gen(commence_month)
+commence_operations_date1: all characters numeric; commence_month generated as byte
+
+. destring commence_operations_date2, gen(commence_day)
+commence_operations_date2: all characters numeric; commence_day generated as byte
+
+. destring commence_operations_date3, gen(commence_year)
+commence_operations_date3: all characters numeric; commence_year generated as int
+
+. drop commence_operations_date commence_operations_date1 commence_operations_date2 co
+> mmence_operations_date3
+
+. 
+. * Create combined date variable
+. gen commence_date = commence_year + (commence_month-1)/12 + commence_day/365
+
+. sort commence_date
+
+. 
+. * Change format of zip code to be 5 digits
+. format establishment_zip_code %05.0f
+
+. 
+. * Rename address variable
+. rename establishment_address_1 establishment_address
+
+. 
+. compress
+  variable business_name was str60 now str58
+  variable establishment_address was str54 now str51
+  variable establishment_city was str18 now str16
+  (1,358 bytes saved)
+
+. save "$MyProject/processed/dispensaries.dta", replace
+file /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/dispensaries.
+> dta saved
+
+. 
+. ** EOF
+. 
+end of do-file
+
+. // do "$MyProject/scripts/2d_clean_prop_assessments_data.do"
+. // do "$MyProject/scripts/2e_clean_home_values_data.do"
+. // do "$MyProject/scripts/2f_clean_boston_crash_data.do"
+. // do "$MyProject/scripts/2g_clean_us_crash_data.do"
+. // do "$MyProject/scripts/2h_clean_boston_crime_data.do"
+. // do "$MyProject/scripts/2i_clean_us_crime_data.do"
+. 
+. // do "$MyProject/scripts/3a_summarize_ma_zoning_data.do"
+. // do "$MyProject/scripts/3b_summarize_states_legality_data.do"
+. do "$MyProject/scripts/3c_summarize_dispensaries_data.do"
+
+. ************
+. * SCRIPT: 3c_summarize_dispensaries_data.do
+. * PURPOSE: summarizes the dispensaries dataset
+. ************
+. 
+. use "$MyProject/processed/dispensaries.dta", clear
+
+. 
+. levelsof establishment_county, local(counties)
+`"Barnstable"' `"Berkshire"' `"Bristol"' `"Dukes"' `"Essex"' `"Franklin"' `"Hampden"' 
+> `"Hampshire"' `"Middlesex"' `"Nantucket"' `"Norfolk"' `"Plymouth"' `"Suffolk"' `"Wor
+> cester"'
+
+. 
+. sort commence_date
+
+. cumul commence_date, gen(ecd) freq
+
+. 
+. local ecd_vars
+
+. foreach county in `counties' {
+  2.         di "`county'"
+  3.         cumul commence_date if establishment_county=="`county'", gen(ecd_`county'
+> ) freq
+  4.         local ecd_vars `ecd_vars' ecd_`county'
+  5. }
+Barnstable
+Berkshire
+Bristol
+Dukes
+Essex
+Franklin
+Hampden
+Hampshire
+Middlesex
+Nantucket
+Norfolk
+Plymouth
+Suffolk
+Worcester
+
+. 
+. line ecd `ecd_vars' commence_date, sort
+
+. 
+. ** EOF
+. 
+end of do-file
+
+. // do "$MyProject/scripts/3d_summarize_prop_assessments_data.do"
+. // do "$MyProject/scripts/3e_summarize_home_values_data.do"
+. // do "$MyProject/scripts/3f_summarize_boston_crash_data.do"
+. // do "$MyProject/scripts/3g_summarize_us_crash_data.do"
+. // do "$MyProject/scripts/3h_summarize_boston_crime_data.do"
+. // do "$MyProject/scripts/3i_summarize_us_crime_data.do"
+. 
+. * End log
+. di "End date and time: $S_DATE $S_TIME"
+End date and time:  7 Mar 2022 18:30:37
+
+. log close
+      name:  <unnamed>
+       log:  /Users/anniebryan/Documents/College/2021-22/14.33/Project/scripts/logs/20
+> 22.03.07-18.29.58.log.txt
+  log type:  text
+ closed on:   7 Mar 2022, 18:30:37
+--------------------------------------------------------------------------------------

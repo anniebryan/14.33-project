@@ -1,0 +1,57 @@
+----------------------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  /Users/anniebryan/Documents/College/2021-22/14.33/Project/scripts/logs/2022.03.24
+> -12.32.14.log.txt
+  log type:  text
+ opened on:  24 Mar 2022, 12:32:14
+
+. which estout
+/Users/anniebryan/Library/Application Support/Stata/ado/plus/e/estout.ado
+*! version 3.24  30apr2021  Ben Jann
+
+. ssc install estout, replace
+checking estout consistency and verifying not already installed...
+all files already exist and are up to date.
+
+. which estout
+/Users/anniebryan/Library/Application Support/Stata/ado/plus/e/estout.ado
+*! version 3.24  30apr2021  Ben Jann
+
+. ssc install outreg2
+checking outreg2 consistency and verifying not already installed...
+all files already exist and are up to date.
+
+. which estout
+/Users/anniebryan/Library/Application Support/Stata/ado/plus/e/estout.ado
+*! version 3.24  30apr2021  Ben Jann
+
+. version 17
+
+. which estout
+/Users/anniebryan/Library/Application Support/Stata/ado/plus/e/estout.ado
+*! version 3.24  30apr2021  Ben Jann
+
+. do "/Users/anniebryan/Documents/College/2021-22/14.33/Project/run.do"
+
+. **********************
+. * OVERVIEW
+. *   All raw data are stored in /data
+. *   All tables are outputted to /results/tables
+. *   All figures are outputted to /results/figures
+. *
+. * TO PERFORM A CLEAN RUN, DELETE THE FOLLOWING TWO FOLDERS:
+. *   /processed
+. *   /results
+. **********************
+. 
+. global MyProject "/Users/anniebryan/Documents/College/2021-22/14.33/Project"
+
+. 
+. * Initialize log
+. clear
+
+. set more off
+
+. cap mkdir "$MyProject/scripts/logs"
+
+. cap log close

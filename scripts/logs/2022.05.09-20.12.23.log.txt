@@ -1,0 +1,122 @@
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  /Users/anniebryan/Documents/College/2021-22/14.33/Project/scripts/logs/2022.05.09-20.12.23.log.txt
+  log type:  text
+ opened on:   9 May 2022, 20:12:23
+
+. 
+. ssc install estout, replace
+checking estout consistency and verifying not already installed...
+all files already exist and are up to date.
+
+. ssc install outreg2
+checking outreg2 consistency and verifying not already installed...
+all files already exist and are up to date.
+
+. ssc install geodist
+checking geodist consistency and verifying not already installed...
+all files already exist and are up to date.
+
+. 
+. * Stata version control
+. version 17
+
+. 
+. * Create directories for output files
+. cap mkdir "$MyProject/processed"
+
+. cap mkdir "$MyProject/processed/intermediate"
+
+. cap mkdir "$MyProject/results"
+
+. cap mkdir "$MyProject/results/figures"
+
+. cap mkdir "$MyProject/results/intermediate"
+
+. cap mkdir "$MyProject/results/tables"
+
+. 
+. * Run project analysis
+. do "$MyProject/scripts/1_process_data.do"
+
+. ************
+. * SCRIPT: 1_process_data.do
+. * PURPOSE: imports the raw datasets and converts them into a stata-readable format
+. ************
+. 
+. // US states legality data
+. insheet using "$MyProject/data/us-states-legality.csv", comma clear
+(6 vars, 51 obs)
+
+. compress
+  (0 bytes saved)
+
+. save "$MyProject/processed/us_states_legality.dta", replace
+file /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/us_states_legality.dta saved
+
+. 
+. // MA dispensaries data
+. insheet using "$MyProject/data/dispensaries.csv", comma clear
+(66 vars, 887 obs)
+
+. compress
+  (0 bytes saved)
+
+. save "$MyProject/processed/intermediate/dispensaries_uncleaned.dta", replace
+file /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/intermediate/dispensaries_uncleaned.dta saved
+
+. 
+. // MA property assessments data
+. forvalues y = 2014/2021 {
+  2.         insheet using "$MyProject/data/property_assessment/property-assessment-fy`y'.csv", comma clear
+  3.         compress
+  4.         save "$MyProject/processed/intermediate/property_assessments_ma_`y'_uncleaned.dta", replace
+  5. }
+(56 vars, 164,091 obs)
+  variable st_name was str25 now str24
+  variable u_heat_typ was str2 now str1
+  (328,182 bytes saved)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/intermediate/property_assessments_ma_2014_uncleaned.dta saved
+(56 vars, 168,115 obs)
+  variable st_name was str25 now str24
+  variable st_name_suf was str4 now str3
+  variable full_address was str55 now str48
+  variable u_heat_typ was str2 now str1
+  (1,681,150 bytes saved)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/intermediate/property_assessments_ma_2015_uncleaned.dta saved
+--Break--
+r(1);
+
+end of do-file
+--Break--
+r(1);
+
+end of do-file
+
+--Break--
+r(1);
+
+. do "/Users/anniebryan/Documents/College/2021-22/14.33/Project/run.do"
+
+. **********************
+. * OVERVIEW
+. *   All raw data are stored in /data
+. *   All tables are outputted to /results/tables
+. *   All figures are outputted to /results/figures
+. *
+. * TO PERFORM A CLEAN RUN, DELETE THE FOLLOWING TWO FOLDERS:
+. *   /processed
+. *   /results
+. **********************
+. 
+. global MyProject "/Users/anniebryan/Documents/College/2021-22/14.33/Project"
+
+. 
+. * Initialize log
+. clear
+
+. set more off
+
+. cap mkdir "$MyProject/scripts/logs"
+
+. cap log close

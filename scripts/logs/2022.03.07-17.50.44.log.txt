@@ -1,0 +1,103 @@
+------------------------------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  /Users/anniebryan/Documents/College/2021-22/14.33/Project/scripts/logs/2022.03.07-17.50.4
+> 4.log.txt
+  log type:  text
+ opened on:   7 Mar 2022, 17:50:44
+
+. 
+. ssc install estout, replace
+checking estout consistency and verifying not already installed...
+all files already exist and are up to date.
+
+. 
+. * Configure Stata's library environment and record system parameters
+. run "$MyProject/scripts/programs/_config.do"
+-------------------------------------------------------------------------------
+Date and time:  7 Mar 2022 17:50:45
+Stata version: 16.1
+Updated as of: 30 Mar 2021
+Variant:       SE
+Processors:    1
+OS:            MacOSX 12.2.0
+Machine type:  Macintosh (Intel 64-bit)
+-------------------------------------------------------------------------------
+
+. 
+. * Stata version control
+. version 15
+
+. 
+. * Create directories for output files
+. cap mkdir "$MyProject/processed"
+
+. cap mkdir "$MyProject/processed/intermediate"
+
+. cap mkdir "$MyProject/results"
+
+. cap mkdir "$MyProject/results/figures"
+
+. cap mkdir "$MyProject/results/intermediate"
+
+. cap mkdir "$MyProject/results/tables"
+
+. 
+. * Run project analysis
+. // do "$MyProject/scripts/1_process_data.do"
+. 
+. // do "$MyProject/scripts/2a_clean_ma_zoning_data.do"
+. // do "$MyProject/scripts/2b_clean_states_legality_data.do"
+. // do "$MyProject/scripts/2c_clean_dispensaries_data.do"
+. // do "$MyProject/scripts/2d_clean_prop_assessments_data.do"
+. // do "$MyProject/scripts/2e_clean_home_values_data.do"
+. // do "$MyProject/scripts/2f_clean_boston_crash_data.do"
+. // do "$MyProject/scripts/2g_clean_us_crash_data.do"
+. // do "$MyProject/scripts/2h_clean_boston_crime_data.do"
+. // do "$MyProject/scripts/2i_clean_us_crime_data.do"
+. 
+. do "$MyProject/scripts/3a_summarize_ma_zoning_data.do"
+
+. ************
+. * SCRIPT: 3a_summarize_ma_zoning_data.do
+. * PURPOSE: summarizes the massachusetts zoning dataset
+. ************
+. 
+. use "$MyProject/processed/ma_zoning_laws.dta", clear
+
+. 
+. tabstat delivery_legal retail_legal adult_use_legal, c(stat) stat(sum mean sd min max n)
+
+    variable |       sum      mean        sd       min       max         N
+-------------+------------------------------------------------------------
+delivery_l~l |       192  .5835866  .4937147         0         1       329
+retail_legal |       198  .6018237  .4902678         0         1       329
+adult_use_~l |       209  .6352584  .4820909         0         1       329
+--------------------------------------------------------------------------
+
+. ereturn list
+
+. 
+. ** EOF
+. 
+end of do-file
+
+. // do "$MyProject/scripts/3b_summarize_states_legality_data.do"
+. // do "$MyProject/scripts/3c_summarize_dispensaries_data.do"
+. // do "$MyProject/scripts/3d_summarize_prop_assessments_data.do"
+. // do "$MyProject/scripts/3e_summarize_home_values_data.do"
+. // do "$MyProject/scripts/3f_summarize_boston_crash_data.do"
+. // do "$MyProject/scripts/3g_summarize_us_crash_data.do"
+. // do "$MyProject/scripts/3h_summarize_boston_crime_data.do"
+. // do "$MyProject/scripts/3i_summarize_us_crime_data.do"
+. 
+. * End log
+. di "End date and time: $S_DATE $S_TIME"
+End date and time:  7 Mar 2022 17:50:45
+
+. log close
+      name:  <unnamed>
+       log:  /Users/anniebryan/Documents/College/2021-22/14.33/Project/scripts/logs/2022.03.07-17.50.4
+> 4.log.txt
+  log type:  text
+ closed on:   7 Mar 2022, 17:50:45
+------------------------------------------------------------------------------------------------------

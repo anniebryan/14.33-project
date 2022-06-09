@@ -1,0 +1,73 @@
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  /Users/anniebryan/Documents/College/2021-22/14.33/Project/scripts/logs/2022.04.20-15.48.11.log.txt
+  log type:  text
+ opened on:  20 Apr 2022, 15:48:11
+
+. 
+. ssc install estout, replace
+checking estout consistency and verifying not already installed...
+all files already exist and are up to date.
+
+. ssc install outreg2
+checking outreg2 consistency and verifying not already installed...
+all files already exist and are up to date.
+
+. ssc install geodist
+checking geodist consistency and verifying not already installed...
+all files already exist and are up to date.
+
+. 
+. * Stata version control
+. version 17
+
+. 
+. * Create directories for output files
+. cap mkdir "$MyProject/processed"
+
+. cap mkdir "$MyProject/processed/intermediate"
+
+. cap mkdir "$MyProject/results"
+
+. cap mkdir "$MyProject/results/figures"
+
+. cap mkdir "$MyProject/results/intermediate"
+
+. cap mkdir "$MyProject/results/tables"
+
+. 
+. * Run project analysis
+. // do "$MyProject/scripts/1_process_data.do"
+. //
+. // do "$MyProject/scripts/2a_clean_ma_zoning_data.do"
+. // do "$MyProject/scripts/2b_clean_dispensaries_data.do"
+. // do "$MyProject/scripts/2c_clean_prop_assessments_data.do"
+. // do "$MyProject/scripts/2d_clean_home_values_data.do"
+. // do "$MyProject/scripts/2e_clean_boston_crash_data.do"
+. // do "$MyProject/scripts/2f_clean_us_crash_data.do"
+. // do "$MyProject/scripts/2g_clean_boston_crime_data.do"
+. // do "$MyProject/scripts/2h_clean_us_crime_data.do"
+. // do "$MyProject/scripts/2i_clean_zip_codes_data.do"
+. //
+. // do "$MyProject/scripts/3a_summarize_ma_zoning_data.do"
+. // do "$MyProject/scripts/3b_summarize_dispensaries_data.do"
+. // do "$MyProject/scripts/3c_summarize_prop_assessments_data.do"
+. // do "$MyProject/scripts/3d_summarize_home_values_data.do"
+. // do "$MyProject/scripts/3e_summarize_boston_crash_data.do"
+. // do "$MyProject/scripts/3f_summarize_us_crash_data.do"
+. // do "$MyProject/scripts/3g_summarize_boston_crime_data.do"
+. // do "$MyProject/scripts/3h_summarize_us_crime_data.do"
+. //
+. // do "$MyProject/scripts/4a_regression_dispensaries_on_property_assessments.do"
+. // do "$MyProject/scripts/4b_test_demographic_balance_property_assessments.do"
+. 
+. * End log
+. di "End date and time: $S_DATE $S_TIME"
+End date and time: 20 Apr 2022 15:48:12
+
+. log close
+      name:  <unnamed>
+       log:  /Users/anniebryan/Documents/College/2021-22/14.33/Project/scripts/logs/2022.04.20-15.48.11.log.txt
+  log type:  text
+ closed on:  20 Apr 2022, 15:48:12
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------

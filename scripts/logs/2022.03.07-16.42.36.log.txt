@@ -1,0 +1,426 @@
+-------------------------------------------------------------
+      name:  <unnamed>
+       log:  /Users/anniebryan/Documents/College/2021-22/14.3
+> 3/Project/scripts/logs/2022.03.07-16.42.36.log.txt
+  log type:  text
+ opened on:   7 Mar 2022, 16:42:36
+
+. 
+. * Configure Stata's library environment and record system p
+> arameters
+. run "$MyProject/scripts/programs/_config.do"
+-------------------------------------------------------------
+Date and time:  7 Mar 2022 16:42:36
+Stata version: 16.1
+Updated as of: 30 Mar 2021
+Variant:       SE
+Processors:    1
+OS:            MacOSX 12.2.0
+Machine type:  Macintosh (Intel 64-bit)
+-------------------------------------------------------------
+
+. 
+. * Stata version control
+. version 15
+
+. 
+. * Create directories for output files
+. cap mkdir "$MyProject/processed"
+
+. cap mkdir "$MyProject/processed/intermediate"
+
+. cap mkdir "$MyProject/results"
+
+. cap mkdir "$MyProject/results/figures"
+
+. cap mkdir "$MyProject/results/intermediate"
+
+. cap mkdir "$MyProject/results/tables"
+
+. 
+. * Run project analysis
+. do "$MyProject/scripts/1_process_data.do"
+
+. ************
+. * SCRIPT: 1_process_data.do
+. * PURPOSE: imports the raw datasets and converts them into 
+> a stata-readable format
+. ************
+. 
+. // MA zoning data
+. insheet using "$MyProject/data/ma-zoning-laws/ma-zoning-law
+> s.csv", comma clear
+(3 vars, 352 obs)
+
+. compress
+  (0 bytes saved)
+
+. save "$MyProject/processed/intermediate/ma_zoning_laws_uncl
+> eaned.dta", replace
+(note: file /Users/anniebryan/Documents/College/2021-22/14.33
+> /Project/processed/intermediate/ma_zoning_laws_uncleaned.dt
+> a not found)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Projec
+> t/processed/intermediate/ma_zoning_laws_uncleaned.dta saved
+
+. 
+. // US states legality data
+. // insheet using "$MyProject/data/TODO", comma clear
+. // compress
+. // save "$MyProject/processed/intermediate/TODO_uncleaned.d
+> ta", replace
+. 
+. // MA dispensaries data
+. insheet using "$MyProject/data/dispensaries.csv", comma cle
+> ar
+(66 vars, 944 obs)
+
+. compress
+  (0 bytes saved)
+
+. save "$MyProject/processed/intermediate/dispensaries_unclea
+> ned.dta", replace
+(note: file /Users/anniebryan/Documents/College/2021-22/14.33
+> /Project/processed/intermediate/dispensaries_uncleaned.dta 
+> not found)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Projec
+> t/processed/intermediate/dispensaries_uncleaned.dta saved
+
+. 
+. // MA property assessments data
+. forvalues y = 2014/2021 {
+  2.         insheet using "$MyProject/data/property_assessme
+> nt/property-assessment-fy`y'.csv", comma clear
+  3.         compress
+  4.         save "$MyProject/processed/intermediate/property
+> _assessments_ma_`y'_uncleaned.dta", replace
+  5. }
+(56 vars, 164,091 obs)
+  variable st_name was str25 now str24
+  variable u_heat_typ was str2 now str1
+  (328,182 bytes saved)
+(note: file /Users/anniebryan/Documents/College/2021-22/14.33
+> /Project/processed/intermediate/property_assessments_ma_201
+> 4_uncleaned.dta not found)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Projec
+> t/processed/intermediate/property_assessments_ma_2014_uncle
+> aned.dta saved
+(56 vars, 168,115 obs)
+  variable st_name was str25 now str24
+  variable st_name_suf was str4 now str3
+  variable full_address was str55 now str48
+  variable u_heat_typ was str2 now str1
+  (1,681,150 bytes saved)
+(note: file /Users/anniebryan/Documents/College/2021-22/14.33
+> /Project/processed/intermediate/property_assessments_ma_201
+> 5_uncleaned.dta not found)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Projec
+> t/processed/intermediate/property_assessments_ma_2015_uncle
+> aned.dta saved
+(77 vars, 169,199 obs)
+  variable st_name was str25 now str24
+  variable st_name_suf was str4 now str3
+  (338,398 bytes saved)
+(note: file /Users/anniebryan/Documents/College/2021-22/14.33
+> /Project/processed/intermediate/property_assessments_ma_201
+> 6_uncleaned.dta not found)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Projec
+> t/processed/intermediate/property_assessments_ma_2016_uncle
+> aned.dta saved
+(75 vars, 170,910 obs)
+  variable st_name was str25 now str24
+  variable st_name_suf was str4 now str3
+  (341,820 bytes saved)
+(note: file /Users/anniebryan/Documents/College/2021-22/14.33
+> /Project/processed/intermediate/property_assessments_ma_201
+> 7_uncleaned.dta not found)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Projec
+> t/processed/intermediate/property_assessments_ma_2017_uncle
+> aned.dta saved
+(75 vars, 172,841 obs)
+  (0 bytes saved)
+(note: file /Users/anniebryan/Documents/College/2021-22/14.33
+> /Project/processed/intermediate/property_assessments_ma_201
+> 8_uncleaned.dta not found)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Projec
+> t/processed/intermediate/property_assessments_ma_2018_uncle
+> aned.dta saved
+(75 vars, 174,668 obs)
+  variable st_name was str25 now str24
+  variable st_name_suf was str4 now str3
+  (349,336 bytes saved)
+(note: file /Users/anniebryan/Documents/College/2021-22/14.33
+> /Project/processed/intermediate/property_assessments_ma_201
+> 9_uncleaned.dta not found)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Projec
+> t/processed/intermediate/property_assessments_ma_2019_uncle
+> aned.dta saved
+(75 vars, 175,052 obs)
+  variable st_name_suf was str5 now str4
+  (175,052 bytes saved)
+(note: file /Users/anniebryan/Documents/College/2021-22/14.33
+> /Project/processed/intermediate/property_assessments_ma_202
+> 0_uncleaned.dta not found)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Projec
+> t/processed/intermediate/property_assessments_ma_2020_uncle
+> aned.dta saved
+(63 vars, 177,091 obs)
+  (0 bytes saved)
+(note: file /Users/anniebryan/Documents/College/2021-22/14.33
+> /Project/processed/intermediate/property_assessments_ma_202
+> 1_uncleaned.dta not found)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Projec
+> t/processed/intermediate/property_assessments_ma_2021_uncle
+> aned.dta saved
+
+. 
+. // Zillow home value data
+. insheet using "$MyProject/data/zhvi_sa_35_65.csv", comma cl
+> ear
+(274 vars, 30,468 obs)
+
+. compress
+  (0 bytes saved)
+
+. save "$MyProject/processed/intermediate/zillow_home_values_
+> uncleaned.dta", replace
+(note: file /Users/anniebryan/Documents/College/2021-22/14.33
+> /Project/processed/intermediate/zillow_home_values_uncleane
+> d.dta not found)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Projec
+> t/processed/intermediate/zillow_home_values_uncleaned.dta s
+> aved
+
+. 
+. // Boston crash data
+. insheet using "$MyProject/data/boston_crashes.csv", comma c
+> lear
+(25 vars, 108,919 obs)
+
+. compress
+  variable v23 was str170 now str169
+  (108,919 bytes saved)
+
+. save "$MyProject/processed/intermediate/crashes_boston_uncl
+> eaned.dta", replace
+(note: file /Users/anniebryan/Documents/College/2021-22/14.33
+> /Project/processed/intermediate/crashes_boston_uncleaned.dt
+> a not found)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Projec
+> t/processed/intermediate/crashes_boston_uncleaned.dta saved
+
+. 
+. // US crash data
+. insheet using "$MyProject/data/fars_nhtsa_fatality_rates_by
+> _state.csv", comma clear
+(56 vars, 53 obs)
+
+. compress
+  (0 bytes saved)
+
+. save "$MyProject/processed/intermediate/crashes_us_uncleane
+> d.dta", replace
+(note: file /Users/anniebryan/Documents/College/2021-22/14.33
+> /Project/processed/intermediate/crashes_us_uncleaned.dta no
+> t found)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Projec
+> t/processed/intermediate/crashes_us_uncleaned.dta saved
+
+. 
+. // Boston crime data
+. forvalues y = 2015/2021 {
+  2.         insheet using "$MyProject/data/crime-incident-re
+> ports/crime-incident-reports-`y'.csv", comma clear
+  3.         compress
+  4.         save "$MyProject/processed/intermediate/crime_bo
+> ston_`y'_uncleaned.dta", replace
+  5. }
+(27 vars, 68,528 obs)
+  variable v10 was str2045 now str1638
+  variable v11 was str1860 now str860
+  variable v14 was str1557 now str528
+  variable v20 was str70 now str66
+  variable v21 was str12 now str2
+  variable v22 was str579 now str11
+  variable v23 was str253 now str3
+  variable v24 was str88 now str65
+  variable v27 was str158 now str1
+  (236,284,544 bytes saved)
+(note: file /Users/anniebryan/Documents/College/2021-22/14.33
+> /Project/processed/intermediate/crime_boston_2015_uncleaned
+> .dta not found)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Projec
+> t/processed/intermediate/crime_boston_2015_uncleaned.dta sa
+> ved
+(14 vars, 78,877 obs)
+  variable v12 was str1040 now str603
+  (34,469,249 bytes saved)
+(note: file /Users/anniebryan/Documents/College/2021-22/14.33
+> /Project/processed/intermediate/crime_boston_2016_uncleaned
+> .dta not found)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Projec
+> t/processed/intermediate/crime_boston_2016_uncleaned.dta sa
+> ved
+(13 vars, 65,746 obs)
+  variable v8 was str2045 now str1192
+  (56,081,338 bytes saved)
+(note: file /Users/anniebryan/Documents/College/2021-22/14.33
+> /Project/processed/intermediate/crime_boston_2017_uncleaned
+> .dta not found)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Projec
+> t/processed/intermediate/crime_boston_2017_uncleaned.dta sa
+> ved
+(18 vars, 67,639 obs)
+  variable v17 was str65 now str1
+  variable v18 was str47 now str7
+  (7,034,456 bytes saved)
+(note: file /Users/anniebryan/Documents/College/2021-22/14.33
+> /Project/processed/intermediate/crime_boston_2018_uncleaned
+> .dta not found)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Projec
+> t/processed/intermediate/crime_boston_2018_uncleaned.dta sa
+> ved
+(13 vars, 58,357 obs)
+  (0 bytes saved)
+(note: file /Users/anniebryan/Documents/College/2021-22/14.33
+> /Project/processed/intermediate/crime_boston_2019_uncleaned
+> .dta not found)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Projec
+> t/processed/intermediate/crime_boston_2019_uncleaned.dta sa
+> ved
+(18 vars, 49,833 obs)
+  (0 bytes saved)
+(note: file /Users/anniebryan/Documents/College/2021-22/14.33
+> /Project/processed/intermediate/crime_boston_2020_uncleaned
+> .dta not found)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Projec
+> t/processed/intermediate/crime_boston_2020_uncleaned.dta sa
+> ved
+(20 vars, 51,644 obs)
+  variable v6 was str2045 now str1975
+  (3,615,080 bytes saved)
+(note: file /Users/anniebryan/Documents/College/2021-22/14.33
+> /Project/processed/intermediate/crime_boston_2021_uncleaned
+> .dta not found)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Projec
+> t/processed/intermediate/crime_boston_2021_uncleaned.dta sa
+> ved
+
+. 
+. // FBI table 8 data
+. forvalues y = 2008/2019 {
+  2.         import excel "$MyProject/data/fbi_offenses_known
+> _to_law_enforcement/fbi_offenses_known_to_law_enforcement_`
+> y'.xls", clear
+  3.         compress
+  4.         save "$MyProject/processed/intermediate/crime_us
+> _`y'_uncleaned.dta", replace
+  5. }
+(17 vars, 8,784 obs)
+  (0 bytes saved)
+(note: file /Users/anniebryan/Documents/College/2021-22/14.33
+> /Project/processed/intermediate/crime_us_2008_uncleaned.dta
+>  not found)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Projec
+> t/processed/intermediate/crime_us_2008_uncleaned.dta saved
+(13 vars, 9,159 obs)
+  (0 bytes saved)
+(note: file /Users/anniebryan/Documents/College/2021-22/14.33
+> /Project/processed/intermediate/crime_us_2009_uncleaned.dta
+>  not found)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Projec
+> t/processed/intermediate/crime_us_2009_uncleaned.dta saved
+(13 vars, 9,321 obs)
+  (0 bytes saved)
+(note: file /Users/anniebryan/Documents/College/2021-22/14.33
+> /Project/processed/intermediate/crime_us_2010_uncleaned.dta
+>  not found)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Projec
+> t/processed/intermediate/crime_us_2010_uncleaned.dta saved
+(18 vars, 9,325 obs)
+  (0 bytes saved)
+(note: file /Users/anniebryan/Documents/College/2021-22/14.33
+> /Project/processed/intermediate/crime_us_2011_uncleaned.dta
+>  not found)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Projec
+> t/processed/intermediate/crime_us_2011_uncleaned.dta saved
+(15 vars, 9,502 obs)
+  (0 bytes saved)
+(note: file /Users/anniebryan/Documents/College/2021-22/14.33
+> /Project/processed/intermediate/crime_us_2012_uncleaned.dta
+>  not found)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Projec
+> t/processed/intermediate/crime_us_2012_uncleaned.dta saved
+(17 vars, 9,306 obs)
+  (0 bytes saved)
+(note: file /Users/anniebryan/Documents/College/2021-22/14.33
+> /Project/processed/intermediate/crime_us_2013_uncleaned.dta
+>  not found)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Projec
+> t/processed/intermediate/crime_us_2013_uncleaned.dta saved
+(14 vars, 9,368 obs)
+  (0 bytes saved)
+(note: file /Users/anniebryan/Documents/College/2021-22/14.33
+> /Project/processed/intermediate/crime_us_2014_uncleaned.dta
+>  not found)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Projec
+> t/processed/intermediate/crime_us_2014_uncleaned.dta saved
+(14 vars, 9,409 obs)
+  (0 bytes saved)
+(note: file /Users/anniebryan/Documents/College/2021-22/14.33
+> /Project/processed/intermediate/crime_us_2015_uncleaned.dta
+>  not found)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Projec
+> t/processed/intermediate/crime_us_2015_uncleaned.dta saved
+(13 vars, 2,626 obs)
+  (0 bytes saved)
+(note: file /Users/anniebryan/Documents/College/2021-22/14.33
+> /Project/processed/intermediate/crime_us_2016_uncleaned.dta
+>  not found)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Projec
+> t/processed/intermediate/crime_us_2016_uncleaned.dta saved
+(19 vars, 9,593 obs)
+  (0 bytes saved)
+(note: file /Users/anniebryan/Documents/College/2021-22/14.33
+> /Project/processed/intermediate/crime_us_2017_uncleaned.dta
+>  not found)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Projec
+> t/processed/intermediate/crime_us_2017_uncleaned.dta saved
+(13 vars, 9,266 obs)
+  (0 bytes saved)
+(note: file /Users/anniebryan/Documents/College/2021-22/14.33
+> /Project/processed/intermediate/crime_us_2018_uncleaned.dta
+>  not found)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Projec
+> t/processed/intermediate/crime_us_2018_uncleaned.dta saved
+(13 vars, 8,117 obs)
+  (0 bytes saved)
+(note: file /Users/anniebryan/Documents/College/2021-22/14.33
+> /Project/processed/intermediate/crime_us_2019_uncleaned.dta
+>  not found)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Projec
+> t/processed/intermediate/crime_us_2019_uncleaned.dta saved
+
+. 
+. ** EOF
+. 
+end of do-file
+
+. // do "$MyProject/scripts/1b_clean_dispensaries_data.do"
+. // do "$MyProject/scripts/1c_dispensaries_summary.do"
+. // do "$MyProject/scripts/2a_process_crash_data.do"
+. // do "$MyProject/scripts/2b_clean_crash_data.do"
+. // do "$MyProject/scripts/3a_process_shootings_data.do"
+. // do "$MyProject/scripts/3b_clean_shootings_data.do"
+. 
+. * End log
+. di "End date and time: $S_DATE $S_TIME"
+End date and time:  7 Mar 2022 16:43:12
+
+. log close
+      name:  <unnamed>
+       log:  /Users/anniebryan/Documents/College/2021-22/14.3
+> 3/Project/scripts/logs/2022.03.07-16.42.36.log.txt
+  log type:  text
+ closed on:   7 Mar 2022, 16:43:12
+-------------------------------------------------------------

@@ -1,0 +1,1255 @@
+-------------------------------------------------------------
+      name:  <unnamed>
+       log:  /Users/anniebryan/Documents/College/2021-22/14.3
+> 3/Project/scripts/logs/2022.03.07-16.35.59.log.txt
+  log type:  text
+ opened on:   7 Mar 2022, 16:35:59
+
+. 
+. * Configure Stata's library environment and record system p
+> arameters
+. run "$MyProject/scripts/programs/_config.do"
+-------------------------------------------------------------
+Date and time:  7 Mar 2022 16:35:59
+Stata version: 16.1
+Updated as of: 30 Mar 2021
+Variant:       SE
+Processors:    1
+OS:            MacOSX 12.2.0
+Machine type:  Macintosh (Intel 64-bit)
+-------------------------------------------------------------
+
+. 
+. * Stata version control
+. version 15
+
+. 
+. * Create directories for output files
+. cap mkdir "$MyProject/processed"
+
+. cap mkdir "$MyProject/processed/intermediate"
+
+. cap mkdir "$MyProject/results"
+
+. cap mkdir "$MyProject/results/figures"
+
+. cap mkdir "$MyProject/results/intermediate"
+
+. cap mkdir "$MyProject/results/tables"
+
+. 
+. * Run project analysis
+. do "$MyProject/scripts/1_process_data.do"
+
+. ************
+. * SCRIPT: 1_process_data.do
+. * PURPOSE: imports the raw datasets and converts them into 
+> a stata-readable format
+. ************
+. 
+. // MA zoning data
+. // insheet using "$MyProject/data/ma-zoning-laws/ma-zoning-
+> laws.csv", comma clear
+. // compress
+. // save "$MyProject/processed/intermediate/ma_zoning_laws_u
+> ncleaned.dta", replace
+. 
+. // // US states legality data
+. // // insheet using "$MyProject/data/TODO", comma clear
+. // // compress
+. // // save "$MyProject/processed/intermediate/TODO_uncleane
+> d.dta", replace
+. 
+. // // MA dispensaries data
+. // insheet using "$MyProject/data/dispensaries.csv", comma 
+> clear
+. // compress
+. // save "$MyProject/processed/intermediate/dispensaries_unc
+> leaned.dta", replace
+. 
+. // // MA property assessments data
+. // forvalues y = 2014/2021 {
+. //      insheet using "$MyProject/data/property_assessment/
+> property-assessment-fy`y'.csv", comma clear
+. //      compress
+. //      save "$MyProject/processed/intermediate/property_as
+> sessment_`y'_uncleaned.dta", replace
+. // }
+. 
+. // // Zillow home value data
+. // insheet using "$MyProject/data/zhvi_sa_35_65.csv", comma
+>  clear
+. // compress
+. // save "$MyProject/processed/intermediate/zillow_home_valu
+> es_uncleaned.dta", replace
+. 
+. // // Boston crash data
+. // insheet using "$MyProject/data/boston_crashes.csv", comm
+> a clear
+. // compress
+. // save "$MyProject/processed/intermediate/boston_crashes_u
+> ncleaned.dta", replace
+. 
+. // US crash data
+. insheet using "$MyProject/data/fars_nhtsa_fatality_rates_by
+> _state.csv", comma clear
+(56 vars, 53 obs)
+
+. compress
+  (0 bytes saved)
+
+. save "$MyProject/processed/intermediate/us_crashes_uncleane
+> d.dta", replace
+file /Users/anniebryan/Documents/College/2021-22/14.33/Projec
+> t/processed/intermediate/us_crashes_uncleaned.dta saved
+
+. 
+. // Boston crime data
+. forvalues y = 2015/2022 {
+  2.         insheet using "$MyProject/data/crime-incident-re
+> ports/crime-incident-reports-`y'.csv", comma clear
+  3. //      compress
+. //      save "$MyProject/processed/intermediate/boston_crim
+> e_`y'_uncleaned.dta", replace
+. }
+long invalid varname
+error in line 1 of file
+r(198);
+
+end of do-file
+r(198);
+
+end of do-file
+
+r(198);
+
+. do "/Users/anniebryan/Documents/College/2021-22/14.33/Proje
+> ct/scripts/1_process_data.do"
+
+. ************
+. * SCRIPT: 1_process_data.do
+. * PURPOSE: imports the raw datasets and converts them into 
+> a stata-readable format
+. ************
+. 
+. // MA zoning data
+. // insheet using "$MyProject/data/ma-zoning-laws/ma-zoning-
+> laws.csv", comma clear
+. // compress
+. // save "$MyProject/processed/intermediate/ma_zoning_laws_u
+> ncleaned.dta", replace
+. 
+. // // US states legality data
+. // // insheet using "$MyProject/data/TODO", comma clear
+. // // compress
+. // // save "$MyProject/processed/intermediate/TODO_uncleane
+> d.dta", replace
+. 
+. // // MA dispensaries data
+. // insheet using "$MyProject/data/dispensaries.csv", comma 
+> clear
+. // compress
+. // save "$MyProject/processed/intermediate/dispensaries_unc
+> leaned.dta", replace
+. 
+. // // MA property assessments data
+. // forvalues y = 2014/2021 {
+. //      insheet using "$MyProject/data/property_assessment/
+> property-assessment-fy`y'.csv", comma clear
+. //      compress
+. //      save "$MyProject/processed/intermediate/property_as
+> sessment_`y'_uncleaned.dta", replace
+. // }
+. 
+. // // Zillow home value data
+. // insheet using "$MyProject/data/zhvi_sa_35_65.csv", comma
+>  clear
+. // compress
+. // save "$MyProject/processed/intermediate/zillow_home_valu
+> es_uncleaned.dta", replace
+. 
+. // // Boston crash data
+. // insheet using "$MyProject/data/boston_crashes.csv", comm
+> a clear
+. // compress
+. // save "$MyProject/processed/intermediate/boston_crashes_u
+> ncleaned.dta", replace
+. 
+. // US crash data
+. insheet using "$MyProject/data/fars_nhtsa_fatality_rates_by
+> _state.csv", comma clear
+(56 vars, 53 obs)
+
+. compress
+  (0 bytes saved)
+
+. save "$MyProject/processed/intermediate/us_crashes_uncleane
+> d.dta", replace
+file /Users/anniebryan/Documents/College/2021-22/14.33/Projec
+> t/processed/intermediate/us_crashes_uncleaned.dta saved
+
+. 
+. // Boston crime data
+. forvalues y = 2015/2022 {
+  2.         di `y'
+  3.         insheet using "$MyProject/data/crime-incident-re
+> ports/crime-incident-reports-`y'.csv", comma clear
+  4. //      compress
+. //      save "$MyProject/processed/intermediate/boston_crim
+> e_`y'_uncleaned.dta", replace
+. }
+2015
+long invalid varname
+error in line 1 of file
+r(198);
+
+end of do-file
+
+r(198);
+
+. do "/Users/anniebryan/Documents/College/2021-22/14.33/Proje
+> ct/scripts/1_process_data.do"
+
+. ************
+. * SCRIPT: 1_process_data.do
+. * PURPOSE: imports the raw datasets and converts them into 
+> a stata-readable format
+. ************
+. 
+. // MA zoning data
+. // insheet using "$MyProject/data/ma-zoning-laws/ma-zoning-
+> laws.csv", comma clear
+. // compress
+. // save "$MyProject/processed/intermediate/ma_zoning_laws_u
+> ncleaned.dta", replace
+. 
+. // // US states legality data
+. // // insheet using "$MyProject/data/TODO", comma clear
+. // // compress
+. // // save "$MyProject/processed/intermediate/TODO_uncleane
+> d.dta", replace
+. 
+. // // MA dispensaries data
+. // insheet using "$MyProject/data/dispensaries.csv", comma 
+> clear
+. // compress
+. // save "$MyProject/processed/intermediate/dispensaries_unc
+> leaned.dta", replace
+. 
+. // // MA property assessments data
+. // forvalues y = 2014/2021 {
+. //      insheet using "$MyProject/data/property_assessment/
+> property-assessment-fy`y'.csv", comma clear
+. //      compress
+. //      save "$MyProject/processed/intermediate/property_as
+> sessment_`y'_uncleaned.dta", replace
+. // }
+. 
+. // // Zillow home value data
+. // insheet using "$MyProject/data/zhvi_sa_35_65.csv", comma
+>  clear
+. // compress
+. // save "$MyProject/processed/intermediate/zillow_home_valu
+> es_uncleaned.dta", replace
+. 
+. // // Boston crash data
+. // insheet using "$MyProject/data/boston_crashes.csv", comm
+> a clear
+. // compress
+. // save "$MyProject/processed/intermediate/boston_crashes_u
+> ncleaned.dta", replace
+. 
+. // US crash data
+. insheet using "$MyProject/data/fars_nhtsa_fatality_rates_by
+> _state.csv", comma clear
+(56 vars, 53 obs)
+
+. compress
+  (0 bytes saved)
+
+. save "$MyProject/processed/intermediate/us_crashes_uncleane
+> d.dta", replace
+file /Users/anniebryan/Documents/College/2021-22/14.33/Projec
+> t/processed/intermediate/us_crashes_uncleaned.dta saved
+
+. 
+. // Boston crime data
+. forvalues y = 2015/2022 {
+  2.         di `y'
+  3.         insheet using "$MyProject/data/crime-incident-re
+> ports/crime-incident-reports-`y'.csv", comma clear
+  4. //      compress
+. //      save "$MyProject/processed/intermediate/boston_crim
+> e_`y'_uncleaned.dta", replace
+. }
+2015
+long invalid varname
+error in line 1 of file
+r(198);
+
+end of do-file
+
+r(198);
+
+. do "/Users/anniebryan/Documents/College/2021-22/14.33/Proje
+> ct/scripts/1_process_data.do"
+
+. ************
+. * SCRIPT: 1_process_data.do
+. * PURPOSE: imports the raw datasets and converts them into 
+> a stata-readable format
+. ************
+. 
+. // MA zoning data
+. // insheet using "$MyProject/data/ma-zoning-laws/ma-zoning-
+> laws.csv", comma clear
+. // compress
+. // save "$MyProject/processed/intermediate/ma_zoning_laws_u
+> ncleaned.dta", replace
+. 
+. // // US states legality data
+. // // insheet using "$MyProject/data/TODO", comma clear
+. // // compress
+. // // save "$MyProject/processed/intermediate/TODO_uncleane
+> d.dta", replace
+. 
+. // // MA dispensaries data
+. // insheet using "$MyProject/data/dispensaries.csv", comma 
+> clear
+. // compress
+. // save "$MyProject/processed/intermediate/dispensaries_unc
+> leaned.dta", replace
+. 
+. // // MA property assessments data
+. // forvalues y = 2014/2021 {
+. //      insheet using "$MyProject/data/property_assessment/
+> property-assessment-fy`y'.csv", comma clear
+. //      compress
+. //      save "$MyProject/processed/intermediate/property_as
+> sessment_`y'_uncleaned.dta", replace
+. // }
+. 
+. // // Zillow home value data
+. // insheet using "$MyProject/data/zhvi_sa_35_65.csv", comma
+>  clear
+. // compress
+. // save "$MyProject/processed/intermediate/zillow_home_valu
+> es_uncleaned.dta", replace
+. 
+. // // Boston crash data
+. // insheet using "$MyProject/data/boston_crashes.csv", comm
+> a clear
+. // compress
+. // save "$MyProject/processed/intermediate/boston_crashes_u
+> ncleaned.dta", replace
+. 
+. // US crash data
+. insheet using "$MyProject/data/fars_nhtsa_fatality_rates_by
+> _state.csv", comma clear
+(56 vars, 53 obs)
+
+. compress
+  (0 bytes saved)
+
+. save "$MyProject/processed/intermediate/us_crashes_uncleane
+> d.dta", replace
+file /Users/anniebryan/Documents/College/2021-22/14.33/Projec
+> t/processed/intermediate/us_crashes_uncleaned.dta saved
+
+. 
+. // Boston crime data
+. forvalues y = 2015/2022 {
+  2.         di `y'
+  3.         insheet using "$MyProject/data/crime-incident-re
+> ports/crime-incident-reports-`y'.csv", comma clear
+  4. //      compress
+. //      save "$MyProject/processed/intermediate/boston_crim
+> e_`y'_uncleaned.dta", replace
+. }
+2015
+(27 vars, 68,528 obs)
+2016
+(14 vars, 78,877 obs)
+2017
+(13 vars, 65,746 obs)
+2018
+(18 vars, 67,639 obs)
+2019
+(13 vars, 58,357 obs)
+2020
+(18 vars, 49,833 obs)
+2021
+(20 vars, 51,644 obs)
+2022
+file
+    /Users/anniebryan/Documents/College/2021-22/14.33/Proje
+    > ct/data/crime-incident-reports/crime-incident-reports
+    > -2022.csv not found
+r(601);
+
+end of do-file
+
+r(601);
+
+. do "/Users/anniebryan/Documents/College/2021-22/14.33/Proje
+> ct/scripts/1_process_data.do"
+
+. ************
+. * SCRIPT: 1_process_data.do
+. * PURPOSE: imports the raw datasets and converts them into 
+> a stata-readable format
+. ************
+. 
+. // MA zoning data
+. // insheet using "$MyProject/data/ma-zoning-laws/ma-zoning-
+> laws.csv", comma clear
+. // compress
+. // save "$MyProject/processed/intermediate/ma_zoning_laws_u
+> ncleaned.dta", replace
+. 
+. // // US states legality data
+. // // insheet using "$MyProject/data/TODO", comma clear
+. // // compress
+. // // save "$MyProject/processed/intermediate/TODO_uncleane
+> d.dta", replace
+. 
+. // // MA dispensaries data
+. // insheet using "$MyProject/data/dispensaries.csv", comma 
+> clear
+. // compress
+. // save "$MyProject/processed/intermediate/dispensaries_unc
+> leaned.dta", replace
+. 
+. // // MA property assessments data
+. // forvalues y = 2014/2021 {
+. //      insheet using "$MyProject/data/property_assessment/
+> property-assessment-fy`y'.csv", comma clear
+. //      compress
+. //      save "$MyProject/processed/intermediate/property_as
+> sessment_`y'_uncleaned.dta", replace
+. // }
+. 
+. // // Zillow home value data
+. // insheet using "$MyProject/data/zhvi_sa_35_65.csv", comma
+>  clear
+. // compress
+. // save "$MyProject/processed/intermediate/zillow_home_valu
+> es_uncleaned.dta", replace
+. 
+. // // Boston crash data
+. // insheet using "$MyProject/data/boston_crashes.csv", comm
+> a clear
+. // compress
+. // save "$MyProject/processed/intermediate/boston_crashes_u
+> ncleaned.dta", replace
+. 
+. // US crash data
+. insheet using "$MyProject/data/fars_nhtsa_fatality_rates_by
+> _state.csv", comma clear
+(56 vars, 53 obs)
+
+. compress
+  (0 bytes saved)
+
+. save "$MyProject/processed/intermediate/us_crashes_uncleane
+> d.dta", replace
+file /Users/anniebryan/Documents/College/2021-22/14.33/Projec
+> t/processed/intermediate/us_crashes_uncleaned.dta saved
+
+. 
+. // Boston crime data
+. forvalues y = 2015/2021 {
+  2.         di `y'
+  3.         insheet using "$MyProject/data/crime-incident-re
+> ports/crime-incident-reports-`y'.csv", comma clear
+  4. //      compress
+. //      save "$MyProject/processed/intermediate/boston_crim
+> e_`y'_uncleaned.dta", replace
+. }
+2015
+(27 vars, 68,528 obs)
+2016
+(14 vars, 78,877 obs)
+2017
+(13 vars, 65,746 obs)
+2018
+(18 vars, 67,639 obs)
+2019
+(13 vars, 58,357 obs)
+2020
+(18 vars, 49,833 obs)
+2021
+(20 vars, 51,644 obs)
+
+. 
+. // FBI table 8 data
+. forvalues y = 2008/2019 {
+  2.         import excel "$MyProject/data/fbi_offenses_known
+> _to_law_enforcement/fbi_offenses_known_to_law_enforcement_`
+> y'.xls", comma clear
+  3.         compress
+  4.         save "$MyProject/processed/intermediate/fbi_tabl
+> e_8_`y'_uncleaned.dta", replace
+  5. }
+option comma not allowed
+r(198);
+
+end of do-file
+
+r(198);
+
+. do "/Users/anniebryan/Documents/College/2021-22/14.33/Proje
+> ct/scripts/1_process_data.do"
+
+. ************
+. * SCRIPT: 1_process_data.do
+. * PURPOSE: imports the raw datasets and converts them into 
+> a stata-readable format
+. ************
+. 
+. // MA zoning data
+. // insheet using "$MyProject/data/ma-zoning-laws/ma-zoning-
+> laws.csv", comma clear
+. // compress
+. // save "$MyProject/processed/intermediate/ma_zoning_laws_u
+> ncleaned.dta", replace
+. 
+. // // US states legality data
+. // // insheet using "$MyProject/data/TODO", comma clear
+. // // compress
+. // // save "$MyProject/processed/intermediate/TODO_uncleane
+> d.dta", replace
+. 
+. // // MA dispensaries data
+. // insheet using "$MyProject/data/dispensaries.csv", comma 
+> clear
+. // compress
+. // save "$MyProject/processed/intermediate/dispensaries_unc
+> leaned.dta", replace
+. 
+. // // MA property assessments data
+. // forvalues y = 2014/2021 {
+. //      insheet using "$MyProject/data/property_assessment/
+> property-assessment-fy`y'.csv", comma clear
+. //      compress
+. //      save "$MyProject/processed/intermediate/property_as
+> sessment_`y'_uncleaned.dta", replace
+. // }
+. 
+. // // Zillow home value data
+. // insheet using "$MyProject/data/zhvi_sa_35_65.csv", comma
+>  clear
+. // compress
+. // save "$MyProject/processed/intermediate/zillow_home_valu
+> es_uncleaned.dta", replace
+. 
+. // // Boston crash data
+. // insheet using "$MyProject/data/boston_crashes.csv", comm
+> a clear
+. // compress
+. // save "$MyProject/processed/intermediate/boston_crashes_u
+> ncleaned.dta", replace
+. 
+. // US crash data
+. insheet using "$MyProject/data/fars_nhtsa_fatality_rates_by
+> _state.csv", comma clear
+(56 vars, 53 obs)
+
+. compress
+  (0 bytes saved)
+
+. save "$MyProject/processed/intermediate/us_crashes_uncleane
+> d.dta", replace
+file /Users/anniebryan/Documents/College/2021-22/14.33/Projec
+> t/processed/intermediate/us_crashes_uncleaned.dta saved
+
+. 
+. // Boston crime data
+. forvalues y = 2015/2021 {
+  2.         di `y'
+  3.         insheet using "$MyProject/data/crime-incident-re
+> ports/crime-incident-reports-`y'.csv", comma clear
+  4. //      compress
+. //      save "$MyProject/processed/intermediate/boston_crim
+> e_`y'_uncleaned.dta", replace
+. }
+2015
+(27 vars, 68,528 obs)
+2016
+(14 vars, 78,877 obs)
+2017
+(13 vars, 65,746 obs)
+2018
+(18 vars, 67,639 obs)
+2019
+(13 vars, 58,357 obs)
+2020
+(18 vars, 49,833 obs)
+2021
+(20 vars, 51,644 obs)
+
+. 
+. // FBI table 8 data
+. forvalues y = 2008/2019 {
+  2.         import excel "$MyProject/data/fbi_offenses_known
+> _to_law_enforcement/fbi_offenses_known_to_law_enforcement_`
+> y'.xls"
+  3.         compress
+  4.         save "$MyProject/processed/intermediate/fbi_tabl
+> e_8_`y'_uncleaned.dta", replace
+  5. }
+no; data in memory would be lost
+r(4);
+
+end of do-file
+
+r(4);
+
+. do "/Users/anniebryan/Documents/College/2021-22/14.33/Proje
+> ct/scripts/1_process_data.do"
+
+. ************
+. * SCRIPT: 1_process_data.do
+. * PURPOSE: imports the raw datasets and converts them into 
+> a stata-readable format
+. ************
+. 
+. // MA zoning data
+. // insheet using "$MyProject/data/ma-zoning-laws/ma-zoning-
+> laws.csv", comma clear
+. // compress
+. // save "$MyProject/processed/intermediate/ma_zoning_laws_u
+> ncleaned.dta", replace
+. 
+. // // US states legality data
+. // // insheet using "$MyProject/data/TODO", comma clear
+. // // compress
+. // // save "$MyProject/processed/intermediate/TODO_uncleane
+> d.dta", replace
+. 
+. // // MA dispensaries data
+. // insheet using "$MyProject/data/dispensaries.csv", comma 
+> clear
+. // compress
+. // save "$MyProject/processed/intermediate/dispensaries_unc
+> leaned.dta", replace
+. 
+. // // MA property assessments data
+. // forvalues y = 2014/2021 {
+. //      insheet using "$MyProject/data/property_assessment/
+> property-assessment-fy`y'.csv", comma clear
+. //      compress
+. //      save "$MyProject/processed/intermediate/property_as
+> sessment_`y'_uncleaned.dta", replace
+. // }
+. 
+. // // Zillow home value data
+. // insheet using "$MyProject/data/zhvi_sa_35_65.csv", comma
+>  clear
+. // compress
+. // save "$MyProject/processed/intermediate/zillow_home_valu
+> es_uncleaned.dta", replace
+. 
+. // // Boston crash data
+. // insheet using "$MyProject/data/boston_crashes.csv", comm
+> a clear
+. // compress
+. // save "$MyProject/processed/intermediate/boston_crashes_u
+> ncleaned.dta", replace
+. 
+. // US crash data
+. insheet using "$MyProject/data/fars_nhtsa_fatality_rates_by
+> _state.csv", comma clear
+(56 vars, 53 obs)
+
+. compress
+  (0 bytes saved)
+
+. save "$MyProject/processed/intermediate/us_crashes_uncleane
+> d.dta", replace
+file /Users/anniebryan/Documents/College/2021-22/14.33/Projec
+> t/processed/intermediate/us_crashes_uncleaned.dta saved
+
+. 
+. // Boston crime data
+. forvalues y = 2015/2021 {
+  2.         insheet using "$MyProject/data/crime-incident-re
+> ports/crime-incident-reports-`y'.csv", comma clear
+  3.         compress
+  4.         save "$MyProject/processed/intermediate/boston_c
+> rime_`y'_uncleaned.dta", replace
+  5. }
+(27 vars, 68,528 obs)
+  variable v10 was str2045 now str1638
+  variable v11 was str1860 now str860
+  variable v14 was str1557 now str528
+  variable v20 was str70 now str66
+  variable v21 was str12 now str2
+  variable v22 was str579 now str11
+  variable v23 was str253 now str3
+  variable v24 was str88 now str65
+  variable v27 was str158 now str1
+  (236,284,544 bytes saved)
+(note: file /Users/anniebryan/Documents/College/2021-22/14.33
+> /Project/processed/intermediate/boston_crime_2015_uncleaned
+> .dta not found)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Projec
+> t/processed/intermediate/boston_crime_2015_uncleaned.dta sa
+> ved
+(14 vars, 78,877 obs)
+  variable v12 was str1040 now str603
+  (34,469,249 bytes saved)
+(note: file /Users/anniebryan/Documents/College/2021-22/14.33
+> /Project/processed/intermediate/boston_crime_2016_uncleaned
+> .dta not found)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Projec
+> t/processed/intermediate/boston_crime_2016_uncleaned.dta sa
+> ved
+(13 vars, 65,746 obs)
+  variable v8 was str2045 now str1192
+  (56,081,338 bytes saved)
+(note: file /Users/anniebryan/Documents/College/2021-22/14.33
+> /Project/processed/intermediate/boston_crime_2017_uncleaned
+> .dta not found)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Projec
+> t/processed/intermediate/boston_crime_2017_uncleaned.dta sa
+> ved
+(18 vars, 67,639 obs)
+  variable v17 was str65 now str1
+  variable v18 was str47 now str7
+  (7,034,456 bytes saved)
+(note: file /Users/anniebryan/Documents/College/2021-22/14.33
+> /Project/processed/intermediate/boston_crime_2018_uncleaned
+> .dta not found)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Projec
+> t/processed/intermediate/boston_crime_2018_uncleaned.dta sa
+> ved
+(13 vars, 58,357 obs)
+  (0 bytes saved)
+(note: file /Users/anniebryan/Documents/College/2021-22/14.33
+> /Project/processed/intermediate/boston_crime_2019_uncleaned
+> .dta not found)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Projec
+> t/processed/intermediate/boston_crime_2019_uncleaned.dta sa
+> ved
+(18 vars, 49,833 obs)
+  (0 bytes saved)
+(note: file /Users/anniebryan/Documents/College/2021-22/14.33
+> /Project/processed/intermediate/boston_crime_2020_uncleaned
+> .dta not found)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Projec
+> t/processed/intermediate/boston_crime_2020_uncleaned.dta sa
+> ved
+(20 vars, 51,644 obs)
+  variable v6 was str2045 now str1975
+  (3,615,080 bytes saved)
+(note: file /Users/anniebryan/Documents/College/2021-22/14.33
+> /Project/processed/intermediate/boston_crime_2021_uncleaned
+> .dta not found)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Projec
+> t/processed/intermediate/boston_crime_2021_uncleaned.dta sa
+> ved
+
+. 
+. // FBI table 8 data
+. forvalues y = 2008/2019 {
+  2.         import excel "$MyProject/data/fbi_offenses_known
+> _to_law_enforcement/fbi_offenses_known_to_law_enforcement_`
+> y'.xls"
+  3.         compress
+  4.         save "$MyProject/processed/intermediate/fbi_tabl
+> e_8_`y'_uncleaned.dta", replace
+  5. }
+no; data in memory would be lost
+r(4);
+
+end of do-file
+
+r(4);
+
+. do "/Users/anniebryan/Documents/College/2021-22/14.33/Proje
+> ct/scripts/1_process_data.do"
+
+. ************
+. * SCRIPT: 1_process_data.do
+. * PURPOSE: imports the raw datasets and converts them into 
+> a stata-readable format
+. ************
+. 
+. // MA zoning data
+. // insheet using "$MyProject/data/ma-zoning-laws/ma-zoning-
+> laws.csv", comma clear
+. // compress
+. // save "$MyProject/processed/intermediate/ma_zoning_laws_u
+> ncleaned.dta", replace
+. 
+. // // US states legality data
+. // // insheet using "$MyProject/data/TODO", comma clear
+. // // compress
+. // // save "$MyProject/processed/intermediate/TODO_uncleane
+> d.dta", replace
+. 
+. // // MA dispensaries data
+. // insheet using "$MyProject/data/dispensaries.csv", comma 
+> clear
+. // compress
+. // save "$MyProject/processed/intermediate/dispensaries_unc
+> leaned.dta", replace
+. 
+. // // MA property assessments data
+. // forvalues y = 2014/2021 {
+. //      insheet using "$MyProject/data/property_assessment/
+> property-assessment-fy`y'.csv", comma clear
+. //      compress
+. //      save "$MyProject/processed/intermediate/property_as
+> sessment_`y'_uncleaned.dta", replace
+. // }
+. 
+. // // Zillow home value data
+. // insheet using "$MyProject/data/zhvi_sa_35_65.csv", comma
+>  clear
+. // compress
+. // save "$MyProject/processed/intermediate/zillow_home_valu
+> es_uncleaned.dta", replace
+. 
+. // // Boston crash data
+. // insheet using "$MyProject/data/boston_crashes.csv", comm
+> a clear
+. // compress
+. // save "$MyProject/processed/intermediate/boston_crashes_u
+> ncleaned.dta", replace
+. 
+. // // US crash data
+. // insheet using "$MyProject/data/fars_nhtsa_fatality_rates
+> _by_state.csv", comma clear
+. // compress
+. // save "$MyProject/processed/intermediate/us_crashes_uncle
+> aned.dta", replace
+. 
+. // // Boston crime data
+. // forvalues y = 2015/2021 {
+. //      insheet using "$MyProject/data/crime-incident-repor
+> ts/crime-incident-reports-`y'.csv", comma clear
+. //      compress
+. //      save "$MyProject/processed/intermediate/boston_crim
+> e_`y'_uncleaned.dta", replace
+. // }
+. 
+. // FBI table 8 data
+. forvalues y = 2008/2019 {
+  2.         import excel "$MyProject/data/fbi_offenses_known
+> _to_law_enforcement/fbi_offenses_known_to_law_enforcement_`
+> y'.xls"
+  3. //      compress
+. //      save "$MyProject/processed/intermediate/fbi_table_8
+> _`y'_uncleaned.dta", replace
+. }
+no; data in memory would be lost
+r(4);
+
+end of do-file
+
+r(4);
+
+. do "/Users/anniebryan/Documents/College/2021-22/14.33/Proje
+> ct/scripts/1_process_data.do"
+
+. ************
+. * SCRIPT: 1_process_data.do
+. * PURPOSE: imports the raw datasets and converts them into 
+> a stata-readable format
+. ************
+. 
+. // MA zoning data
+. // insheet using "$MyProject/data/ma-zoning-laws/ma-zoning-
+> laws.csv", comma clear
+. // compress
+. // save "$MyProject/processed/intermediate/ma_zoning_laws_u
+> ncleaned.dta", replace
+. 
+. // // US states legality data
+. // // insheet using "$MyProject/data/TODO", comma clear
+. // // compress
+. // // save "$MyProject/processed/intermediate/TODO_uncleane
+> d.dta", replace
+. 
+. // // MA dispensaries data
+. // insheet using "$MyProject/data/dispensaries.csv", comma 
+> clear
+. // compress
+. // save "$MyProject/processed/intermediate/dispensaries_unc
+> leaned.dta", replace
+. 
+. // // MA property assessments data
+. // forvalues y = 2014/2021 {
+. //      insheet using "$MyProject/data/property_assessment/
+> property-assessment-fy`y'.csv", comma clear
+. //      compress
+. //      save "$MyProject/processed/intermediate/property_as
+> sessment_`y'_uncleaned.dta", replace
+. // }
+. 
+. // // Zillow home value data
+. // insheet using "$MyProject/data/zhvi_sa_35_65.csv", comma
+>  clear
+. // compress
+. // save "$MyProject/processed/intermediate/zillow_home_valu
+> es_uncleaned.dta", replace
+. 
+. // // Boston crash data
+. // insheet using "$MyProject/data/boston_crashes.csv", comm
+> a clear
+. // compress
+. // save "$MyProject/processed/intermediate/boston_crashes_u
+> ncleaned.dta", replace
+. 
+. // // US crash data
+. // insheet using "$MyProject/data/fars_nhtsa_fatality_rates
+> _by_state.csv", comma clear
+. // compress
+. // save "$MyProject/processed/intermediate/us_crashes_uncle
+> aned.dta", replace
+. 
+. // // Boston crime data
+. // forvalues y = 2015/2021 {
+. //      insheet using "$MyProject/data/crime-incident-repor
+> ts/crime-incident-reports-`y'.csv", comma clear
+. //      compress
+. //      save "$MyProject/processed/intermediate/boston_crim
+> e_`y'_uncleaned.dta", replace
+. // }
+. 
+. // FBI table 8 data
+. forvalues y = 2008/2019 {
+  2.         import excel "$MyProject/data/fbi_offenses_known
+> _to_law_enforcement/fbi_offenses_known_to_law_enforcement_`
+> y'.xls"
+  3. //      compress
+. //      save "$MyProject/processed/intermediate/fbi_table_8
+> _`y'_uncleaned.dta", replace
+. }
+no; data in memory would be lost
+r(4);
+
+end of do-file
+
+r(4);
+
+. do "/Users/anniebryan/Documents/College/2021-22/14.33/Proje
+> ct/scripts/1_process_data.do"
+
+. ************
+. * SCRIPT: 1_process_data.do
+. * PURPOSE: imports the raw datasets and converts them into 
+> a stata-readable format
+. ************
+. 
+. // MA zoning data
+. // insheet using "$MyProject/data/ma-zoning-laws/ma-zoning-
+> laws.csv", comma clear
+. // compress
+. // save "$MyProject/processed/intermediate/ma_zoning_laws_u
+> ncleaned.dta", replace
+. 
+. // // US states legality data
+. // // insheet using "$MyProject/data/TODO", comma clear
+. // // compress
+. // // save "$MyProject/processed/intermediate/TODO_uncleane
+> d.dta", replace
+. 
+. // // MA dispensaries data
+. // insheet using "$MyProject/data/dispensaries.csv", comma 
+> clear
+. // compress
+. // save "$MyProject/processed/intermediate/dispensaries_unc
+> leaned.dta", replace
+. 
+. // // MA property assessments data
+. // forvalues y = 2014/2021 {
+. //      insheet using "$MyProject/data/property_assessment/
+> property-assessment-fy`y'.csv", comma clear
+. //      compress
+. //      save "$MyProject/processed/intermediate/property_as
+> sessment_`y'_uncleaned.dta", replace
+. // }
+. 
+. // // Zillow home value data
+. // insheet using "$MyProject/data/zhvi_sa_35_65.csv", comma
+>  clear
+. // compress
+. // save "$MyProject/processed/intermediate/zillow_home_valu
+> es_uncleaned.dta", replace
+. 
+. // // Boston crash data
+. // insheet using "$MyProject/data/boston_crashes.csv", comm
+> a clear
+. // compress
+. // save "$MyProject/processed/intermediate/boston_crashes_u
+> ncleaned.dta", replace
+. 
+. // // US crash data
+. // insheet using "$MyProject/data/fars_nhtsa_fatality_rates
+> _by_state.csv", comma clear
+. // compress
+. // save "$MyProject/processed/intermediate/us_crashes_uncle
+> aned.dta", replace
+. 
+. // // Boston crime data
+. // forvalues y = 2015/2021 {
+. //      insheet using "$MyProject/data/crime-incident-repor
+> ts/crime-incident-reports-`y'.csv", comma clear
+. //      compress
+. //      save "$MyProject/processed/intermediate/boston_crim
+> e_`y'_uncleaned.dta", replace
+. // }
+. 
+. // FBI table 8 data
+. forvalues y = 2008/2019 {
+  2.         import excel "$MyProject/data/fbi_offenses_known
+> _to_law_enforcement/fbi_offenses_known_to_law_enforcement_`
+> y'.xls", clear
+  3. //      compress
+. //      save "$MyProject/processed/intermediate/fbi_table_8
+> _`y'_uncleaned.dta", replace
+. }
+(17 vars, 8,784 obs)
+(13 vars, 9,159 obs)
+(13 vars, 9,321 obs)
+(18 vars, 9,325 obs)
+(15 vars, 9,502 obs)
+(17 vars, 9,306 obs)
+(14 vars, 9,368 obs)
+(14 vars, 9,409 obs)
+(13 vars, 2,626 obs)
+(19 vars, 9,593 obs)
+(13 vars, 9,266 obs)
+(13 vars, 8,117 obs)
+
+. 
+. ** EOF
+. 
+end of do-file
+
+. do "/Users/anniebryan/Documents/College/2021-22/14.33/Proje
+> ct/scripts/1_process_data.do"
+
+. ************
+. * SCRIPT: 1_process_data.do
+. * PURPOSE: imports the raw datasets and converts them into 
+> a stata-readable format
+. ************
+. 
+. // MA zoning data
+. // insheet using "$MyProject/data/ma-zoning-laws/ma-zoning-
+> laws.csv", comma clear
+. // compress
+. // save "$MyProject/processed/intermediate/ma_zoning_laws_u
+> ncleaned.dta", replace
+. 
+. // // US states legality data
+. // // insheet using "$MyProject/data/TODO", comma clear
+. // // compress
+. // // save "$MyProject/processed/intermediate/TODO_uncleane
+> d.dta", replace
+. 
+. // // MA dispensaries data
+. // insheet using "$MyProject/data/dispensaries.csv", comma 
+> clear
+. // compress
+. // save "$MyProject/processed/intermediate/dispensaries_unc
+> leaned.dta", replace
+. 
+. // // MA property assessments data
+. // forvalues y = 2014/2021 {
+. //      insheet using "$MyProject/data/property_assessment/
+> property-assessment-fy`y'.csv", comma clear
+. //      compress
+. //      save "$MyProject/processed/intermediate/property_as
+> sessment_`y'_uncleaned.dta", replace
+. // }
+. 
+. // // Zillow home value data
+. // insheet using "$MyProject/data/zhvi_sa_35_65.csv", comma
+>  clear
+. // compress
+. // save "$MyProject/processed/intermediate/zillow_home_valu
+> es_uncleaned.dta", replace
+. 
+. // // Boston crash data
+. // insheet using "$MyProject/data/boston_crashes.csv", comm
+> a clear
+. // compress
+. // save "$MyProject/processed/intermediate/boston_crashes_u
+> ncleaned.dta", replace
+. 
+. // // US crash data
+. // insheet using "$MyProject/data/fars_nhtsa_fatality_rates
+> _by_state.csv", comma clear
+. // compress
+. // save "$MyProject/processed/intermediate/us_crashes_uncle
+> aned.dta", replace
+. 
+. // // Boston crime data
+. // forvalues y = 2015/2021 {
+. //      insheet using "$MyProject/data/crime-incident-repor
+> ts/crime-incident-reports-`y'.csv", comma clear
+. //      compress
+. //      save "$MyProject/processed/intermediate/boston_crim
+> e_`y'_uncleaned.dta", replace
+. // }
+. 
+. // FBI table 8 data
+. forvalues y = 2008/2019 {
+  2.         import excel "$MyProject/data/fbi_offenses_known
+> _to_law_enforcement/fbi_offenses_known_to_law_enforcement_`
+> y'.xls", clear
+  3.         compress
+  4.         save "$MyProject/processed/intermediate/fbi_tabl
+> e_8_`y'_uncleaned.dta", replace
+  5. }
+(17 vars, 8,784 obs)
+  (0 bytes saved)
+(note: file /Users/anniebryan/Documents/College/2021-22/14.33
+> /Project/processed/intermediate/fbi_table_8_2008_uncleaned.
+> dta not found)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Projec
+> t/processed/intermediate/fbi_table_8_2008_uncleaned.dta sav
+> ed
+(13 vars, 9,159 obs)
+  (0 bytes saved)
+(note: file /Users/anniebryan/Documents/College/2021-22/14.33
+> /Project/processed/intermediate/fbi_table_8_2009_uncleaned.
+> dta not found)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Projec
+> t/processed/intermediate/fbi_table_8_2009_uncleaned.dta sav
+> ed
+(13 vars, 9,321 obs)
+  (0 bytes saved)
+(note: file /Users/anniebryan/Documents/College/2021-22/14.33
+> /Project/processed/intermediate/fbi_table_8_2010_uncleaned.
+> dta not found)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Projec
+> t/processed/intermediate/fbi_table_8_2010_uncleaned.dta sav
+> ed
+(18 vars, 9,325 obs)
+  (0 bytes saved)
+(note: file /Users/anniebryan/Documents/College/2021-22/14.33
+> /Project/processed/intermediate/fbi_table_8_2011_uncleaned.
+> dta not found)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Projec
+> t/processed/intermediate/fbi_table_8_2011_uncleaned.dta sav
+> ed
+(15 vars, 9,502 obs)
+  (0 bytes saved)
+(note: file /Users/anniebryan/Documents/College/2021-22/14.33
+> /Project/processed/intermediate/fbi_table_8_2012_uncleaned.
+> dta not found)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Projec
+> t/processed/intermediate/fbi_table_8_2012_uncleaned.dta sav
+> ed
+(17 vars, 9,306 obs)
+  (0 bytes saved)
+(note: file /Users/anniebryan/Documents/College/2021-22/14.33
+> /Project/processed/intermediate/fbi_table_8_2013_uncleaned.
+> dta not found)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Projec
+> t/processed/intermediate/fbi_table_8_2013_uncleaned.dta sav
+> ed
+(14 vars, 9,368 obs)
+  (0 bytes saved)
+(note: file /Users/anniebryan/Documents/College/2021-22/14.33
+> /Project/processed/intermediate/fbi_table_8_2014_uncleaned.
+> dta not found)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Projec
+> t/processed/intermediate/fbi_table_8_2014_uncleaned.dta sav
+> ed
+(14 vars, 9,409 obs)
+  (0 bytes saved)
+(note: file /Users/anniebryan/Documents/College/2021-22/14.33
+> /Project/processed/intermediate/fbi_table_8_2015_uncleaned.
+> dta not found)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Projec
+> t/processed/intermediate/fbi_table_8_2015_uncleaned.dta sav
+> ed
+(13 vars, 2,626 obs)
+  (0 bytes saved)
+(note: file /Users/anniebryan/Documents/College/2021-22/14.33
+> /Project/processed/intermediate/fbi_table_8_2016_uncleaned.
+> dta not found)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Projec
+> t/processed/intermediate/fbi_table_8_2016_uncleaned.dta sav
+> ed
+(19 vars, 9,593 obs)
+  (0 bytes saved)
+(note: file /Users/anniebryan/Documents/College/2021-22/14.33
+> /Project/processed/intermediate/fbi_table_8_2017_uncleaned.
+> dta not found)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Projec
+> t/processed/intermediate/fbi_table_8_2017_uncleaned.dta sav
+> ed
+(13 vars, 9,266 obs)
+  (0 bytes saved)
+(note: file /Users/anniebryan/Documents/College/2021-22/14.33
+> /Project/processed/intermediate/fbi_table_8_2018_uncleaned.
+> dta not found)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Projec
+> t/processed/intermediate/fbi_table_8_2018_uncleaned.dta sav
+> ed
+(13 vars, 8,117 obs)
+  (0 bytes saved)
+(note: file /Users/anniebryan/Documents/College/2021-22/14.33
+> /Project/processed/intermediate/fbi_table_8_2019_uncleaned.
+> dta not found)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Projec
+> t/processed/intermediate/fbi_table_8_2019_uncleaned.dta sav
+> ed
+
+. 
+. ** EOF
+. 
+end of do-file
+
+. do "/var/folders/f8/b0yvw63s7q32wx1k476bz7t00000gn/T//SD408
+> 28.000000"
+
+. save "$MyProject/processed/intermediate/ma_zoning_laws_uncl
+> eaned.dta", replace
+(note: file /Users/anniebryan/Documents/College/2021-22/14.33
+> /Project/processed/intermediate/ma_zoning_laws_uncleaned.dt
+> a not found)
+file
+    /Users/anniebryan/Documents/College/2021-22/14.33/Proje
+    > ct/processed/intermediate/ma_zoning_laws_uncleaned.dt
+    > a could not be opened
+r(603);
+
+end of do-file
+
+r(603);
+
+. do "/Users/anniebryan/Documents/College/2021-22/14.33/Proje
+> ct/run.do"
+
+. **********************
+. * OVERVIEW
+. *   All raw data are stored in /data
+. *   All tables are outputted to /results/tables
+. *   All figures are outputted to /results/figures
+. *
+. * TO PERFORM A CLEAN RUN, DELETE THE FOLLOWING TWO FOLDERS:
+. *   /processed
+. *   /results
+. **********************
+. 
+. global MyProject "/Users/anniebryan/Documents/College/2021-
+> 22/14.33/Project"
+
+. 
+. * Initialize log
+. clear
+
+. set more off
+
+. cap mkdir "$MyProject/scripts/logs"
+
+. cap log close

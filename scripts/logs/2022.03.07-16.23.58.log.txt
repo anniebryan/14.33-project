@@ -1,0 +1,244 @@
+-------------------------------------------------------------
+      name:  <unnamed>
+       log:  /Users/anniebryan/Documents/College/2021-22/14.3
+> 3/Project/scripts/logs/2022.03.07-16.23.58.log.txt
+  log type:  text
+ opened on:   7 Mar 2022, 16:23:58
+
+. 
+. * Configure Stata's library environment and record system p
+> arameters
+. run "$MyProject/scripts/programs/_config.do"
+-------------------------------------------------------------
+Date and time:  7 Mar 2022 16:23:58
+Stata version: 16.1
+Updated as of: 30 Mar 2021
+Variant:       SE
+Processors:    1
+OS:            MacOSX 12.2.0
+Machine type:  Macintosh (Intel 64-bit)
+-------------------------------------------------------------
+
+. 
+. * Stata version control
+. version 15
+
+. 
+. * Create directories for output files
+. cap mkdir "$MyProject/processed"
+
+. cap mkdir "$MyProject/processed/intermediate"
+
+. cap mkdir "$MyProject/results"
+
+. cap mkdir "$MyProject/results/figures"
+
+. cap mkdir "$MyProject/results/intermediate"
+
+. cap mkdir "$MyProject/results/tables"
+
+. 
+. * Run project analysis
+. do "$MyProject/scripts/1_process_data.do"
+
+. ************
+. * SCRIPT: 1_process_data.do
+. * PURPOSE: imports the raw datasets and converts them into 
+> a stata-readable format
+. ************
+. 
+. // MA zoning data
+. insheet using "$MyProject/data/ma-zoning-laws/ma-zoning-law
+> s.csv", comma clear
+(3 vars, 352 obs)
+
+. compress
+  (0 bytes saved)
+
+. save "$MyProject/processed/intermediate/ma_zoning_laws_uncl
+> eaned.dta", replace
+file /Users/anniebryan/Documents/College/2021-22/14.33/Projec
+> t/processed/intermediate/ma_zoning_laws_uncleaned.dta saved
+
+. 
+. // US states legality data
+. // insheet using "$MyProject/data/TODO", comma clear
+. // compress
+. // save "$MyProject/processed/intermediate/TODO_uncleaned.d
+> ta", replace
+. 
+. // MA dispensaries data
+. insheet using "$MyProject/data/dispensaries.csv", comma cle
+> ar
+(66 vars, 944 obs)
+
+. compress
+  (0 bytes saved)
+
+. save "$MyProject/processed/intermediate/dispensaries_unclea
+> ned.dta", replace
+file /Users/anniebryan/Documents/College/2021-22/14.33/Projec
+> t/processed/intermediate/dispensaries_uncleaned.dta saved
+
+. 
+. // MA property assessments data
+. forvalues y = 2014/2021 {
+  2.         insheet using "$MyProject/data/property_assessme
+> nt/property-assessment-fy`y'.csv", comma clear
+  3.         compress
+  4.         save "$MyProject/processed/intermediate/property
+> _assessment_`y'_uncleaned.dta", replace
+  5. }
+(56 vars, 164,091 obs)
+  variable st_name was str25 now str24
+  variable u_heat_typ was str2 now str1
+  (328,182 bytes saved)
+(note: file /Users/anniebryan/Documents/College/2021-22/14.33
+> /Project/processed/intermediate/property_assessment_2014_un
+> cleaned.dta not found)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Projec
+> t/processed/intermediate/property_assessment_2014_uncleaned
+> .dta saved
+(56 vars, 168,115 obs)
+  variable st_name was str25 now str24
+  variable st_name_suf was str4 now str3
+  variable full_address was str55 now str48
+  variable u_heat_typ was str2 now str1
+  (1,681,150 bytes saved)
+(note: file /Users/anniebryan/Documents/College/2021-22/14.33
+> /Project/processed/intermediate/property_assessment_2015_un
+> cleaned.dta not found)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Projec
+> t/processed/intermediate/property_assessment_2015_uncleaned
+> .dta saved
+(77 vars, 169,199 obs)
+  variable st_name was str25 now str24
+  variable st_name_suf was str4 now str3
+  (338,398 bytes saved)
+(note: file /Users/anniebryan/Documents/College/2021-22/14.33
+> /Project/processed/intermediate/property_assessment_2016_un
+> cleaned.dta not found)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Projec
+> t/processed/intermediate/property_assessment_2016_uncleaned
+> .dta saved
+(75 vars, 170,910 obs)
+  variable st_name was str25 now str24
+  variable st_name_suf was str4 now str3
+  (341,820 bytes saved)
+(note: file /Users/anniebryan/Documents/College/2021-22/14.33
+> /Project/processed/intermediate/property_assessment_2017_un
+> cleaned.dta not found)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Projec
+> t/processed/intermediate/property_assessment_2017_uncleaned
+> .dta saved
+(75 vars, 172,841 obs)
+  (0 bytes saved)
+(note: file /Users/anniebryan/Documents/College/2021-22/14.33
+> /Project/processed/intermediate/property_assessment_2018_un
+> cleaned.dta not found)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Projec
+> t/processed/intermediate/property_assessment_2018_uncleaned
+> .dta saved
+(75 vars, 174,668 obs)
+  variable st_name was str25 now str24
+  variable st_name_suf was str4 now str3
+  (349,336 bytes saved)
+(note: file /Users/anniebryan/Documents/College/2021-22/14.33
+> /Project/processed/intermediate/property_assessment_2019_un
+> cleaned.dta not found)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Projec
+> t/processed/intermediate/property_assessment_2019_uncleaned
+> .dta saved
+(75 vars, 175,052 obs)
+  variable st_name_suf was str5 now str4
+  (175,052 bytes saved)
+(note: file /Users/anniebryan/Documents/College/2021-22/14.33
+> /Project/processed/intermediate/property_assessment_2020_un
+> cleaned.dta not found)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Projec
+> t/processed/intermediate/property_assessment_2020_uncleaned
+> .dta saved
+(63 vars, 177,091 obs)
+  (0 bytes saved)
+(note: file /Users/anniebryan/Documents/College/2021-22/14.33
+> /Project/processed/intermediate/property_assessment_2021_un
+> cleaned.dta not found)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Projec
+> t/processed/intermediate/property_assessment_2021_uncleaned
+> .dta saved
+
+. 
+. // Zillow home value data
+. insheet using "$MyProject/data/zhvi_sa_35_65.csv", comma cl
+> ear
+(274 vars, 30,468 obs)
+
+. compress
+  (0 bytes saved)
+
+. save "$MyProject/processed/intermediate/zillow_home_values_
+> uncleaned.dta", replace
+(note: file /Users/anniebryan/Documents/College/2021-22/14.33
+> /Project/processed/intermediate/zillow_home_values_uncleane
+> d.dta not found)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Projec
+> t/processed/intermediate/zillow_home_values_uncleaned.dta s
+> aved
+
+. 
+. // Boston crash data
+. insheet using "$MyProject/data/boston_crashes.csv", comma c
+> lear
+(25 vars, 108,919 obs)
+
+. compress
+  variable v23 was str170 now str169
+  (108,919 bytes saved)
+
+. save "$MyProject/processed/intermediate/boston_crashes_uncl
+> eaned.dta", replace
+file /Users/anniebryan/Documents/College/2021-22/14.33/Projec
+> t/processed/intermediate/boston_crashes_uncleaned.dta saved
+
+. 
+. // US crash data
+. import excel "$MyProject/data/fars_nhtsa_fatality_rates_by_
+> state.xls"
+file /Users/anniebryan/Documents/College/2021-22/14.33/Projec
+> t/data/fars_nhtsa_fatality_rates_by_state.xls could not be 
+> loaded
+r(603);
+
+end of do-file
+r(603);
+
+end of do-file
+
+r(603);
+
+. do "/Users/anniebryan/Documents/College/2021-22/14.33/Proje
+> ct/run.do"
+
+. **********************
+. * OVERVIEW
+. *   All raw data are stored in /data
+. *   All tables are outputted to /results/tables
+. *   All figures are outputted to /results/figures
+. *
+. * TO PERFORM A CLEAN RUN, DELETE THE FOLLOWING TWO FOLDERS:
+. *   /processed
+. *   /results
+. **********************
+. 
+. global MyProject "/Users/anniebryan/Documents/College/2021-
+> 22/14.33/Project"
+
+. 
+. * Initialize log
+. clear
+
+. set more off
+
+. cap mkdir "$MyProject/scripts/logs"
+
+. cap log close

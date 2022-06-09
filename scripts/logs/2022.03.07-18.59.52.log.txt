@@ -1,0 +1,99 @@
+-----------------------------------------------------------------------
+      name:  <unnamed>
+       log:  /Users/anniebryan/Documents/College/2021-22/14.33/Project/
+> scripts/logs/2022.03.07-18.59.52.log.txt
+  log type:  text
+ opened on:   7 Mar 2022, 18:59:52
+
+. 
+. ssc install estout, replace
+checking estout consistency and verifying not already installed...
+all files already exist and are up to date.
+
+. 
+. * Configure Stata's library environment and record system parameters
+. run "$MyProject/scripts/programs/_config.do"
+-----------------------------------------------------------------------
+Date and time:  7 Mar 2022 18:59:53
+Stata version: 16.1
+Updated as of: 30 Mar 2021
+Variant:       SE
+Processors:    1
+OS:            MacOSX 12.2.0
+Machine type:  Macintosh (Intel 64-bit)
+-----------------------------------------------------------------------
+
+. 
+. * Stata version control
+. version 15
+
+. 
+. * Create directories for output files
+. cap mkdir "$MyProject/processed"
+
+. cap mkdir "$MyProject/processed/intermediate"
+
+. cap mkdir "$MyProject/results"
+
+. cap mkdir "$MyProject/results/figures"
+
+. cap mkdir "$MyProject/results/intermediate"
+
+. cap mkdir "$MyProject/results/tables"
+
+. 
+. * Run project analysis
+. // do "$MyProject/scripts/1_process_data.do"
+. 
+. // do "$MyProject/scripts/2a_clean_ma_zoning_data.do"
+. // do "$MyProject/scripts/2b_clean_states_legality_data.do"
+. // do "$MyProject/scripts/2c_clean_dispensaries_data.do"
+. // do "$MyProject/scripts/2d_clean_prop_assessments_data.do"
+. // do "$MyProject/scripts/2e_clean_home_values_data.do"
+. // do "$MyProject/scripts/2f_clean_boston_crash_data.do"
+. // do "$MyProject/scripts/2g_clean_us_crash_data.do"
+. do "$MyProject/scripts/2h_clean_boston_crime_data.do"
+
+. ************
+. * SCRIPT: 2h_clean_boston_crime_data.do
+. * PURPOSE: processes the boston crime dataset in preparation for anal
+> ysis
+. ************
+. 
+. forvalues y = 2015/2021 {
+  2.         use "$MyProject/processed/intermediate/crime_boston_`y'_un
+> cleaned.dta", clear
+  3.         
+.         // TODO
+. }
+
+. 
+. // TODO
+. 
+. ** EOF
+. 
+end of do-file
+
+. // do "$MyProject/scripts/2i_clean_us_crime_data.do"
+. 
+. // do "$MyProject/scripts/3a_summarize_ma_zoning_data.do"
+. // do "$MyProject/scripts/3b_summarize_states_legality_data.do"
+. // do "$MyProject/scripts/3c_summarize_dispensaries_data.do"
+. // do "$MyProject/scripts/3d_summarize_prop_assessments_data.do"
+. // do "$MyProject/scripts/3e_summarize_home_values_data.do"
+. // do "$MyProject/scripts/3f_summarize_boston_crash_data.do"
+. // do "$MyProject/scripts/3g_summarize_us_crash_data.do"
+. // do "$MyProject/scripts/3h_summarize_boston_crime_data.do"
+. // do "$MyProject/scripts/3i_summarize_us_crime_data.do"
+. 
+. * End log
+. di "End date and time: $S_DATE $S_TIME"
+End date and time:  7 Mar 2022 18:59:58
+
+. log close
+      name:  <unnamed>
+       log:  /Users/anniebryan/Documents/College/2021-22/14.33/Project/
+> scripts/logs/2022.03.07-18.59.52.log.txt
+  log type:  text
+ closed on:   7 Mar 2022, 18:59:58
+-----------------------------------------------------------------------

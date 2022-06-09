@@ -1,0 +1,636 @@
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  /Users/anniebryan/Documents/College/2021-22/14.33/Project/scripts/logs/2022.04.21-20.13.10.log.txt
+  log type:  text
+ opened on:  21 Apr 2022, 20:13:11
+
+. 
+. ssc install estout, replace
+checking estout consistency and verifying not already installed...
+all files already exist and are up to date.
+
+. ssc install outreg2
+checking outreg2 consistency and verifying not already installed...
+all files already exist and are up to date.
+
+. ssc install geodist
+checking geodist consistency and verifying not already installed...
+all files already exist and are up to date.
+
+. 
+. * Stata version control
+. version 17
+
+. 
+. * Create directories for output files
+. cap mkdir "$MyProject/processed"
+
+. cap mkdir "$MyProject/processed/intermediate"
+
+. cap mkdir "$MyProject/results"
+
+. cap mkdir "$MyProject/results/figures"
+
+. cap mkdir "$MyProject/results/intermediate"
+
+. cap mkdir "$MyProject/results/tables"
+
+. 
+. * Run project analysis
+. do "$MyProject/scripts/1_process_data.do"
+
+. ************
+. * SCRIPT: 1_process_data.do
+. * PURPOSE: imports the raw datasets and converts them into a stata-readable format
+. ************
+. 
+. // MA zoning data
+. insheet using "$MyProject/data/ma-zoning-laws/ma-zoning-laws.csv", comma clear
+(3 vars, 352 obs)
+
+. compress
+  (0 bytes saved)
+
+. save "$MyProject/processed/intermediate/ma_zoning_laws_uncleaned.dta", replace
+file /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/intermediate/ma_zoning_laws_uncleaned.dta saved
+
+. 
+. // US states legality data
+. insheet using "$MyProject/data/us-states-legality.csv", comma clear
+(6 vars, 51 obs)
+
+. compress
+  (0 bytes saved)
+
+. save "$MyProject/processed/us_states_legality.dta", replace
+file /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/us_states_legality.dta saved
+
+. 
+. // MA dispensaries data
+. insheet using "$MyProject/data/dispensaries.csv", comma clear
+(66 vars, 887 obs)
+
+. compress
+  (0 bytes saved)
+
+. save "$MyProject/processed/intermediate/dispensaries_uncleaned.dta", replace
+file /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/intermediate/dispensaries_uncleaned.dta saved
+
+. 
+. // MA property assessments data
+. forvalues y = 2014/2021 {
+  2.         insheet using "$MyProject/data/property_assessment/property-assessment-fy`y'.csv", comma clear
+  3.         compress
+  4.         save "$MyProject/processed/intermediate/property_assessments_ma_`y'_uncleaned.dta", replace
+  5. }
+(56 vars, 164,091 obs)
+  variable st_name was str25 now str24
+  variable u_heat_typ was str2 now str1
+  (328,182 bytes saved)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/intermediate/property_assessments_ma_2014_uncleaned.dta saved
+(56 vars, 168,115 obs)
+  variable st_name was str25 now str24
+  variable st_name_suf was str4 now str3
+  variable full_address was str55 now str48
+  variable u_heat_typ was str2 now str1
+  (1,681,150 bytes saved)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/intermediate/property_assessments_ma_2015_uncleaned.dta saved
+(77 vars, 169,199 obs)
+  variable st_name was str25 now str24
+  variable st_name_suf was str4 now str3
+  (338,398 bytes saved)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/intermediate/property_assessments_ma_2016_uncleaned.dta saved
+(75 vars, 170,910 obs)
+  variable st_name was str25 now str24
+  variable st_name_suf was str4 now str3
+  (341,820 bytes saved)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/intermediate/property_assessments_ma_2017_uncleaned.dta saved
+(75 vars, 172,841 obs)
+  (0 bytes saved)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/intermediate/property_assessments_ma_2018_uncleaned.dta saved
+(75 vars, 174,668 obs)
+  variable st_name was str25 now str24
+  variable st_name_suf was str4 now str3
+  (349,336 bytes saved)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/intermediate/property_assessments_ma_2019_uncleaned.dta saved
+(75 vars, 175,052 obs)
+  variable st_name_suf was str5 now str4
+  (175,052 bytes saved)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/intermediate/property_assessments_ma_2020_uncleaned.dta saved
+(63 vars, 177,091 obs)
+  (0 bytes saved)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/intermediate/property_assessments_ma_2021_uncleaned.dta saved
+
+. 
+. // Zillow home value data
+. insheet using "$MyProject/data/zhvi_sa_35_65.csv", comma clear
+(274 vars, 30,468 obs)
+
+. compress
+  (0 bytes saved)
+
+. save "$MyProject/processed/intermediate/zillow_home_values_uncleaned.dta", replace
+file /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/intermediate/zillow_home_values_uncleaned.dta saved
+
+. 
+. // Boston crash data
+. forvalues y = 2008/2021 {
+  2.         insheet using "$MyProject/data/boston-crashes/`y'_Crashes.csv", comma clear
+  3.         compress
+  4.         save "$MyProject/processed/intermediate/crashes_boston_`y'_uncleaned.dta", replace
+  5. }
+(117 vars, 136,384 obs)
+  variable rdwy was str105 now str104
+  variable non_mtrst_type_cl was str78 now str77
+  variable non_mtrst_loc_cl was str150 now str149
+  variable rmv_doc_ids was str83 now str82
+  variable crash_rpt_ids was str52 now str51
+  (681,920 bytes saved)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/intermediate/crashes_boston_2008_uncleaned.dta saved
+(115 vars, 117,776 obs)
+  variable rdwy was str119 now str118
+  variable near_int_rdwy was str50 now str49
+  variable exit_rte was str5 now str4
+  variable non_mtrst_type_cl was str118 now str117
+  variable non_mtrst_actn_cl was str136 now str135
+  variable non_mtrst_loc_cl was str146 now str145
+  variable rmv_doc_ids was str66 now str65
+  variable crash_rpt_ids was str70 now str69
+  variable tostreetname was str56 now str55
+  (1,059,984 bytes saved)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/intermediate/crashes_boston_2009_uncleaned.dta saved
+(115 vars, 115,643 obs)
+  variable rdwy was str124 now str123
+  variable non_mtrst_type_cl was str83 now str82
+  variable non_mtrst_actn_cl was str182 now str181
+  variable non_mtrst_loc_cl was str154 now str153
+  variable rmv_doc_ids was str83 now str82
+  variable crash_rpt_ids was str50 now str49
+  (693,858 bytes saved)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/intermediate/crashes_boston_2010_uncleaned.dta saved
+(115 vars, 120,632 obs)
+  variable vehc_seq_events_cl was str727 now str726
+  variable rdwy was str126 now str125
+  variable near_int_rdwy was str50 now str49
+  variable mm_rte was str6 now str5
+  variable non_mtrst_type_cl was str91 now str90
+  variable non_mtrst_actn_cl was str136 now str135
+  variable non_mtrst_loc_cl was str115 now str114
+  variable rmv_doc_ids was str83 now str82
+  variable crash_rpt_ids was str63 now str62
+  variable tostreetname was str56 now str55
+  (1,206,320 bytes saved)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/intermediate/crashes_boston_2011_uncleaned.dta saved
+(115 vars, 122,646 obs)
+  variable rdwy was str125 now str124
+  variable near_int_rdwy was str50 now str49
+  variable non_mtrst_type_cl was str83 now str82
+  variable non_mtrst_loc_cl was str154 now str153
+  variable rmv_doc_ids was str83 now str82
+  variable crash_rpt_ids was str62 now str61
+  (735,876 bytes saved)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/intermediate/crashes_boston_2012_uncleaned.dta saved
+(115 vars, 125,285 obs)
+  variable vehc_seq_events_cl was str1128 now str1127
+  variable drvr_cntrb_circ_cl was str512 now str511
+  variable rdwy was str128 now str127
+  variable near_int_rdwy was str52 now str51
+  variable non_mtrst_type_cl was str88 now str87
+  variable non_mtrst_actn_cl was str182 now str181
+  variable non_mtrst_loc_cl was str115 now str114
+  variable rmv_doc_ids was str100 now str99
+  variable crash_rpt_ids was str94 now str93
+  variable drvr_distracted_cl was str145 now str144
+  variable fromstreetname was str43 now str42
+  (1,378,135 bytes saved)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/intermediate/crashes_boston_2013_uncleaned.dta saved
+(115 vars, 130,233 obs)
+  variable rdwy was str143 now str142
+  variable non_mtrst_type_cl was str83 now str82
+  variable non_mtrst_actn_cl was str182 now str181
+  variable non_mtrst_loc_cl was str154 now str153
+  variable rmv_doc_ids was str83 now str82
+  variable crash_rpt_ids was str63 now str62
+  variable drvr_distracted_cl was str182 now str181
+  variable tostreetname was str56 now str55
+  (1,041,864 bytes saved)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/intermediate/crashes_boston_2014_uncleaned.dta saved
+(115 vars, 139,050 obs)
+  variable rdwy was str143 now str142
+  variable near_int_rdwy was str50 now str49
+  variable non_mtrst_type_cl was str100 now str99
+  variable non_mtrst_loc_cl was str134 now str133
+  variable rmv_doc_ids was str66 now str65
+  variable crash_rpt_ids was str62 now str61
+  (834,300 bytes saved)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/intermediate/crashes_boston_2015_uncleaned.dta saved
+(115 vars, 143,474 obs)
+  variable rdwy was str138 now str137
+  variable near_int_rdwy was str52 now str51
+  variable non_mtrst_type_cl was str82 now str81
+  variable non_mtrst_actn_cl was str182 now str181
+  variable non_mtrst_loc_cl was str154 now str153
+  variable rmv_doc_ids was str151 now str150
+  variable crash_rpt_ids was str160 now str159
+  variable drvr_distracted_cl was str194 now str193
+  (1,147,792 bytes saved)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/intermediate/crashes_boston_2016_uncleaned.dta saved
+(115 vars, 145,068 obs)
+  variable drvr_cntrb_circ_cl was str512 now str511
+  variable rdwy was str149 now str148
+  variable near_int_rdwy was str52 now str51
+  variable non_mtrst_type_cl was str170 now str169
+  variable non_mtrst_actn_cl was str182 now str181
+  variable non_mtrst_loc_cl was str210 now str209
+  variable rmv_doc_ids was str83 now str82
+  variable crash_rpt_ids was str73 now str72
+  variable drvr_distracted_cl was str228 now str227
+  (1,305,612 bytes saved)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/intermediate/crashes_boston_2017_uncleaned.dta saved
+(117 vars, 142,272 obs)
+  variable rdwy was str114 now str113
+  variable near_int_rdwy was str52 now str51
+  variable non_mtrst_type_cl was str83 now str82
+  variable non_mtrst_actn_cl was str182 now str181
+  variable non_mtrst_loc_cl was str154 now str153
+  variable rmv_doc_ids was str83 now str82
+  variable crash_rpt_ids was str73 now str72
+  (995,904 bytes saved)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/intermediate/crashes_boston_2018_uncleaned.dta saved
+(117 vars, 140,939 obs)
+  variable rdwy was str129 now str128
+  variable near_int_rdwy was str53 now str52
+  variable non_mtrst_type_cl was str70 now str69
+  variable non_mtrst_actn_cl was str136 now str135
+  variable non_mtrst_loc_cl was str115 now str114
+  variable rmv_doc_ids was str83 now str82
+  variable crash_rpt_ids was str63 now str62
+  (986,573 bytes saved)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/intermediate/crashes_boston_2019_uncleaned.dta saved
+(116 vars, 100,724 obs)
+  variable vehc_seq_events_cl was str815 now str814
+  variable rdwy was str125 now str124
+  variable near_int_rdwy was str52 now str51
+  variable non_mtrst_type_cl was str66 now str65
+  variable non_mtrst_actn_cl was str136 now str135
+  variable non_mtrst_loc_cl was str115 now str114
+  variable rmv_doc_ids was str100 now str99
+  variable crash_rpt_ids was str88 now str87
+  (805,792 bytes saved)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/intermediate/crashes_boston_2020_uncleaned.dta saved
+(115 vars, 123,064 obs)
+  variable rdwy was str118 now str117
+  variable near_int_rdwy was str52 now str51
+  variable non_mtrst_type_cl was str66 now str65
+  variable non_mtrst_loc_cl was str115 now str114
+  variable rmv_doc_ids was str83 now str82
+  variable crash_rpt_ids was str98 now str97
+  variable lclty_name was str15 now str13
+  (984,512 bytes saved)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/intermediate/crashes_boston_2021_uncleaned.dta saved
+
+. 
+. // US crash data
+. insheet using "$MyProject/data/fars_nhtsa_fatality_rates_by_state.csv", comma clear
+(56 vars, 53 obs)
+
+. compress
+  (0 bytes saved)
+
+. save "$MyProject/processed/intermediate/crashes_us_uncleaned.dta", replace
+file /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/intermediate/crashes_us_uncleaned.dta saved
+
+. 
+. // Boston crime data
+. forvalues y = 2015/2022 {
+  2.         insheet using "$MyProject/data/crime-incident-reports/crime-incident-reports-`y'.csv", comma clear
+  3.         compress
+  4.         save "$MyProject/processed/intermediate/crime_boston_`y'_uncleaned.dta", replace
+  5. }
+(17 vars, 53,597 obs)
+  (0 bytes saved)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/intermediate/crime_boston_2015_uncleaned.dta saved
+(17 vars, 99,430 obs)
+  (0 bytes saved)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/intermediate/crime_boston_2016_uncleaned.dta saved
+(17 vars, 101,338 obs)
+  (0 bytes saved)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/intermediate/crime_boston_2017_uncleaned.dta saved
+(17 vars, 98,888 obs)
+  (0 bytes saved)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/intermediate/crime_boston_2018_uncleaned.dta saved
+(17 vars, 87,184 obs)
+  (0 bytes saved)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/intermediate/crime_boston_2019_uncleaned.dta saved
+(17 vars, 70,894 obs)
+  (0 bytes saved)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/intermediate/crime_boston_2020_uncleaned.dta saved
+(17 vars, 71,721 obs)
+  (0 bytes saved)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/intermediate/crime_boston_2021_uncleaned.dta saved
+(17 vars, 14,650 obs)
+  (0 bytes saved)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/intermediate/crime_boston_2022_uncleaned.dta saved
+
+. 
+. // Offense codes for Boston crime data
+. import excel "$MyProject/data/rmsoffensecodes.xlsx", clear
+(2 vars, 577 obs)
+
+. compress
+  (0 bytes saved)
+
+. save "$MyProject/processed/intermediate/offense_codes.dta", replace
+file /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/intermediate/offense_codes.dta saved
+
+. 
+. // US crime data
+. forvalues y = 2008/2019 {
+  2.         import excel "$MyProject/data/fbi_offenses_known_to_law_enforcement/fbi_offenses_known_to_law_enforcement_`y'.xls", clear
+  3.         compress
+  4.         save "$MyProject/processed/intermediate/crime_us_`y'_uncleaned.dta", replace
+  5. }
+(17 vars, 8,784 obs)
+  (0 bytes saved)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/intermediate/crime_us_2008_uncleaned.dta saved
+(13 vars, 9,159 obs)
+  (0 bytes saved)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/intermediate/crime_us_2009_uncleaned.dta saved
+(13 vars, 9,321 obs)
+  (0 bytes saved)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/intermediate/crime_us_2010_uncleaned.dta saved
+(18 vars, 9,325 obs)
+  (0 bytes saved)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/intermediate/crime_us_2011_uncleaned.dta saved
+(15 vars, 9,502 obs)
+  (0 bytes saved)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/intermediate/crime_us_2012_uncleaned.dta saved
+(17 vars, 9,306 obs)
+  (0 bytes saved)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/intermediate/crime_us_2013_uncleaned.dta saved
+(14 vars, 9,368 obs)
+  (0 bytes saved)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/intermediate/crime_us_2014_uncleaned.dta saved
+(14 vars, 9,409 obs)
+  (0 bytes saved)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/intermediate/crime_us_2015_uncleaned.dta saved
+(13 vars, 2,626 obs)
+  (0 bytes saved)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/intermediate/crime_us_2016_uncleaned.dta saved
+(19 vars, 9,593 obs)
+  (0 bytes saved)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/intermediate/crime_us_2017_uncleaned.dta saved
+(13 vars, 9,266 obs)
+  (0 bytes saved)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/intermediate/crime_us_2018_uncleaned.dta saved
+(13 vars, 8,117 obs)
+  (0 bytes saved)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/intermediate/crime_us_2019_uncleaned.dta saved
+
+. 
+. // Zip code centroids data
+. insheet using "$MyProject/data/ZIP_Code_Population_Weighted_Centroids.csv", comma clear
+(10 vars, 35,352 obs)
+
+. compress
+  (0 bytes saved)
+
+. save "$MyProject/processed/intermediate/zip_code_centroids_uncleaned.dta", replace
+file /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/intermediate/zip_code_centroids_uncleaned.dta saved
+
+. 
+. // Census income data
+. forvalues y = 2011/2020 {
+  2.         insheet using "$MyProject/data/census-income/ACSST5Y`y'.csv", comma clear
+  3.         compress
+  4.         save "$MyProject/processed/intermediate/census_income_`y'_uncleaned.dta", replace
+  5. }
+(130 vars, 540 obs)
+  (0 bytes saved)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/intermediate/census_income_2011_uncleaned.dta saved
+(130 vars, 540 obs)
+  (0 bytes saved)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/intermediate/census_income_2012_uncleaned.dta saved
+(130 vars, 540 obs)
+  (0 bytes saved)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/intermediate/census_income_2013_uncleaned.dta saved
+(130 vars, 540 obs)
+  (0 bytes saved)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/intermediate/census_income_2014_uncleaned.dta saved
+(130 vars, 540 obs)
+  (0 bytes saved)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/intermediate/census_income_2015_uncleaned.dta saved
+(130 vars, 540 obs)
+  (0 bytes saved)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/intermediate/census_income_2016_uncleaned.dta saved
+(130 vars, 540 obs)
+  (0 bytes saved)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/intermediate/census_income_2017_uncleaned.dta saved
+(130 vars, 540 obs)
+  (0 bytes saved)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/intermediate/census_income_2018_uncleaned.dta saved
+(130 vars, 540 obs)
+  (0 bytes saved)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/intermediate/census_income_2019_uncleaned.dta saved
+(130 vars, 540 obs)
+  (0 bytes saved)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/intermediate/census_income_2020_uncleaned.dta saved
+
+. 
+. // Census age/sex data
+. forvalues y = 2011/2020 {
+  2.         foreach race in "white" "black" "asian" "amind" "pacif" {
+  3.                 insheet using "$MyProject/data/census-age-by-sex/ACSDT5Y`y'-`race'.csv", comma clear
+  4.                 compress
+  5.                 save "$MyProject/processed/intermediate/census_age_sex_`race'_`y'_uncleaned.dta", replace
+  6.         }
+  7. }
+(64 vars, 540 obs)
+  (0 bytes saved)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/intermediate/census_age_sex_white_2011_uncleaned.dta saved
+(64 vars, 540 obs)
+  (0 bytes saved)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/intermediate/census_age_sex_black_2011_uncleaned.dta saved
+(64 vars, 540 obs)
+  (0 bytes saved)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/intermediate/census_age_sex_asian_2011_uncleaned.dta saved
+(64 vars, 540 obs)
+  (0 bytes saved)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/intermediate/census_age_sex_amind_2011_uncleaned.dta saved
+(64 vars, 540 obs)
+  (0 bytes saved)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/intermediate/census_age_sex_pacif_2011_uncleaned.dta saved
+(64 vars, 540 obs)
+  (0 bytes saved)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/intermediate/census_age_sex_white_2012_uncleaned.dta saved
+(64 vars, 540 obs)
+  (0 bytes saved)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/intermediate/census_age_sex_black_2012_uncleaned.dta saved
+(64 vars, 540 obs)
+  (0 bytes saved)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/intermediate/census_age_sex_asian_2012_uncleaned.dta saved
+(64 vars, 540 obs)
+  (0 bytes saved)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/intermediate/census_age_sex_amind_2012_uncleaned.dta saved
+(64 vars, 540 obs)
+  (0 bytes saved)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/intermediate/census_age_sex_pacif_2012_uncleaned.dta saved
+(64 vars, 540 obs)
+  (0 bytes saved)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/intermediate/census_age_sex_white_2013_uncleaned.dta saved
+(64 vars, 540 obs)
+  (0 bytes saved)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/intermediate/census_age_sex_black_2013_uncleaned.dta saved
+(64 vars, 540 obs)
+  (0 bytes saved)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/intermediate/census_age_sex_asian_2013_uncleaned.dta saved
+(64 vars, 540 obs)
+  (0 bytes saved)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/intermediate/census_age_sex_amind_2013_uncleaned.dta saved
+(64 vars, 540 obs)
+  (0 bytes saved)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/intermediate/census_age_sex_pacif_2013_uncleaned.dta saved
+(64 vars, 540 obs)
+  (0 bytes saved)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/intermediate/census_age_sex_white_2014_uncleaned.dta saved
+(64 vars, 540 obs)
+  (0 bytes saved)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/intermediate/census_age_sex_black_2014_uncleaned.dta saved
+(64 vars, 540 obs)
+  (0 bytes saved)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/intermediate/census_age_sex_asian_2014_uncleaned.dta saved
+(64 vars, 540 obs)
+  (0 bytes saved)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/intermediate/census_age_sex_amind_2014_uncleaned.dta saved
+(64 vars, 540 obs)
+  (0 bytes saved)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/intermediate/census_age_sex_pacif_2014_uncleaned.dta saved
+(64 vars, 540 obs)
+  (0 bytes saved)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/intermediate/census_age_sex_white_2015_uncleaned.dta saved
+(64 vars, 540 obs)
+  (0 bytes saved)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/intermediate/census_age_sex_black_2015_uncleaned.dta saved
+(64 vars, 540 obs)
+  (0 bytes saved)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/intermediate/census_age_sex_asian_2015_uncleaned.dta saved
+(64 vars, 540 obs)
+  (0 bytes saved)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/intermediate/census_age_sex_amind_2015_uncleaned.dta saved
+(64 vars, 540 obs)
+  (0 bytes saved)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/intermediate/census_age_sex_pacif_2015_uncleaned.dta saved
+(64 vars, 540 obs)
+  (0 bytes saved)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/intermediate/census_age_sex_white_2016_uncleaned.dta saved
+(64 vars, 540 obs)
+  (0 bytes saved)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/intermediate/census_age_sex_black_2016_uncleaned.dta saved
+(64 vars, 540 obs)
+  (0 bytes saved)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/intermediate/census_age_sex_asian_2016_uncleaned.dta saved
+(64 vars, 540 obs)
+  (0 bytes saved)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/intermediate/census_age_sex_amind_2016_uncleaned.dta saved
+(64 vars, 540 obs)
+  (0 bytes saved)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/intermediate/census_age_sex_pacif_2016_uncleaned.dta saved
+(64 vars, 540 obs)
+  (0 bytes saved)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/intermediate/census_age_sex_white_2017_uncleaned.dta saved
+(64 vars, 540 obs)
+  (0 bytes saved)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/intermediate/census_age_sex_black_2017_uncleaned.dta saved
+(64 vars, 540 obs)
+  (0 bytes saved)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/intermediate/census_age_sex_asian_2017_uncleaned.dta saved
+(64 vars, 540 obs)
+  (0 bytes saved)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/intermediate/census_age_sex_amind_2017_uncleaned.dta saved
+(64 vars, 540 obs)
+  (0 bytes saved)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/intermediate/census_age_sex_pacif_2017_uncleaned.dta saved
+(64 vars, 540 obs)
+  (0 bytes saved)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/intermediate/census_age_sex_white_2018_uncleaned.dta saved
+(64 vars, 540 obs)
+  (0 bytes saved)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/intermediate/census_age_sex_black_2018_uncleaned.dta saved
+(64 vars, 540 obs)
+  (0 bytes saved)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/intermediate/census_age_sex_asian_2018_uncleaned.dta saved
+(64 vars, 540 obs)
+  (0 bytes saved)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/intermediate/census_age_sex_amind_2018_uncleaned.dta saved
+(64 vars, 540 obs)
+  (0 bytes saved)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/intermediate/census_age_sex_pacif_2018_uncleaned.dta saved
+(64 vars, 540 obs)
+  (0 bytes saved)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/intermediate/census_age_sex_white_2019_uncleaned.dta saved
+(64 vars, 540 obs)
+  (0 bytes saved)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/intermediate/census_age_sex_black_2019_uncleaned.dta saved
+(64 vars, 540 obs)
+  (0 bytes saved)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/intermediate/census_age_sex_asian_2019_uncleaned.dta saved
+(64 vars, 540 obs)
+  (0 bytes saved)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/intermediate/census_age_sex_amind_2019_uncleaned.dta saved
+(64 vars, 540 obs)
+  (0 bytes saved)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/intermediate/census_age_sex_pacif_2019_uncleaned.dta saved
+(64 vars, 540 obs)
+  (0 bytes saved)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/intermediate/census_age_sex_white_2020_uncleaned.dta saved
+(64 vars, 540 obs)
+  (0 bytes saved)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/intermediate/census_age_sex_black_2020_uncleaned.dta saved
+(64 vars, 540 obs)
+  (0 bytes saved)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/intermediate/census_age_sex_asian_2020_uncleaned.dta saved
+(64 vars, 540 obs)
+  (0 bytes saved)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/intermediate/census_age_sex_amind_2020_uncleaned.dta saved
+(64 vars, 540 obs)
+  (0 bytes saved)
+file /Users/anniebryan/Documents/College/2021-22/14.33/Project/processed/intermediate/census_age_sex_pacif_2020_uncleaned.dta saved
+
+. 
+. ** EOF
+. 
+end of do-file
+
+. 
+. // do "$MyProject/scripts/2a_clean_ma_zoning_data.do"
+. // do "$MyProject/scripts/2b_clean_dispensaries_data.do"
+. // do "$MyProject/scripts/2c_clean_prop_assessments_data.do"
+. // do "$MyProject/scripts/2d_clean_home_values_data.do"
+. // do "$MyProject/scripts/2e_clean_boston_crash_data.do"
+. // do "$MyProject/scripts/2f_clean_us_crash_data.do"
+. // do "$MyProject/scripts/2g_clean_boston_crime_data.do"
+. // do "$MyProject/scripts/2h_clean_us_crime_data.do"
+. // do "$MyProject/scripts/2i_clean_zip_codes_data.do"
+. 
+. // do "$MyProject/scripts/3a_summarize_ma_zoning_data.do"
+. // do "$MyProject/scripts/3b_summarize_dispensaries_data.do"
+. // do "$MyProject/scripts/3c_summarize_prop_assessments_data.do"
+. // do "$MyProject/scripts/3d_summarize_home_values_data.do"
+. // do "$MyProject/scripts/3e_summarize_boston_crash_data.do"
+. // do "$MyProject/scripts/3f_summarize_us_crash_data.do"
+. // do "$MyProject/scripts/3g_summarize_boston_crime_data.do"
+. // do "$MyProject/scripts/3h_summarize_us_crime_data.do"
+. 
+. // do "$MyProject/scripts/4a_regression_dispensaries_on_property_assessments.do"
+. // do "$MyProject/scripts/4b_test_demographic_balance_property_assessments.do"
+. 
+. * End log
+. di "End date and time: $S_DATE $S_TIME"
+End date and time: 21 Apr 2022 20:15:32
+
+. log close
+      name:  <unnamed>
+       log:  /Users/anniebryan/Documents/College/2021-22/14.33/Project/scripts/logs/2022.04.21-20.13.10.log.txt
+  log type:  text
+ closed on:  21 Apr 2022, 20:15:32
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
